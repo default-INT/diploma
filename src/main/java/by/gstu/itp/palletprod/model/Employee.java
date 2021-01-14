@@ -1,14 +1,27 @@
 package by.gstu.itp.palletprod.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
+@Table(name = "employees")
 public class Employee {
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "second_name")
     private String secondName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column
     private int age;
 
+    @OneToMany(mappedBy = "employee")
     private Set<EmployeeReport> employeeReports;
 
     public String getId() {

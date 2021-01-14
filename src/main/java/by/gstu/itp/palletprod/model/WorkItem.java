@@ -1,13 +1,30 @@
 package by.gstu.itp.palletprod.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "work_items")
 public class WorkItem {
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
+    @Column(name = "employee_report_id", insertable = false, updatable = false)
     private String employeeReportId;
+    @Column(name = "work_position_id", insertable = false, updatable = false)
     private String workPositionId;
+    @Column(name = "item_count")
     private int itemCount;
+    @Column(name = "item_coeff")
     private float itemCoeff;
 
+    @ManyToOne
+    @JoinColumn(name = "employee_report_id")
     private EmployeeReport employeeReport;
+    @ManyToOne
+    @JoinColumn(name = "work_position_id")
     private WorkPosition workPosition;
 
     public String getId() {
