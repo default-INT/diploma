@@ -24,6 +24,14 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Set<EmployeeReport> employeeReports;
 
+    public Set<EmployeeReport> getEmployeeReports() {
+        return employeeReports;
+    }
+
+    public void setEmployeeReports(Set<EmployeeReport> employeeReports) {
+        this.employeeReports = employeeReports;
+    }
+
     public String getId() {
         return id;
     }
