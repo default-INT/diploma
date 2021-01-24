@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 
-const SimpleFragment = ({title = 'TITLE', children}) => {
+const SimpleFragment = ({title = 'TITLE', style = {}, children}) => {
     return (
-        <div className="fragment medium-shadow">
+        <div className="fragment medium-shadow" style={{...style}}>
             <div className="title">
                 {title}
             </div>
@@ -16,7 +16,7 @@ const SimpleFragment = ({title = 'TITLE', children}) => {
 }
 
 SimpleFragment.propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.node,
     children: PropTypes.node
 }
 

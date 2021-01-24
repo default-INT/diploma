@@ -1,11 +1,11 @@
 import React from 'react'
-import {Widget} from "./widgets/Widget";
-import dollar from "../icon/dollar.svg";
-import palletIcon from "../icon/pallet.svg";
-import employeesIcon from "../icon/employee.svg";
-import salaryIcon from "../icon/salary.svg";
-import {SimpleFragment} from "./fragments/SimpleFragment";
-import '../css/MainContent.css'
+import {Widget} from "../widgets/Widget";
+import dollar from "../../icon/dollar.svg";
+import palletIcon from "../../icon/pallet.svg";
+import employeesIcon from "../../icon/employee.svg";
+import salaryIcon from "../../icon/salary.svg";
+import {SimpleFragment} from "../fragments/SimpleFragment";
+import '../../css/MainContent.css'
 
 const MainScreen = () => {
     return (

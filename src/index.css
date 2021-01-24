@@ -19,3 +19,13 @@ a {
   transition: .5s ease-in-out;
   color: black;
 }
+
+.default-icon-btn {
+  display: flex;
+  align-items: center;
+  opacity: .4;
+}
+
+.default-icon-btn:hover {
+  opacity: 1;
+}

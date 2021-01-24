@@ -1,0 +1,32 @@
+.item-list {
+    display: grid;
+}
+
+.item-list .item .actions {
+    display: flex;
+    justify-content: center;
+}
+
+.item-list .item {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 1rem;
+    text-align: center;
+    align-items: center;
+    border-bottom: 2px solid #f8f9fd;
+    transition: .5s ease-in-out;
+}
+
+.item-list .item:not(:first-child):hover {
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+}
+
+.item-list .item .actions a {
+    display: flex;
+    padding-left: 1rem;
+    opacity: .3;
+}
+
+.item-list .item .actions a:hover {
+    opacity: 1;
+}

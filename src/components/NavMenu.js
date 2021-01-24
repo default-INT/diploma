@@ -2,6 +2,8 @@ import React from 'react'
 import calendarIcon from '../icon/nav/calendar-solid-white.svg'
 import palletIcon from '../icon/pallet-white.svg'
 import questionIcon from '../icon/question-white.svg'
+import positionIcon from '../icon/nav/suitcase-white.svg'
+import employeeIcon from '../icon/nav/builder-white.svg'
 import '../css/NavMenu.css'
 import {NavLink} from "react-router-dom";
 
@@ -26,8 +28,8 @@ const NavMenu = () => {
             </div>
             <div className="nav-group">
                 <NavItem name='Report' path='/reports' icon={calendarIcon} />
-                <NavItem path='/other2'/>
-                <NavItem path='/other3'/>
+                <NavItem name='Position' path='/positions' icon={positionIcon}/>
+                <NavItem name='Employees' path='/employees' icon={employeeIcon}/>
             </div>
             <div className="nav-group">
                 <NavItem path='/other4' />
