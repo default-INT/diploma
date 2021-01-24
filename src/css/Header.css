@@ -1,0 +1,39 @@
+.app-header {
+    display: flex;
+    padding: 1rem;
+    background-color: #fff;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-header .user-container {
+    display: flex;
+    align-items: center;
+}
+
+.app-header .user-container .user {
+    border-left: 2px solid #f8f9fd;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.app-header .user-container .user:hover {
+    background-color: #f8f9fd;
+}
+
+.app-header .user-container .user .avatar {
+    margin-right: 10px;
+    border-radius: 1rem;
+}
+
+.app-header .user-container .utils {
+    padding: 1rem;
+}
+
+.app-header .main-title {
+    font-size: 1.6em;
+    padding: .5rem;
+    background-color: #5072e0;
+    color: #fff;
+}

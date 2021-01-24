@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+  display: grid;
+  grid-template-columns: 100px auto;
+  height: 100vh;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.light-shadow {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.medium-shadow {
+  box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+
+.App-link {
+  color: #61dafb;
+}
+
