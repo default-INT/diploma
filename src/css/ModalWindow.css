@@ -133,22 +133,19 @@
 }
 
 .img-setting-block .util-body {
-    padding: 1rem;
-    padding-bottom: 1.5rem;
+    padding: 1rem 1rem 1.5rem;
     border-bottom: 1px solid #dce6e6;
 }
 
 .img-setting-block .end-block {
     display: flex;
-    padding: 2rem;
     text-align: center;
-    padding-bottom: 1rem;
+    padding: 2rem 2rem 1rem;
     justify-content: space-between;
 }
 
 .util-item .util-colors {
-    padding: 1rem;
-    padding-bottom: 1.5rem;
+    padding: 1rem 1rem 1.5rem;
     border-bottom: 1px solid #dce6e6;
     width: 60%;
     margin: auto;
@@ -170,4 +167,36 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.modal .modal-form {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.modal .modal-form input {
+    margin-bottom: 1rem;
+}
+
+.modal .btn-container {
+    display: flex;
+    justify-content: center;
+    border-top: 2px solid #dce6e6;
+    padding-top: 2rem;
+}
+
+.modal .confirm-btn-box {
+    border-top: none;
+    padding-top: 0;
+}
+
+.modal .confirm-btn-box .default-btn {
+    background-color: #f00;
+    border-color: #f00;
+}
+
+.modal .confirm-btn-box .default-btn:hover {
+    background-color: #fff;
+    color: #f00;
 }

@@ -24,9 +24,34 @@
   }
 }
 
-
-
 .App-link {
-  color: #61dafb;
+  color: #5072e0;
+}
+
+.default-btn {
+  background-color: #5072e0;
+  color: #fff;
+  padding: 1.5vmin;
+  border-radius: 8px;
+  border:  #5072e0 solid  2px;
+}
+
+.default-btn:hover {
+  background-color: #fff;
+  color: #5072e0 ;
+}
+
+.default-btn.enable {
+  background-color: #fff;
+  color: #5072e0
+}
+
+input {
+  font-size: 1em;
+  padding: .5rem;
+  border-width: 0;
+  outline: none;
+  border-bottom: 2px solid #5072e0;
+  transition: .4s ease;
 }
 

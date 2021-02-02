@@ -1,14 +1,15 @@
 import React from 'react'
-import '../css/ModalWindow.css'
+import '../../css/ModalWindow.css'
+import PropTypes from "prop-types";
 
 
-const ModalWindow = ({children, onModalState}) => {
+const ModalWindow = ({title = 'TITLE', children, onModalState}) => {
     return (
         <div id="openModal" className="modal">
             <div className="modal-dialog img-setting-block">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h3 className="modal-title">Add new image</h3>
+                        <h3 className="modal-title">{title}</h3>
                         <a title="Close" className="close" onClick={() => onModalState(false)}>×</a>
                     </div>
                     <div className="modal-body">
@@ -18,6 +19,12 @@ const ModalWindow = ({children, onModalState}) => {
             </div>
         </div>
     )
+}
+
+ModalWindow.propTypes = {
+    title: PropTypes.node,
+    children: PropTypes.node,
+    onModalState: PropTypes.func
 }
 
 export default ModalWindow

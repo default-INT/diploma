@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import editIcon from "../icon/edit.svg";
 import deleteIcon from "../icon/delete.svg";
 import PropTypes from "prop-types";
@@ -14,9 +14,11 @@ const transformItemToArray = item => {
     return array
 }
 
-const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEditItem = (id) => id}) => {
+const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEditItem = (item) => item, ItemModalWindow}) => {
+    const [modalOpen, onModalOpen] = useState(false)
     return (
         <div className="item-list">
+            {modalOpen ? <ItemModalWindow onModalState={onModalOpen} /> : null}
             <div className="item head">
                 {header.map((head, i) => <div key={i}>{head}</div>)}
                 <div/>
@@ -27,7 +29,7 @@ const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEdi
                         <div key={item.id + i}>{tItem}</div>
                     ))}
                     <div className='actions'>
-                        <a onClick={() => onEditItem(item.id)}>
+                        <a onClick={() => onEditItem(item)}>
                             <img src={editIcon} width={20} alt=""/>
                         </a>
                         <a onClick={() => onDeleteItem(item.id)}>
