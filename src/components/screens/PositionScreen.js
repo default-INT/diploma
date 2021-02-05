@@ -8,10 +8,12 @@ import React, {Fragment, useState} from "react";
 import EditableTable from "../EditableTable";
 import {PositionModal} from "../modals/PositionModal";
 import ConfirmModalWindow from "../modals/ConfirmModalWindow";
+import {connect} from "react-redux";
+import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/positionActions";
 
 
 
-const PositionScreen = () => {
+const PositionScreen = ({positions, createPosition, updatePosition, deletePosition, fetchPositions}) => {
     const [modalOpen, onModalOpen] = useState(false)
 
     const AddPositionModal = <PositionModal onModalState={onModalOpen} action={() => ''}/>
@@ -87,4 +89,13 @@ const PositionScreen = () => {
     )
 }
 
-export default PositionScreen
+const mapStateToProps = state => ({
+    positions: state.positions.positions
+})
+
+const mapDispatchToProps  = {
+    createPosition, updatePosition, deletePosition, fetchPositions
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PositionScreen)
