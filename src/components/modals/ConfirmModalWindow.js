@@ -14,7 +14,10 @@ const ConfirmModalWindow = (
         <ModalWindow title={title} onModalState={onModalState}>
             <div>{children}</div>
             <div className="btn-container confirm-btn-box">
-                <a className="default-btn" onClick={action}>
+                <a className="default-btn" onClick={() => {
+                    action()
+                    onModalState(false)
+                }}>
                     {actionName}
                 </a>
             </div>

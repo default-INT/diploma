@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import ModalWindow from "./ModalWindow";
 import PropTypes from "prop-types";
+import {validNumber, validPositionName, validPositionItemName} from "../../validators";
 
 
 const PositionModal = ({position, action, title = 'Добавление нового тарифа', onModalState}) => {
@@ -17,6 +18,18 @@ const PositionModal = ({position, action, title = 'Добавление ново
     const [itemName, setItemName] = useState(position.itemName)
     const [msg, setMsg] = useState('')
 
+    const actionOnClick = () => {
+        try {
+            if (!validNumber(itemTariff) && !validPositionItemName(itemName) && !validPositionName(name)) {
+                throw new Error('некорректные данные')
+            }
+            action({id: position.id, name, itemTariff, itemName})
+            onModalState(false)
+        } catch (e) {
+            setMsg('Ошиибка: ' + e)
+        }
+    }
+
     //TODO: Validator for form
     return (
         <ModalWindow title={title} onModalState={onModalState}>
@@ -29,7 +42,7 @@ const PositionModal = ({position, action, title = 'Добавление ново
                        value={itemName} />
                 <div className="btn-container">
                     <div className="msg">{msg}</div>
-                    <a className="default-btn" onClick={action}>Сохранить</a>
+                    <a className="default-btn" onClick={actionOnClick}>Сохранить</a>
                 </div>
             </form>
         </ModalWindow>

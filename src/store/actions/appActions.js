@@ -13,6 +13,7 @@ export function hideLoader() {
 }
 
 export function showAlert(text) {
+    console.log(text)
     return dispatch => {
         dispatch({
             type: SHOW_ALERT,

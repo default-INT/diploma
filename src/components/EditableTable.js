@@ -33,7 +33,7 @@ const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEdi
                         <a onClick={() => onEditItem(item)}>
                             <img src={editIcon} width={20} alt=""/>
                         </a>
-                        <a onClick={() => onDeleteItem(item.id)}>
+                        <a onClick={() => onDeleteItem(item)}>
                             <img src={deleteIcon} width={20} alt=""/>
                         </a>
                     </div>

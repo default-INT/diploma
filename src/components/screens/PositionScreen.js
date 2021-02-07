@@ -1,62 +1,67 @@
+import React, {Fragment, useEffect, useState} from "react";
+import {connect} from "react-redux";
 import {Widget} from "../widgets/Widget";
 import positionIcon from "../../icon/nav/suitcase.svg";
 import popularIcon from "../../icon/popularity.svg";
 import dollarIcon from "../../icon/dollar.svg";
 import addIcon from "../../icon/add.svg";
 import {SimpleFragment} from "../fragments/SimpleFragment";
-import React, {Fragment, useState} from "react";
 import EditableTable from "../EditableTable";
 import {PositionModal} from "../modals/PositionModal";
 import ConfirmModalWindow from "../modals/ConfirmModalWindow";
-import {connect} from "react-redux";
 import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/positionActions";
-import CudeLoader from "../utils/CubeLoader";
+import CubeLoader from "../utils/CubeLoader";
 
 
-
-const PositionScreen = ({positions, createPosition, updatePosition, deletePosition, fetchPositions}) => {
+const PositionScreen = ({positions, loading, createPosition, updatePosition, deletePosition, fetchPositions}) => {
     const [modalOpen, onModalOpen] = useState(false)
+    useEffect(() => {
+        fetchPositions()
+    }, [])
 
-    const AddPositionModal = <PositionModal onModalState={onModalOpen} action={() => ''}/>
-    const EditPositionModal = ({position}) => (
+    const EditPositionModal = ({position, onModalOpen, action}) => (
         <PositionModal
             title='Редактирование тарифа'
             onModalState={onModalOpen}
             position={position}
-            action={() => ''}
+            action={position => updatePosition(position)}
         />
     )
 
-    const DelConfirmModalWindow = (
+    const DelConfirmModalWindow = ({position, onModalOpen}) => (
         <ConfirmModalWindow
             title={'Вы уверены что хотите удалить тариф?'}
             onModalState={onModalOpen}
             actionName={'Удалить'}
+            action={() => deletePosition(position)}
         />
     )
 
-    const [positionModal, setPositionModal] = useState(AddPositionModal)
+    const AddPositionModal = ({onModalOpen}) => (
+        <PositionModal
+            onModalState={onModalOpen}
+            action={position => createPosition(position)}
+        />
+    )
 
-    const openDeleteModal = (id) => {
-        setPositionModal(DelConfirmModalWindow)
+    const [positionModal, setPositionModal] = useState(<AddPositionModal onModalOpen={onModalOpen} />)
+
+    const openDeleteModal = position => {
+        setPositionModal(<DelConfirmModalWindow position={position} onModalOpen={onModalOpen}/>)
         onModalOpen(true)
     }
 
     const openEditModal = (position) => {
-        setPositionModal(<EditPositionModal position={position} />)
+        setPositionModal(<EditPositionModal position={position}  onModalOpen={onModalOpen} />)
         onModalOpen(true)
     }
 
     const openAddModal = () => {
-        setPositionModal(AddPositionModal)
+        setPositionModal(<AddPositionModal onModalOpen={onModalOpen} />)
         onModalOpen(true)
     }
 
     const header = ['Название тарифа', 'Заработок', 'Исчисление']
-    const data = [
-        {id: '4354gd3', name: 'Поддоны "СОЛЬЗАВОД"', itemTariff: 0.6, itemName: 'р/шт'},
-        {id: '0546cvz', name: 'Поддоны "ХОЙНИКИ"', itemTariff: 0.6, itemName: 'р/шт'}
-    ]
     const Title = (
         <Fragment>
             <div>Тарифы</div>
@@ -77,13 +82,13 @@ const PositionScreen = ({positions, createPosition, updatePosition, deletePositi
             </div>
             <div className="fragment-list">
                 <SimpleFragment title={Title} style={{width: '100%'}}>
-                    <EditableTable
+                    {loading ? <CubeLoader/> : <EditableTable
                         header={header}
-                        data={data}
+                        data={positions}
                         onEditItem={position => openEditModal(position)}
-                        onDeleteItem={id => openDeleteModal(id)}
+                        onDeleteItem={position => openDeleteModal(position)}
                         ItemModalWindow={PositionModal}
-                    />
+                    />}
                 </SimpleFragment>
             </div>
         </div>
@@ -91,7 +96,8 @@ const PositionScreen = ({positions, createPosition, updatePosition, deletePositi
 }
 
 const mapStateToProps = state => ({
-    positions: state.positions.positions
+    positions: state.positions.positions,
+    loading: state.app.loading
 })
 
 const mapDispatchToProps  = {
