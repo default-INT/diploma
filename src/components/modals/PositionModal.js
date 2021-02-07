@@ -15,7 +15,7 @@ const PositionModal = ({position, action, title = 'Добавление ново
     const [name, setName] = useState(position.name)
     const [itemTariff, setItemTariff] = useState(position.itemTariff)
     const [itemName, setItemName] = useState(position.itemName)
-    const [msg, setMsg] = useState(position.itemName)
+    const [msg, setMsg] = useState('')
 
     //TODO: Validator for form
     return (

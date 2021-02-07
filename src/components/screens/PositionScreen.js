@@ -10,6 +10,7 @@ import {PositionModal} from "../modals/PositionModal";
 import ConfirmModalWindow from "../modals/ConfirmModalWindow";
 import {connect} from "react-redux";
 import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/positionActions";
+import CudeLoader from "../utils/CubeLoader";
 
 
 

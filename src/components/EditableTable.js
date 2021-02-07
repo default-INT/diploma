@@ -3,6 +3,7 @@ import editIcon from "../icon/edit.svg";
 import deleteIcon from "../icon/delete.svg";
 import PropTypes from "prop-types";
 import '../css/EditableTable.css'
+import CudeLoader from "./utils/CubeLoader";
 
 const transformItemToArray = item => {
     const array = []
