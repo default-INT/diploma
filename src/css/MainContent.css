@@ -16,31 +16,6 @@
     flex-wrap: wrap;
 }
 
-.main-content .widget-list .widget {
-    background-color: #fff;
-    padding: 1.8rem;
-    border-left: 5px solid #1cc98a;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    width: 20%;
-    min-width: 150px;
-    margin-top: 1rem;
-}
-
-.main-content .widget-list .widget .title {
-    color: #1cc98a;
-    font-size: 1.1em;
-}
-
-.main-content .widget-list .widget .value {
-    font-size: 1.5em;
-}
-
-.main-content .widget-list .widget .icon {
-    opacity: .3;
-}
-
 .main-content .fragment-list {
     display: flex;
     padding: 2rem;

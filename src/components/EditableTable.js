@@ -1,9 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import editIcon from "../icon/edit.svg";
 import deleteIcon from "../icon/delete.svg";
 import PropTypes from "prop-types";
 import '../css/EditableTable.css'
-import CudeLoader from "./utils/CubeLoader";
 
 const transformItemToArray = item => {
     const array = []
@@ -15,11 +14,9 @@ const transformItemToArray = item => {
     return array
 }
 
-const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEditItem = (item) => item, ItemModalWindow}) => {
-    const [modalOpen, onModalOpen] = useState(false)
+const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEditItem = (item) => item}) => {
     return (
         <div className="item-list">
-            {modalOpen ? <ItemModalWindow onModalState={onModalOpen} /> : null}
             <div className="item head">
                 {header.map((head, i) => <div key={i}>{head}</div>)}
                 <div/>

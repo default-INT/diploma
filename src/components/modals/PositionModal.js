@@ -1,7 +1,20 @@
 import React, {useState} from 'react'
 import ModalWindow from "./ModalWindow";
 import PropTypes from "prop-types";
-import {validNumber, validPositionName, validPositionItemName} from "../../validators";
+
+const POSITION_NAME_PATTERN = /[A-zА-я]{4,200}/
+const POSITION_TARIFF_NAME = /[A-zА-я]{1,50}/
+
+const validPositionName = name => POSITION_NAME_PATTERN.test(name.trim())
+const validPositionItemName = tariffName => POSITION_TARIFF_NAME.test(tariffName.trim())
+const validNumber = number => !isNaN(number) && +number !== 0
+
+const validPosition = position => {
+    if (!validNumber(position.itemTariff) || !validPositionItemName(position.itemName)
+        || !validPositionName(position.name)) {
+        throw new Error('Некорректные данные')
+    }
+}
 
 
 const PositionModal = ({position, action, title = 'Добавление нового тарифа', onModalState}) => {
@@ -20,13 +33,12 @@ const PositionModal = ({position, action, title = 'Добавление ново
 
     const actionOnClick = () => {
         try {
-            if (!validNumber(itemTariff) && !validPositionItemName(itemName) && !validPositionName(name)) {
-                throw new Error('некорректные данные')
-            }
-            action({id: position.id, name, itemTariff, itemName})
+            const newPosition = {id: position.id, name, itemTariff, itemName}
+            validPosition(newPosition)
+            action(newPosition)
             onModalState(false)
         } catch (e) {
-            setMsg('Ошиибка: ' + e)
+            setMsg('Ошибка: ' + e)
         }
     }
 

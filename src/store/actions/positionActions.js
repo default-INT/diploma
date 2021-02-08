@@ -2,8 +2,9 @@ import {hideLoader, showAlert, showLoader} from "./appActions";
 import {CREATE_POSITION, DELETE_POSITION, FETCH_POSITIONS, UPDATE_POSITION} from "../../types";
 
 const url = 'http://127.0.0.1:8080'
-//TODO: wrap fetch or change to axios
 
+
+//TODO: wrap fetch or change to axios
 export function createPosition(position) {
     return async dispatch => {
         try {

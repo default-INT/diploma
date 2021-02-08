@@ -13,13 +13,14 @@ import {createPosition, deletePosition, fetchPositions, updatePosition} from "..
 import CubeLoader from "../utils/CubeLoader";
 
 
+//TODO: wrapped to class component
 const PositionScreen = ({positions, loading, createPosition, updatePosition, deletePosition, fetchPositions}) => {
     const [modalOpen, onModalOpen] = useState(false)
     useEffect(() => {
         fetchPositions()
     }, [])
 
-    const EditPositionModal = ({position, onModalOpen, action}) => (
+    const EditPositionModal = ({position, onModalOpen}) => (
         <PositionModal
             title='Редактирование тарифа'
             onModalState={onModalOpen}
@@ -87,7 +88,6 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition, del
                         data={positions}
                         onEditItem={position => openEditModal(position)}
                         onDeleteItem={position => openDeleteModal(position)}
-                        ItemModalWindow={PositionModal}
                     />}
                 </SimpleFragment>
             </div>

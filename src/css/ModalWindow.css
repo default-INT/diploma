@@ -179,11 +179,17 @@
     margin-bottom: 1rem;
 }
 
+.modal .btn-container .msg {
+    padding-bottom: 1rem;
+}
+
 .modal .btn-container {
     display: flex;
     justify-content: center;
     border-top: 2px solid #dce6e6;
     padding-top: 2rem;
+    align-items: center;
+    flex-direction: column;
 }
 
 .modal .confirm-btn-box {
