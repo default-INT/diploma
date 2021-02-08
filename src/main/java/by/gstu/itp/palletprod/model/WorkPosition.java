@@ -1,33 +1,47 @@
 package by.gstu.itp.palletprod.model;
 
+import by.gstu.itp.palletprod.dto.WorkPositionDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "work_positions")
 public class WorkPosition {
+    public static WorkPosition of(WorkPositionDto workPositionDto) {
+        WorkPosition workPosition = new WorkPosition();
+
+        workPosition.setId(workPositionDto.getId());
+        workPosition.setName(workPositionDto.getName());
+        workPosition.setItemName(workPositionDto.getItemName());
+        workPosition.setItemTariff(workPositionDto.getItemTariff());
+
+        return workPosition;
+    }
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
-    @Column
+    @Column(unique = true)
     private String name;
-    @Column(name = "item_trariff")
+    @Column(name = "item_tariff")
     private BigDecimal itemTariff;
     @Column(name = "item_name")
     private String itemName;
 
     @OneToMany(mappedBy = "workPosition")
-    private Set<WorkPositionReport> workPositionReports;
+    private List<WorkPositionReport> workPositionReports;
 
-    public Set<WorkPositionReport> getWorkPositionReports() {
+    public List<WorkPositionReport> getWorkPositionReports() {
         return workPositionReports;
     }
 
-    public void setWorkPositionReports(Set<WorkPositionReport> workPositionReports) {
+    public void setWorkPositionReports(List<WorkPositionReport> workPositionReports) {
         this.workPositionReports = workPositionReports;
     }
 
