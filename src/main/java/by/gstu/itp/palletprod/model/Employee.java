@@ -1,5 +1,6 @@
 package by.gstu.itp.palletprod.model;
 
+import by.gstu.itp.palletprod.dto.EmployeeDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -8,18 +9,32 @@ import java.util.Set;
 @Entity
 @Table(name = "employees")
 public class Employee {
+
+    public static Employee of(EmployeeDto employeeDto) {
+        Employee employee = new Employee();
+
+        employee.setId(employeeDto.getId());
+        employee.setFirstName(employeeDto.getFirstName());
+        employee.setSecondName(employeeDto.getSecondName());
+        employee.setLastName(employeeDto.getLastName());
+        employee.setBirthdayYear(employeeDto.getBirthdayYear());
+
+        return employee;
+    }
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(name = "second_name")
+    @Column(name = "second_name", nullable = false)
     private String secondName;
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column
-    private int age;
+    @Column(nullable = false)
+    private int birthdayYear;
+    //TODO: need add delete property (bool deleted)
 
     @OneToMany(mappedBy = "employee")
     private Set<EmployeeReport> employeeReports;
@@ -64,11 +79,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public int getAge() {
-        return age;
+    public int getBirthdayYear() {
+        return birthdayYear;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthdayYear(int age) {
+        this.birthdayYear = age;
     }
 }

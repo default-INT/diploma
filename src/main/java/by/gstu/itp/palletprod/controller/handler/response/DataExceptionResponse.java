@@ -17,8 +17,8 @@ public class DataExceptionResponse {
         return fieldMessage;
     }
 
-    public static DataExceptionResponse from(List<FieldError> fieldErrors) {
-        Map<String, String> map = new HashMap<>();
+    public static DataExceptionResponse from(final List<FieldError> fieldErrors) {
+        final Map<String, String> map = new HashMap<>();
 
         for (FieldError fieldError : fieldErrors) {
             map.put(fieldError.getField(), fieldError.getDefaultMessage());

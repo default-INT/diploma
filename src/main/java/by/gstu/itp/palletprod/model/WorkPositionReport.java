@@ -17,8 +17,8 @@ public class WorkPositionReport {
     private String reportId;
     @Column(name = "total_item_count")
     private int totalItemCount;
-    @Column(name = "total_coeff_sum")
-    private float totalCoeffSum;
+    @Column(name = "total_sum")
+    private float totalSum;
 
     @ManyToOne
     @JoinColumn(name = "work_position_id")
@@ -59,12 +59,12 @@ public class WorkPositionReport {
         this.totalItemCount = totalItemCount;
     }
 
-    public float getTotalCoeffSum() {
-        return totalCoeffSum;
+    public float getTotalSum() {
+        return totalSum;
     }
 
-    public void setTotalCoeffSum(float totalCoeffSum) {
-        this.totalCoeffSum = totalCoeffSum;
+    public void setTotalSum(float totalCoeffSum) {
+        this.totalSum = totalCoeffSum;
     }
 
     public WorkPosition getWorkPosition() {

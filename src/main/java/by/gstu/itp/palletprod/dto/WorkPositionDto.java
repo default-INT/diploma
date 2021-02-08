@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class WorkPositionDto {
-    public static WorkPositionDto of(WorkPosition workPosition) {
+    public static WorkPositionDto of(final WorkPosition workPosition) {
         WorkPositionDto workPositionDto = new WorkPositionDto();
 
         workPositionDto.setId(workPosition.getId());
