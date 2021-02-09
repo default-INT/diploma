@@ -23,12 +23,13 @@ public class EmployeeRestController {
     @GetMapping("{page}")
     public List<EmployeeDto> findAll(@PathVariable int page,
                                      @RequestParam(name = "size", defaultValue = "0") int size,
+                                     @RequestParam(name = "fired", defaultValue = "false") boolean fired,
                                      @RequestParam(name = "lastName", defaultValue = "") String lastName) {
         --page;
         if (size <= 0 || size > 20) {
             size = 20;
         }
-        return employeeService.findAll(page, size);
+        return employeeService.findAll(page, size, fired, lastName);
     }
 
     @GetMapping

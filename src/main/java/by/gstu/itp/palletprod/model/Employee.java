@@ -35,6 +35,16 @@ public class Employee {
     @Column(nullable = false)
     private int birthdayYear;
     //TODO: need add delete property (bool deleted)
+    @Column(nullable = false)
+    private boolean fired = false;
+
+    public boolean isFired() {
+        return fired;
+    }
+
+    public void setFired(boolean fired) {
+        this.fired = fired;
+    }
 
     @OneToMany(mappedBy = "employee")
     private Set<EmployeeReport> employeeReports;

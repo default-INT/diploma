@@ -16,6 +16,7 @@ public class EmployeeDto {
         employeeDto.setSecondName(employee.getSecondName());
         employeeDto.setLastName(employee.getLastName());
         employeeDto.setBirthdayYear(employee.getBirthdayYear());
+        employeeDto.setFired(employee.isFired());
 
         return employeeDto;
     }
@@ -32,6 +33,15 @@ public class EmployeeDto {
     private String lastName;
     @Min(1930)
     private int birthdayYear;
+    private boolean fired;
+
+    public boolean isFired() {
+        return fired;
+    }
+
+    public void setFired(boolean deleted) {
+        this.fired = deleted;
+    }
 
     public String getId() {
         return id;

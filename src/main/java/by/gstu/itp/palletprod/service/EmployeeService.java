@@ -4,7 +4,6 @@ import by.gstu.itp.palletprod.dto.EmployeeDto;
 import by.gstu.itp.palletprod.model.Employee;
 import by.gstu.itp.palletprod.repository.EmployeeRepository;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -19,7 +18,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<EmployeeDto> findAll(int page, int size) {
+    public List<EmployeeDto> findAll(int page, int size, boolean fired, String lastName) {
         if (size > 20 || size < 0) {
             throw new IllegalArgumentException("Limit is too much");
         }
@@ -27,20 +26,13 @@ public class EmployeeService {
         if (size == 0) {
             return Collections.emptyList();
         }
-        return employeeRepository.findAll(PageRequest.of(page, size, Sort.Direction.DESC, "id"))
+        return employeeRepository.findAllByFiredAndLastNameStartingWith(fired, lastName, PageRequest.of(page, size))
                 .map(EmployeeDto::of)
                 .toList();
     }
 
     public List<EmployeeDto> findAllByLastNameStartingWith(final String lastName) {
-        return employeeRepository.findAllByLastNameStartingWith(lastName)
-                .stream()
-                .map(EmployeeDto::of)
-                .collect(Collectors.toList());
-    }
-
-    public List<EmployeeDto> findAll() {
-        return employeeRepository.findAll()
+        return employeeRepository.findAllByFiredFalseAndLastNameStartingWith(lastName)
                 .stream()
                 .map(EmployeeDto::of)
                 .collect(Collectors.toList());
@@ -67,6 +59,9 @@ public class EmployeeService {
     }
 
     public void deleteById(final String id) {
-        employeeRepository.deleteById(id);
+        final Employee updateEmployee = employeeRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new); //TODO: Custom Exception
+        updateEmployee.setFired(true);
+        employeeRepository.save(updateEmployee);
     }
 }
