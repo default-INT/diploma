@@ -1,7 +1,7 @@
 import React from "react";
 import '../../css/CubeLoader.css'
 
-export default () => (
+export const CubeLoader = () => (
     <div id="cube-loader">
         <div className="caption">
             <div className="cube-loader">

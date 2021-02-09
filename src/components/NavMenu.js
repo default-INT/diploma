@@ -1,13 +1,15 @@
 import React from 'react'
-import calendarIcon from '../icon/nav/calendar-solid-white.svg'
-import palletIcon from '../icon/pallet-white.svg'
-import questionIcon from '../icon/question-white.svg'
-import positionIcon from '../icon/nav/suitcase-white.svg'
-import employeeIcon from '../icon/nav/builder-white.svg'
-import '../css/NavMenu.css'
 import {NavLink} from "react-router-dom";
+import '../css/NavMenu.css'
+import {
+    navBuilderWhiteIcon,
+    navCalendarSolidWhiteIcon,
+    navSuitcaseWhiteIcon,
+    palletWhiteIcon,
+    questionWhiteIcon
+} from '../icons.js'
 
-const NavItem = ({name = 'LINK', icon = questionIcon, path = '/'}) => (
+const NavItem = ({name = 'LINK', icon = questionWhiteIcon, path = '/'}) => (
     <div className="nav-item">
         <NavLink exact to={path} className='nav-link' activeClassName='active-link'>
             <img src={icon} className='nav-icon' width={20} alt=""/>
@@ -23,13 +25,13 @@ const NavMenu = () => {
         <nav className="app-navigation">
             <div className="nav-group">
                 <NavLink to='/' className="main-icon">
-                    <img src={palletIcon} width={70} alt=""/>
+                    <img src={palletWhiteIcon} width={70} alt=""/>
                 </NavLink>
             </div>
             <div className="nav-group">
-                <NavItem name='Отчёты' path='/reports' icon={calendarIcon} />
-                <NavItem name='Тарифы' path='/positions' icon={positionIcon}/>
-                <NavItem name='Сотрудники' path='/employees' icon={employeeIcon}/>
+                <NavItem name='Отчёты' path='/reports' icon={navCalendarSolidWhiteIcon} />
+                <NavItem name='Тарифы' path='/positions' icon={navSuitcaseWhiteIcon}/>
+                <NavItem name='Сотрудники' path='/employees' icon={navBuilderWhiteIcon}/>
             </div>
             <div className="nav-group">
                 <NavItem path='/other4' />

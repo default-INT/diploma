@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Widget} from "../widgets/Widget";
-import positionIcon from "../../icon/nav/suitcase.svg";
-import popularIcon from "../../icon/popularity.svg";
-import dollarIcon from "../../icon/dollar.svg";
-import EditableTable from "../tables/EditableTable";
-import {PositionModal} from "../modals/PositionModal";
-import ConfirmModalWindow from "../modals/ConfirmModalWindow";
-import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/positionActions";
-import CubeLoader from "../utils/CubeLoader";
-import WidgetList from "../widgets/WidgetList";
-import FragmentList from "../fragments/FragmentList";
-import ControlFragment from "../fragments/ControlFragment";
+import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/actions";
+import { navSuitcaseIcon, popularityIcon, dollarIcon } from "../../icons"
+import {
+    ConfirmModalWindow,
+    ControlFragment,
+    CubeLoader, EditableTable,
+    FragmentList,
+    PositionModal,
+    Widget,
+    WidgetList
+} from "../components";
 
 
 //TODO: wrapped to class component
-const PositionScreen = ({positions, loading, createPosition, updatePosition, deletePosition, fetchPositions}) => {
+const PositionScreen = ({positions, loading, createPosition, updatePosition,
+                            deletePosition, fetchPositions}) => {
+
     const [modalOpen, onModalOpen] = useState(false)
     useEffect(() => {
         fetchPositions()
@@ -70,8 +71,8 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition, del
             {modalOpen ? positionModal : null}
             <div className="content-title">Должности сотрудников</div>
             <WidgetList>
-                <Widget title='КОЛИЧЕСТВО ПОЗИЦИЙ' value='5' color='#36b9cd' icon={positionIcon} />
-                <Widget title='ПОПУЛЯРНАЯ ПОЗИЦИЯ' value='СБОЙЩИК "СОЛЬЗАВОД"' color='#f7c33c' icon={popularIcon} />
+                <Widget title='КОЛИЧЕСТВО ПОЗИЦИЙ' value='5' color='#36b9cd' icon={navSuitcaseIcon} />
+                <Widget title='ПОПУЛЯРНАЯ ПОЗИЦИЯ' value='СБОЙЩИК "СОЛЬЗАВОД"' color='#f7c33c' icon={popularityIcon} />
                 <Widget title='НАИБОЛЕЕ ПРИБЫЛЬНАЯ' value='СБОЙЩИК "ХОЙНИКИ"' color='#1cc98a' icon={dollarIcon} />
             </WidgetList>
             <FragmentList>
