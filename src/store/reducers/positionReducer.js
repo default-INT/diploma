@@ -21,7 +21,7 @@ const handlers = {
     DEFAULT: state => state
 }
 
-export default (state = initialState, action) => {
+export const positionReducer = (state = initialState, action) => {
     const handle = handlers[action.type] || handlers.DEFAULT
     return handle(state, action)
 }

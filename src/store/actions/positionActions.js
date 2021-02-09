@@ -1,5 +1,6 @@
 import {hideLoader, showAlert, showLoader} from "./appActions";
 import {CREATE_POSITION, DELETE_POSITION, FETCH_POSITIONS, UPDATE_POSITION} from "../../types";
+import {api} from "../api";
 
 const url = 'http://127.0.0.1:8080'
 
@@ -8,12 +9,8 @@ const url = 'http://127.0.0.1:8080'
 export function createPosition(position) {
     return async dispatch => {
         try {
-            const response = await fetch(url + '/work-positions', {
-                method: 'POST',
-                body: JSON.stringify(position),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                }
+            const response = await api.post(url + '/work-positions', {
+                body: JSON.stringify(position)
             })
             const newPosition = await response.json()
             dispatch({ type: CREATE_POSITION, payload: newPosition })
@@ -28,22 +25,15 @@ export function createPosition(position) {
 export function updatePosition(position) {
     return async dispatch => {
         try {
-            const response = await fetch(url + '/work-positions', {
-                method: 'PUT',
-                body: JSON.stringify(position),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                }
+            const response = await api.put(url + '/work-positions', {
+                body: JSON.stringify(position)
             })
-            if (!response.ok) {
-                throw new Error(response.status)
-            }
+            if (!response.ok) throw new Error(response.status)
             const updatePosition = await response.json()
             dispatch({ type: UPDATE_POSITION, payload: updatePosition })
         } catch (e) {
             dispatch(showAlert('Не удалось удалить данные. Ошибка: '
                 + e))
-            throw e
         }
     }
 }
@@ -51,12 +41,8 @@ export function updatePosition(position) {
 export function deletePosition(position) {
     return async dispatch => {
         try {
-            const response = await fetch(url + '/work-positions', {
-                method: 'DELETE',
-                body: JSON.stringify(position),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                }
+            const response = await api.delete(url + '/work-positions', {
+                body: JSON.stringify(position)
             })
             if (!response.ok) {
                 throw new Error(response.status)
@@ -65,7 +51,6 @@ export function deletePosition(position) {
         } catch (e) {
             dispatch(showAlert('Не удалось удалить данные. Ошибка: '
                 + e))
-            throw e
         }
     }
 }
@@ -74,7 +59,7 @@ export function fetchPositions() {
     return async dispatch => {
         try {
             dispatch(showLoader())
-            const response = await fetch(url + '/work-positions')
+            const response = await api.get(url + '/work-positions')
             const positions = await response.json()
             dispatch({ type: FETCH_POSITIONS, payload: positions})
             dispatch(hideLoader())

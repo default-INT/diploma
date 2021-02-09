@@ -4,7 +4,7 @@ import {Widget} from "../widgets/Widget";
 import positionIcon from "../../icon/nav/suitcase.svg";
 import popularIcon from "../../icon/popularity.svg";
 import dollarIcon from "../../icon/dollar.svg";
-import EditableTable from "../EditableTable";
+import EditableTable from "../tables/EditableTable";
 import {PositionModal} from "../modals/PositionModal";
 import ConfirmModalWindow from "../modals/ConfirmModalWindow";
 import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/positionActions";

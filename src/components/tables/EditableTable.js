@@ -1,8 +1,8 @@
 import React from 'react'
-import editIcon from "../icon/edit.svg";
-import deleteIcon from "../icon/delete.svg";
+import editIcon from "../../icon/edit.svg";
+import deleteIcon from "../../icon/delete.svg";
 import PropTypes from "prop-types";
-import '../css/EditableTable.css'
+import '../../css/EditableTable.css'
 
 const transformItemToArray = item => {
     const array = []
