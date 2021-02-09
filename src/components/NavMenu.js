@@ -27,9 +27,9 @@ const NavMenu = () => {
                 </NavLink>
             </div>
             <div className="nav-group">
-                <NavItem name='Report' path='/reports' icon={calendarIcon} />
-                <NavItem name='Position' path='/positions' icon={positionIcon}/>
-                <NavItem name='Employees' path='/employees' icon={employeeIcon}/>
+                <NavItem name='Отчёты' path='/reports' icon={calendarIcon} />
+                <NavItem name='Тарифы' path='/positions' icon={positionIcon}/>
+                <NavItem name='Сотрудники' path='/employees' icon={employeeIcon}/>
             </div>
             <div className="nav-group">
                 <NavItem path='/other4' />

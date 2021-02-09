@@ -1,16 +1,17 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {Widget} from "../widgets/Widget";
 import positionIcon from "../../icon/nav/suitcase.svg";
 import popularIcon from "../../icon/popularity.svg";
 import dollarIcon from "../../icon/dollar.svg";
-import addIcon from "../../icon/add.svg";
-import {SimpleFragment} from "../fragments/SimpleFragment";
 import EditableTable from "../EditableTable";
 import {PositionModal} from "../modals/PositionModal";
 import ConfirmModalWindow from "../modals/ConfirmModalWindow";
 import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/positionActions";
 import CubeLoader from "../utils/CubeLoader";
+import WidgetList from "../widgets/WidgetList";
+import FragmentList from "../fragments/FragmentList";
+import ControlFragment from "../fragments/ControlFragment";
 
 
 //TODO: wrapped to class component
@@ -63,34 +64,29 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition, del
     }
 
     const header = ['Название тарифа', 'Заработок', 'Исчисление']
-    const Title = (
-        <Fragment>
-            <div>Тарифы</div>
-            <a className='default-icon-btn' onClick={() => openAddModal()}>
-                <img src={addIcon} width={30} alt=""/>
-            </a>
-        </Fragment>
-    )
 
     return (
         <div className="main-content">
             {modalOpen ? positionModal : null}
-            <div className="content-title">Positions</div>
-            <div className="widget-list">
+            <div className="content-title">Должности сотрудников</div>
+            <WidgetList>
                 <Widget title='КОЛИЧЕСТВО ПОЗИЦИЙ' value='5' color='#36b9cd' icon={positionIcon} />
                 <Widget title='ПОПУЛЯРНАЯ ПОЗИЦИЯ' value='СБОЙЩИК "СОЛЬЗАВОД"' color='#f7c33c' icon={popularIcon} />
                 <Widget title='НАИБОЛЕЕ ПРИБЫЛЬНАЯ' value='СБОЙЩИК "ХОЙНИКИ"' color='#1cc98a' icon={dollarIcon} />
-            </div>
-            <div className="fragment-list">
-                <SimpleFragment title={Title} style={{width: '100%'}}>
+            </WidgetList>
+            <FragmentList>
+                <ControlFragment title={'Тарифы'}
+                                 style={{width: '100%'}}
+                                 onClick={() => openAddModal()}
+                >
                     {loading ? <CubeLoader/> : <EditableTable
                         header={header}
                         data={positions}
                         onEditItem={position => openEditModal(position)}
                         onDeleteItem={position => openDeleteModal(position)}
                     />}
-                </SimpleFragment>
-            </div>
+                </ControlFragment>
+            </FragmentList>
         </div>
     )
 }
