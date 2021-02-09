@@ -1,6 +1,5 @@
 import React from 'react'
-import editIcon from "../../icon/edit.svg";
-import deleteIcon from "../../icon/delete.svg";
+import { editIcon, deleteIcon } from "../../icons"
 import PropTypes from "prop-types";
 import '../../css/EditableTable.css'
 
@@ -14,7 +13,9 @@ const transformItemToArray = item => {
     return array
 }
 
-const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEditItem = (item) => item}) => {
+const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id,
+                           onEditItem = (item) => item, children}) => {
+
     return (
         <div className="item-list">
             <div className="item head">
@@ -36,6 +37,7 @@ const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id, onEdi
                     </div>
                 </div>
             ))}
+            {children}
         </div>
     )
 }

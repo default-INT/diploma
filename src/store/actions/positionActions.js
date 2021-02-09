@@ -1,15 +1,13 @@
 import {hideLoader, showAlert, showLoader} from "./appActions";
-import {CREATE_POSITION, DELETE_POSITION, FETCH_POSITIONS, UPDATE_POSITION} from "../../types";
+import {CREATE_POSITION, DELETE_POSITION, FETCH_POSITIONS, SERVER_URL, UPDATE_POSITION} from "../../types";
 import {api} from "../api";
-
-const url = 'http://127.0.0.1:8080'
 
 
 //TODO: wrap fetch or change to axios
 export function createPosition(position) {
     return async dispatch => {
         try {
-            const response = await api.post(url + '/work-positions', {
+            const response = await api.post(SERVER_URL + '/work-positions', {
                 body: JSON.stringify(position)
             })
             const newPosition = await response.json()
@@ -17,7 +15,6 @@ export function createPosition(position) {
         } catch (e) {
             dispatch(showAlert('Не удалось добавить данные. Ошибка: '
                 + e))
-            throw e
         }
     }
 }
@@ -25,14 +22,14 @@ export function createPosition(position) {
 export function updatePosition(position) {
     return async dispatch => {
         try {
-            const response = await api.put(url + '/work-positions', {
+            const response = await api.put(SERVER_URL + '/work-positions', {
                 body: JSON.stringify(position)
             })
-            if (!response.ok) throw new Error(response.status)
+            if (!response.ok) throw new Error(response.response.statusText)
             const updatePosition = await response.json()
             dispatch({ type: UPDATE_POSITION, payload: updatePosition })
         } catch (e) {
-            dispatch(showAlert('Не удалось удалить данные. Ошибка: '
+            dispatch(showAlert('Не удалось обновить данные. Ошибка: '
                 + e))
         }
     }
@@ -41,11 +38,11 @@ export function updatePosition(position) {
 export function deletePosition(position) {
     return async dispatch => {
         try {
-            const response = await api.delete(url + '/work-positions', {
+            const response = await api.delete(SERVER_URL + '/work-positions', {
                 body: JSON.stringify(position)
             })
             if (!response.ok) {
-                throw new Error(response.status)
+                throw new Error(response.response.statusText)
             }
             dispatch({ type: DELETE_POSITION, payload: position })
         } catch (e) {
@@ -59,7 +56,7 @@ export function fetchPositions() {
     return async dispatch => {
         try {
             dispatch(showLoader())
-            const response = await api.get(url + '/work-positions')
+            const response = await api.get(SERVER_URL + '/work-positions')
             const positions = await response.json()
             dispatch({ type: FETCH_POSITIONS, payload: positions})
             dispatch(hideLoader())

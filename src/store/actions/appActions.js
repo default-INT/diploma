@@ -14,11 +14,36 @@ export function hideLoader() {
 
 export function showAlert(text) {
     console.log(text)
+    alert(text)
     return dispatch => {
         dispatch({
             type: SHOW_ALERT,
             payload: text
         })
+    }
+}
+
+export function showFetchError(text) {
+    return dispatch => {
+        dispatch(showAlert('Не удалось загрузить данные с сервера. Ошибка: ' + text))
+    }
+}
+
+export function showCreateError(text) {
+    return dispatch => {
+        dispatch(showAlert('Не удалось добавить данные. Ошибка: ' + text))
+    }
+}
+
+export function showUpdateError(text) {
+    return dispatch => {
+        dispatch(showAlert('Не удалось обновить данные. Ошибка: ' + text))
+    }
+}
+
+export function showDeleteError(text) {
+    return dispatch => {
+        dispatch(showAlert('Не удалось удалить данные. Ошибка: ' + text))
     }
 }
 

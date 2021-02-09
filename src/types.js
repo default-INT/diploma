@@ -13,6 +13,8 @@ export const HIDE_LOADER = 'APP/HIDE_LOADER'
 export const SHOW_ALERT = 'APP/SHOW_ALERT'
 export const HIDE_ALERT = 'APP/HIDE_ALERT'
 
+export const SERVER_URL = 'http://127.0.0.1:8080'
+
 export const actionType = {
     CREATE: 'CREATE',
     UPDATE: 'UPDATE',
