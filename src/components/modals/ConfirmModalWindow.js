@@ -1,5 +1,5 @@
 import React from "react";
-import ModalWindow from "./ModalWindow";
+import { ModalWindow } from "./index";
 import PropTypes from "prop-types";
 
 const ConfirmModalWindow = (

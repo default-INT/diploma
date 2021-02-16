@@ -55,3 +55,6 @@ input {
   transition: .4s ease;
 }
 
+.default-link:hover {
+  opacity: .5;
+}

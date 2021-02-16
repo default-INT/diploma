@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import ModalWindow from "./ModalWindow";
 import PropTypes from "prop-types";
+import {ModalWindow} from "./index";
 
 const POSITION_NAME_PATTERN = /[A-zА-я]{4,200}/
 const POSITION_TARIFF_NAME = /[A-zА-я]{1,50}/

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions/actions";
+import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions";
 import { navSuitcaseIcon, popularityIcon, dollarIcon } from "../../icons"
 import {
     ConfirmModalWindow,
@@ -10,7 +10,7 @@ import {
     PositionModal,
     Widget,
     WidgetList
-} from "../components";
+} from "../";
 
 
 //TODO: wrapped to class component

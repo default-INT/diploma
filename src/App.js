@@ -1,13 +1,9 @@
+import React from "react";
+import { Switch, Route } from "react-router-dom"
+import { EmployeeScreen, Header, MainScreen, NavMenu, PositionScreen } from './components'
 import avatar from './img/avatar.jpg';
 import './fonts/roboto.css'
 import './App.css';
-import React from "react";
-import Header from "./components/Header";
-import MainScreen from "./components/screens/MainScreen";
-import NavMenu from "./components/NavMenu";
-import PositionScreen from "./components/screens/PositionScreen";
-import {Route, Switch} from "react-router-dom";
-import EmployeeScreen from "./components/screens/EmployeeScreen";
 
 function App() {
     const user = {

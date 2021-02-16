@@ -1,13 +1,11 @@
 import React, {Fragment} from "react";
-import {SimpleFragment} from "./SimpleFragment";
-import addIcon from "../../icon/add.svg";
+import {DefaultIconBtn, SimpleFragment} from "../";
+import {addIcon} from "../../icons";
 
 const Title = ({name, onClick}) => (
     <Fragment>
         <div>{name}</div>
-        <a className='default-icon-btn' onClick={onClick}>
-            <img src={addIcon} width={30} alt=""/>
-        </a>
+        <DefaultIconBtn icon={addIcon} onClick={onClick} />
     </Fragment>
 )
 

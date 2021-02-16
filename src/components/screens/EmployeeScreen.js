@@ -1,13 +1,29 @@
 import React from "react";
-import {Widget} from "../widgets/Widget";
-import ControlFragment from "../fragments/ControlFragment"
-import WidgetList from "../widgets/WidgetList";
-import FragmentList from "../fragments/FragmentList";
-import employeeIcon from '../../icon/builder.svg'
+import {builderIcon} from '../../icons'
+import {ControlFragment, EmployeeModal, EmployeesTable, FragmentList, Widget, WidgetList} from "../";
+import {createEmployee} from "../../store/actions";
+import {connect} from "react-redux";
 
 class EmployeeScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            onModalState: false
+        }
+    }
+
+    closeModal() {
+        this.setState(prev => ({
+            ...prev,
+            onModalState: false
+        }))
+    }
+
+    openModal() {
+        this.setState(prev => ({
+            ...prev,
+            onModalState: true
+        }))
     }
 
     render() {
@@ -17,11 +33,12 @@ class EmployeeScreen extends React.Component {
                 <WidgetList style={{
                     justifyContent: 'left'
                 }}>
-                    <Widget title='ЛУЧШИЙ СОТРУДНИК' value='Трофимов В.С.' color='#1cc98a' icon={employeeIcon} />
+                    <Widget title='ЛУЧШИЙ СОТРУДНИК' value='Трофимов В.С.' color='#1cc98a' icon={builderIcon} />
                 </WidgetList>
                 <FragmentList>
-                    <ControlFragment title='Сотрудникики' style={{width: '100%'}}>
-
+                    {this.state.onModalState ? <EmployeeModal onModalState={() => this.closeModal()} action={employee => this.props.createEmployee(employee)}/> : null}
+                    <ControlFragment title='Сотрудникики' style={{width: '100%'}} onClick={() => this.openModal()}>
+                        <EmployeesTable />
                     </ControlFragment>
                 </FragmentList>
             </div>
@@ -29,4 +46,8 @@ class EmployeeScreen extends React.Component {
     }
 }
 
-export default EmployeeScreen
+const mapDispatchToProps  = {
+    createEmployee
+}
+
+export default connect(null, mapDispatchToProps)(EmployeeScreen)

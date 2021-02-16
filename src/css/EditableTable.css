@@ -30,3 +30,35 @@
 .item-list .item .actions a:hover {
     opacity: 1;
 }
+
+form.search-form {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+    align-items: center;
+}
+
+.pagination-box {
+    display: flex;
+    padding: 1rem;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.pagination-box .pagination-btn {
+    font-size: 1em;
+}
+
+.pagination-box .pages {
+    display: flex;
+    align-items: center;
+}
+
+.pagination-box .pages a {
+    padding: .6rem;
+}
+
+.pagination-box .pages .current-page {
+    opacity: .5;
+    cursor: default;
+}

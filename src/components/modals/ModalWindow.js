@@ -1,6 +1,6 @@
 import React from 'react'
-import '../../css/ModalWindow.css'
 import PropTypes from "prop-types";
+import '../../css/ModalWindow.css'
 
 
 const ModalWindow = ({title = 'TITLE', children, onModalState}) => {

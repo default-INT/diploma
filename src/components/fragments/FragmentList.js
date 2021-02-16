@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {SimpleFragment} from "./SimpleFragment";
+import {SimpleFragment} from "./index";
 
 const FragmentList = ({children}) => {
     return (

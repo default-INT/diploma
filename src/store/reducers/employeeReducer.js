@@ -1,4 +1,4 @@
-import {CREATE_EMPLOYEE, DELETE_EMPLOYEE, FETCH_EMPLOYEES, UPDATE_EMPLOYEE} from "../../types";
+import {COUNT_EMPLOYEES, CREATE_EMPLOYEE, DELETE_EMPLOYEE, FETCH_EMPLOYEES, UPDATE_EMPLOYEE} from "../../types";
 
 
 const initialState = {
@@ -12,16 +12,17 @@ const handlers = {
     }),
     [CREATE_EMPLOYEE]: (state, {payload}) => ({
         ...state,
-        employees: state.concat([payload])
+        employees: state.employees.concat([payload])
     }),
     [UPDATE_EMPLOYEE]: (state, {payload}) => ({
         ...state,
-        employees: state.filter(employee => employee.id !== payload.id).concat([payload])
+        employees: state.employees.filter(employee => employee.id !== payload.id).concat([payload])
     }),
     [DELETE_EMPLOYEE]: (state, {payload}) => ({
         ...state,
-        employees: state.filter(employee => employee.id !== payload.id)
+        employees: state.employees.filter(employee => employee.id !== payload.id)
     }),
+    [COUNT_EMPLOYEES]: (state, {payload}) => ({...state, count: payload}),
     DEFAULT: state => state
 }
 
