@@ -16,6 +16,13 @@ export const HIDE_ALERT = 'APP/HIDE_ALERT'
 
 export const SERVER_URL = 'http://127.0.0.1:8080'
 
+export const MONTHS = [
+    'Январь', 'Февраль', 'Март',
+    'Апрель', 'Май', 'Июнь',
+    'Июль', 'Август', 'Сентябрь',
+    'Октябрь', 'Ноябрь', 'Декабрь'
+]
+
 export const actionType = {
     CREATE: 'CREATE',
     UPDATE: 'UPDATE',

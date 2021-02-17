@@ -26,7 +26,6 @@
 .main-content .fragment-list .fragment {
     background-color: #fff;
     border-radius: 4px;
-    overflow: hidden;
     min-width: 150px;
 }
 
@@ -34,6 +33,7 @@
     background-color: #f8f9fd;
     color: #5072e0;
     padding: 1rem;
+    overflow: hidden;
     font-size: 1.4em;
     border-bottom: 2px solid #fff;
     display: flex;

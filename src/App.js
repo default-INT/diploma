@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom"
-import { EmployeeScreen, Header, MainScreen, NavMenu, PositionScreen } from './components'
+import {EmployeeScreen, Header, MainScreen, NavMenu, PositionScreen, ReportScreen} from './components'
 import avatar from './img/avatar.jpg';
 import './fonts/roboto.css'
 import './App.css';
@@ -17,6 +17,7 @@ function App() {
                 <Header user={user} />
                 <Switch>
                     <Route exact component={MainScreen} path="/"/>
+                    <Route exact component={ReportScreen} path="/reports"/>
                     <Route exact component={PositionScreen} path="/positions"/>
                     <Route exact component={EmployeeScreen} path="/employees"/>
                 </Switch>

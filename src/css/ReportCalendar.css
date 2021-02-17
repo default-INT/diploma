@@ -1,0 +1,98 @@
+.report-calendar {
+    min-width: 1000px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.report-calendar .c-controls .c-control-item > a {
+    padding: .4rem;
+}
+
+.report-calendar .c-weeks > th {
+    border-bottom: 2px solid #d7d5d5;
+    border-top: 2px solid #d7d5d5;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+
+}
+
+.report-calendar .c-days-row .c-day .img-box {
+    text-align: center;
+}
+
+.report-calendar .c-days-row .c-day {
+    vertical-align: top;
+    padding: .5rem;
+    text-align: right;
+    height: 80px;
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    border-bottom: 2px solid #d7d5d5;
+    cursor: pointer;
+    transition: .5s ease-in-out;
+}
+
+.report-calendar .c-days-row .c-day:hover {
+    background-color: whitesmoke;
+}
+
+.report-calendar .c-days-row .c-day.selected {
+    background-color: whitesmoke;
+}
+
+.report-calendar .c-days-row .c-day.disable {
+    opacity: .2;
+}
+
+.report-calendar .c-days-row .c-day.disable:hover {
+    opacity: 1;
+}
+
+.report-calendar .c-days-row .c-day:hover img {
+    opacity: .6;
+}
+
+/*Tooltip text*/
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltip-text .item {
+    width: 100%;
+}
+
+.tooltip .tooltip-text {
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+    line-height: 1.5em;
+    visibility: hidden;
+    background-color: #5072e0;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -50%;
+    opacity: 0;
+    transition: .3s;
+    transform: translate3d(0px, 20px, 0px);
+    width: 100%;
+}
+
+/*.tooltip .tooltip-text::after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    top: 100%;*/
+/*    left: 50%;*/
+/*}*/
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+}

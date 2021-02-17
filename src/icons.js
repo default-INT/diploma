@@ -17,6 +17,9 @@ import leftArrowBlackIcon from './icon/left-arrow-black.svg'
 import leftArrowWhiteIcon from './icon/left-arrow-white.svg'
 import rightArrowBlackIcon from './icon/right-arrow-black.svg'
 import rightArrowWhiteIcon from './icon/right-arrow-white.svg'
+import doneBlueIcon from './icon/done-blue.svg'
+import questionOrangeIcon from './icon/question-orange.svg'
+import questionRedIcon from './icon/question-red.svg'
 
 import navBuilderWhiteIcon from './icon/nav/builder-white.svg'
 import navCalendarCircuitIcon from './icon/nav/calendar-circuit.svg'
@@ -30,7 +33,8 @@ export {
     addIcon, bellIcon, builderIcon, calendarIcon, deleteIcon, dollarIcon,
     editIcon, employeeIcon, palletIcon, palletWhiteIcon, palletMainIcon,
     popularityIcon, questionIcon, salaryIcon, questionWhiteIcon, leftArrowWhiteIcon,
-    leftArrowBlackIcon, rightArrowBlackIcon, rightArrowWhiteIcon,
+    leftArrowBlackIcon, rightArrowBlackIcon, rightArrowWhiteIcon, doneBlueIcon, questionOrangeIcon,
+    questionRedIcon,
 
     navBuilderWhiteIcon, navCalendarCircuitIcon, navCalendarCircuitWhiteIcon,
     navCalendarSolidWhiteIcon, navEmployeeWhiteIcon, navSuitcaseIcon, navSuitcaseWhiteIcon
