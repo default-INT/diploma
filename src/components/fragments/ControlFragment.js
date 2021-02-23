@@ -9,9 +9,9 @@ const Title = ({name, onClick}) => (
     </Fragment>
 )
 
-const ControlFragment = ({title, style, children, onClick}) => {
+const ControlFragment = ({title, children, onClick, ...otherProps}) => {
     return (
-        <SimpleFragment title={<Title name={title} onClick={onClick} />} style={{...style}}>
+        <SimpleFragment title={<Title name={title} onClick={onClick} />} {...otherProps}>
             {children}
         </SimpleFragment>
     )

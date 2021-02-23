@@ -44,7 +44,12 @@ const DateCell = ({date}) => {
     }
     return (
         <td className={`c-day tooltip ${date.disable && 'disable'}`}>
-            <Link to='/add-report'>
+            <Link to={{
+                pathname: '/add-report',
+                state: {
+                    date
+                }
+            }}>
                 {tooltip}
                 <div className="date">
                     {date.fullDate.getDate()}

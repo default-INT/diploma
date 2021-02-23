@@ -63,6 +63,7 @@ class ReportCalendar extends React.Component {
         dates[0][0] = {
             ...this.state.dates[0][0],
             report: {
+                id: 'some-report-id',
                 countEmployees: 20,
                 totalPallet: 10,
                 totalHours: 4

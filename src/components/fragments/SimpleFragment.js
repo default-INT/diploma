@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 
-const SimpleFragment = ({title = 'TITLE', style = {}, children}) => {
+const SimpleFragment = ({title = 'TITLE', children, ...otherProps}) => {
     return (
-        <div className="fragment medium-shadow" style={{...style}}>
+        <div className="fragment medium-shadow" {...otherProps}>
             <div className="title">
                 {title}
             </div>
@@ -20,4 +20,4 @@ SimpleFragment.propTypes = {
     children: PropTypes.node
 }
 
-export {SimpleFragment}
+export default SimpleFragment
