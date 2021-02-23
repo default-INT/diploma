@@ -1,17 +1,19 @@
 import React from "react";
-import {FragmentList, SimpleFragment} from "../fragments";
+
 import ReportCalendar from "../calendar/ReportCalendar";
+import {ContentTitle, MainContent, SimpleFragment} from "../index";
+import {FragmentList} from "../fragments";
 
 const ReportScreen = () => {
     return (
-        <div className="main-content">
-            <div className="content-title">Отчёты</div>
+        <MainContent>
+            <ContentTitle>Отчёты</ContentTitle>
             <FragmentList>
                 <SimpleFragment title='Календарь'>
                     <ReportCalendar/>
                 </SimpleFragment>
             </FragmentList>
-        </div>
+        </MainContent>
     )
 }
 

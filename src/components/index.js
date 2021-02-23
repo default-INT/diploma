@@ -1,7 +1,7 @@
 import { SimpleFragment, ControlFragment, FragmentList } from './fragments'
 import { WidgetList, Widget } from './widgets'
-import { CubeLoader, DefaultIconBtn } from "./utils";
-import { PositionScreen, MainScreen, EmployeeScreen, ReportScreen } from './screens'
+import { CubeLoader, DefaultIconBtn, ContentTitle, MainContent } from "./utils";
+import { PositionScreen, MainScreen, EmployeeScreen, ReportScreen, AddReportScreen } from './screens'
 import { ModalWindow, PositionModal, ConfirmModalWindow, EmployeeModal } from './modals'
 import { EditableTable, EmployeesTable } from './tables'
 import Header from "./Header";
@@ -9,8 +9,8 @@ import NavMenu from "./NavMenu";
 
 export {
     SimpleFragment, ControlFragment, FragmentList, WidgetList, Widget, CubeLoader,
-    MainScreen, EmployeeScreen, PositionScreen, ReportScreen,
+    MainScreen, EmployeeScreen, PositionScreen, ReportScreen, AddReportScreen,
     ModalWindow, ConfirmModalWindow, PositionModal, EmployeeModal,
-    EditableTable, EmployeesTable, DefaultIconBtn,
+    EditableTable, EmployeesTable, DefaultIconBtn, ContentTitle, MainContent,
     Header, NavMenu
 }

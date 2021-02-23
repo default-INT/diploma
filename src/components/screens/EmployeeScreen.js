@@ -1,8 +1,18 @@
 import React from "react";
-import {builderIcon} from '../../icons'
-import {ControlFragment, EmployeeModal, EmployeesTable, FragmentList, Widget, WidgetList} from "../";
-import {createEmployee} from "../../store/actions";
 import {connect} from "react-redux";
+
+import {builderIcon} from '../../icons'
+import {
+    ContentTitle,
+    ControlFragment,
+    EmployeeModal,
+    EmployeesTable,
+    FragmentList,
+    MainContent,
+    Widget,
+    WidgetList
+} from "../";
+import {createEmployee} from "../../store/actions";
 
 class EmployeeScreen extends React.Component {
     constructor(props) {
@@ -28,8 +38,8 @@ class EmployeeScreen extends React.Component {
 
     render() {
         return (
-            <div className="main-content">
-                <div className="content-title">Сотрудники</div>
+            <MainContent>
+                <ContentTitle>Сотрудники</ContentTitle>
                 <WidgetList style={{
                     justifyContent: 'left'
                 }}>
@@ -41,7 +51,7 @@ class EmployeeScreen extends React.Component {
                         <EmployeesTable />
                     </ControlFragment>
                 </FragmentList>
-            </div>
+            </MainContent>
         )
     }
 }

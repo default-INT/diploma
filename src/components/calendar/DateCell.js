@@ -1,5 +1,6 @@
 import React from "react";
 import {doneBlueIcon, questionOrangeIcon, questionRedIcon} from "../../icons";
+import {Link} from "react-router-dom";
 
 const eqDates = (date1, date2) => (
     date1.getFullYear() === date2.getFullYear() &&
@@ -43,14 +44,15 @@ const DateCell = ({date}) => {
     }
     return (
         <td className={`c-day tooltip ${date.disable && 'disable'}`}>
-            {tooltip
-            }
-            <div className="date">
-                {date.fullDate.getDate()}
-            </div>
-            <div className='img-box'>
-                <img src={icon} alt="" width={50}/>
-            </div>
+            <Link to='/add-report'>
+                {tooltip}
+                <div className="date">
+                    {date.fullDate.getDate()}
+                </div>
+                <div className='img-box'>
+                    <img src={icon} alt="" width={50}/>
+                </div>
+            </Link>
         </td>
     )
 }

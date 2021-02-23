@@ -3,10 +3,10 @@ import {connect} from "react-redux";
 import {createPosition, deletePosition, fetchPositions, updatePosition} from "../../store/actions";
 import { navSuitcaseIcon, popularityIcon, dollarIcon } from "../../icons"
 import {
-    ConfirmModalWindow,
+    ConfirmModalWindow, ContentTitle,
     ControlFragment,
     CubeLoader, EditableTable,
-    FragmentList,
+    FragmentList, MainContent,
     PositionModal,
     Widget,
     WidgetList
@@ -67,9 +67,9 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition,
     const header = ['Название тарифа', 'Заработок', 'Исчисление']
 
     return (
-        <div className="main-content">
+        <MainContent>
             {modalOpen ? positionModal : null}
-            <div className="content-title">Должности сотрудников</div>
+            <ContentTitle>Должности сотрудников</ContentTitle>
             <WidgetList>
                 <Widget title='КОЛИЧЕСТВО ПОЗИЦИЙ' value='5' color='#36b9cd' icon={navSuitcaseIcon} />
                 <Widget title='ПОПУЛЯРНАЯ ПОЗИЦИЯ' value='СБОЙЩИК "СОЛЬЗАВОД"' color='#f7c33c' icon={popularityIcon} />
@@ -88,7 +88,7 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition,
                     />}
                 </ControlFragment>
             </FragmentList>
-        </div>
+        </MainContent>
     )
 }
 
