@@ -10,10 +10,10 @@ const LastReportsScreen = props => {
     </View>
 }
 
-LastReportsScreen.navigationOptions = navData => {
+export const lastReportsOptions = navData => {
     return {
         headerTitle: 'Последние отчёты',
-        headerLeft: (
+        headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
                 <Item
                     title="Menu"
@@ -26,6 +26,8 @@ LastReportsScreen.navigationOptions = navData => {
         )
     }
 }
+
+
 const styles = StyleSheet.create({
 
 })

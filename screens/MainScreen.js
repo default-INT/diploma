@@ -32,10 +32,10 @@ const styles = StyleSheet.create({
     },
 });
 
-MainScreen.navigationOptions = navData => {
+export const mainScreenOptions = navData => {
     return {
         headerTitle: 'Pallet prod.',
-        headerLeft: (
+        headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
                 <Item
                     title="Menu"
@@ -48,5 +48,7 @@ MainScreen.navigationOptions = navData => {
         )
     }
 }
+
+
 
 export default MainScreen
