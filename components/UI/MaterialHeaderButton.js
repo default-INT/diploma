@@ -1,7 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { HeaderButton } from 'react-navigation-header-buttons';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import {HeaderButton} from 'react-navigation-header-buttons';
+import {MaterialIcons} from '@expo/vector-icons';
 
 import Colors from '../../constants/colors'
 

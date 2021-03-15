@@ -1,10 +1,10 @@
 import React from "react"
-import { createAppContainer } from "react-navigation"
-import { createStackNavigator } from "react-navigation-stack"
-import { createDrawerNavigator } from "react-navigation-drawer"
+import {createAppContainer} from "react-navigation"
+import {createStackNavigator} from "react-navigation-stack"
+import {createDrawerNavigator} from "react-navigation-drawer"
 
-import { MainScreen } from "../screens"
-import { LastReportsScreen, CalendarReportsScreen, AddReportScreen, AddEmployeeReportScreen } from "../screens/reports"
+import {MainScreen} from "../screens"
+import {LastReportsScreen} from "../screens/reports"
 import Colors from "../constants/colors"
 
 
