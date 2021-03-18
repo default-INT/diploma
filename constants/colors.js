@@ -3,7 +3,8 @@ const color = {
     orange: '#f7c33c',
     turquoise: '#36b9cd',
     green: '#1cc98a',
-    white: '#fff'
+    white: '#fff',
+    whitesmoke: '#f2f2f2'
 }
 
 export default color

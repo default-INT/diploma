@@ -1,4 +1,4 @@
-import { DataItem } from "../models"
+import { DataItem, Employee } from "../models"
 import Colors from "../constants/colors"
 import IconsUri from "../constants/icons"
 
@@ -21,3 +21,11 @@ export const COMPANY_DATA = {
     avgSalary: new DataItem('avgSalary', 'Средняя зарплата', '500р',
         IconsUri.employeeSalary, Colors.turquoise)
 }
+
+export const EMPLOYEES = [
+    new Employee('e1', 'Трофимов', 'Владимир', 'Степанович', 1971, null),
+    new Employee('e2', 'Солодков', 'Михаил', 'Анатольевич', 1999, null),
+    new Employee('e3', 'Семёнов', 'Данил', 'Сергеевич', 2002, null),
+    new Employee('e4', 'Липский', 'Данил', 'Юрьевич', 2000, null),
+    new Employee('e5', 'Пискун', 'Егор', 'Александрович', 1998, null)
+]

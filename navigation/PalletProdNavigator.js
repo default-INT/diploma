@@ -7,7 +7,9 @@ import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {MainScreen} from "../screens"
 import {mainScreenOptions} from "../screens/options"
 import {lastReportsOptions} from "../screens/reports/options"
-import {LastReportsScreen} from "../screens/reports"
+import {employeesOptions} from "../screens/employees/options"
+import {AddEmployeeReportScreen, AddReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports"
+import {EmployeesScreen} from "../screens/employees"
 import Colors from "../constants/colors"
 
 const defaultStackNavOptions = {
@@ -62,7 +64,33 @@ export const ReportNavigator = () => {
                 component={LastReportsScreen}
                 options={lastReportsOptions}
             />
+            <ReportStackNavigator.Screen
+                name="CalendarReports"
+                component={CalendarReportsScreen}
+            />
+            <ReportStackNavigator.Screen
+                name="AddReport"
+                component={AddReportScreen}
+            />
+            <ReportStackNavigator.Screen
+                name="AddEmployeeReport"
+                component={AddEmployeeReportScreen}
+            />
         </ReportStackNavigator.Navigator>
+    )
+}
+
+const EmployeesStackNavigator = createStackNavigator()
+
+export const EmployeeNavigator = () => {
+    return (
+        <EmployeesStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
+            <EmployeesStackNavigator.Screen
+                name="Employees"
+                component={EmployeesScreen}
+                options={employeesOptions}
+            />
+        </EmployeesStackNavigator.Navigator>
     )
 }
 
@@ -113,6 +141,21 @@ export const PalletProdNavigator = () => {
                     drawerIcon: props => (
                         <Ionicons
                             name="md-calendar"
+                            size={23}
+                            color={props.color}
+                        />
+                    )
+                }}
+            />
+
+            <PalletProdDrawerNavigator.Screen
+                name="Employees"
+                component={EmployeeNavigator}
+                options={{
+                    drawerLabel: 'Сотрудники',
+                    drawerIcon: props => (
+                        <MaterialIcons
+                            name="person"
                             size={23}
                             color={props.color}
                         />

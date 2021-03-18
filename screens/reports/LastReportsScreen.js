@@ -1,8 +1,7 @@
 import React from "react"
 import {StyleSheet, Text, View} from "react-native"
 
-import {HeaderButtons, Item} from "react-navigation-header-buttons";
-import {MaterialHeaderButton} from "../../components/UI";
+import {HeaderToggleButton} from "../default-options"
 
 const LastReportsScreen = props => {
     return <View>
@@ -14,15 +13,7 @@ export const lastReportsOptions = navData => {
     return {
         headerTitle: 'Последние отчёты',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-                <Item
-                    title="Menu"
-                    iconName="menu"
-                    onPress={() => {
-                        navData.navigation.toggleDrawer();
-                    }}
-                />
-            </HeaderButtons>
+            <HeaderToggleButton navData={navData} />
         )
     }
 }
