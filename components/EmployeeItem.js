@@ -1,18 +1,21 @@
 import React from "react";
-import {View, Text, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform} from "react-native";
+import {Platform, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View} from "react-native";
 
 import Card from "./Card"
 import Colors from "../constants/colors"
+
 
 const EmployeeItem = ({employee, ...props}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
     return (
         <Card style={styles.card} >
             <View style={styles.touchable}>
-                <TouchableComponent useForeground>
+                <TouchableComponent onPress={props.onSelect} useForeground>
                     <View style={styles.employeeContainer}>
-                        <View style={styles.title}>
-                            <Text style={styles.titleText}>{employee.fullName}</Text>
+                        <View>
+                            <View style={styles.title}>
+                                <Text style={styles.titleText}>{employee.fullName}</Text>
+                            </View>
                         </View>
                         <View style={styles.info}>
                             <Text>Год рождения: {employee.birthdayYear} г.</Text>
@@ -23,6 +26,7 @@ const EmployeeItem = ({employee, ...props}) => {
         </Card>
     )
 }
+
 
 const styles = StyleSheet.create({
     touchable: {

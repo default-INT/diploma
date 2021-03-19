@@ -1,5 +1,7 @@
 import {employeesOptions} from "./EmployeesScreen"
+import {employeeDetailsOptions} from "./EmployeeDetailsScreen"
+import {editEmployeeOptions} from "./EditEmployeeScreen"
 
 export {
-    employeesOptions
+    employeesOptions, employeeDetailsOptions, editEmployeeOptions
 }

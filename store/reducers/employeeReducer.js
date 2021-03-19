@@ -16,8 +16,8 @@ const handlers = {
     }),
     [EMPLOYEE_TYPES.UPDATE_EMPLOYEE]: (state, {payload}) => {
         const employeeIdx = state.employees.findIndex(employee => employee.id === payload.id);
-        const updatedEmployees = [...state.employees]
-        updatedEmployees[employeeIdx] = payload
+        const updatedEmployees = [...state.employees];
+        updatedEmployees[employeeIdx] = payload;
         return {
             ...state,
             employees: updatedEmployees
@@ -31,6 +31,7 @@ const handlers = {
 }
 
 export const employeeReducer = (state = initialState, action) => {
+
     const handle = handlers[action.type] || handlers.DEFAULT
     return handle(state, action)
 }

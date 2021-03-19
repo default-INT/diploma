@@ -4,7 +4,8 @@ const color = {
     turquoise: '#36b9cd',
     green: '#1cc98a',
     white: '#fff',
-    whitesmoke: '#f2f2f2'
+    whitesmoke: '#f2f2f2',
+    red: '#f00',
 }
 
 export default color

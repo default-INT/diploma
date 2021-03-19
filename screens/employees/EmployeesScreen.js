@@ -4,13 +4,27 @@ import {useSelector} from "react-redux"
 
 import {HeaderToggleButton} from "../default-options";
 import {EmployeeItem} from "../../components"
+import {MaterialHeaderButton} from "../../components/UI";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
 
 const EmployeesScreen = props => {
     const employees = useSelector(state => state.employees.employees)
+    const {navigation} = props
+    const selectItemHandler = (id, fullName) => {
+        navigation.navigate('EmployeeDetails', {
+            employeeId: id,
+            employeeFullName: fullName
+        });
+    };
     return (
         <FlatList
             data={employees}
-            renderItem={itemData => (<EmployeeItem employee={itemData.item}/>)}
+            renderItem={itemData => (
+                <EmployeeItem
+                    employee={itemData.item}
+                    onSelect={selectItemHandler.bind(this, itemData.item.id, itemData.item.fullName)}
+                />
+            )}
         />
     )
 }
@@ -20,6 +34,17 @@ export const employeesOptions = navData => {
         headerTitle: 'Сотрудники',
         headerLeft: () => (
             <HeaderToggleButton navData={navData} />
+        ),
+        headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+                <Item
+                    title="Add employee"
+                    iconName="add-circle-outline"
+                    onPress={() => {
+                        navData.navigation.navigate('EditEmployee', {})
+                    }}
+                />
+            </HeaderButtons>
         )
     }
 }

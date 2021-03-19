@@ -6,20 +6,21 @@ import {employeeReducer} from "../reducers/employeeReducer";
 
 export const fetchEmployees = () => {
     return {
-        action: EMPLOYEE_TYPES.FETCH_ALL,
+        type: EMPLOYEE_TYPES.FETCH_ALL,
         payload: EMPLOYEES
     }
 }
 
 export const addEmployees = employee => {
     return {
-        action: EMPLOYEE_TYPES.ADD_EMPLOYEE,
+        type: EMPLOYEE_TYPES.ADD_EMPLOYEE,
         payload: new Employee(
             new Date().toISOString(),
             employee.lastName,
             employee.firstName,
             employee.secondName,
             employee.birthdayYear,
+            employee.phoneNumber,
             null
         )
     }
@@ -27,14 +28,22 @@ export const addEmployees = employee => {
 
 export const deleteEmployee = employeeId => {
     return {
-        action: EMPLOYEE_TYPES.DELETE_EMPLOYEE,
+        type: EMPLOYEE_TYPES.DELETE_EMPLOYEE,
         payload: employeeId
     }
 }
 
 export const updateEmployee = employee => {
     return {
-        action: EMPLOYEE_TYPES.UPDATE_EMPLOYEE,
-        payload: employee
+        type: EMPLOYEE_TYPES.UPDATE_EMPLOYEE,
+        payload: new Employee(
+            employee.id,
+            employee.lastName,
+            employee.firstName,
+            employee.secondName,
+            employee.birthdayYear,
+            employee.phoneNumber,
+            null
+        )
     }
 }

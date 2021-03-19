@@ -7,9 +7,9 @@ import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {MainScreen} from "../screens"
 import {mainScreenOptions} from "../screens/options"
 import {lastReportsOptions} from "../screens/reports/options"
-import {employeesOptions} from "../screens/employees/options"
+import {employeesOptions, employeeDetailsOptions, editEmployeeOptions} from "../screens/employees/options"
 import {AddEmployeeReportScreen, AddReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports"
-import {EmployeesScreen} from "../screens/employees"
+import {EmployeesScreen, EmployeeDetailsScreen, EditEmployeeScreen} from "../screens/employees"
 import Colors from "../constants/colors"
 
 const defaultStackNavOptions = {
@@ -89,6 +89,16 @@ export const EmployeeNavigator = () => {
                 name="Employees"
                 component={EmployeesScreen}
                 options={employeesOptions}
+            />
+            <EmployeesStackNavigator.Screen
+                name="EmployeeDetails"
+                component={EmployeeDetailsScreen}
+                options={employeeDetailsOptions}
+            />
+            <EmployeesStackNavigator.Screen
+                name="EditEmployee"
+                component={EditEmployeeScreen}
+                options={editEmployeeOptions}
             />
         </EmployeesStackNavigator.Navigator>
     )
