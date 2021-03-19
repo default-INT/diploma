@@ -1,10 +1,11 @@
 import React, {useEffect} from "react";
-import {View, Text, StyleSheet, Button} from "react-native"
-import {useSelector} from "react-redux"
+import {View, Text, StyleSheet, Button, Alert, ActivityIndicator} from "react-native";
+import {useSelector, useDispatch} from "react-redux";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
 
 import {Card} from "../../components"
-import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {MaterialHeaderButton} from "../../components/UI";
+import {employeeActions} from "../../store/actions"
 import Colors from "../../constants/colors"
 
 const Field = ({title, value}) => {
@@ -19,12 +20,35 @@ const Field = ({title, value}) => {
 const EmployeeDetailsScreen = props => {
     const employeeId = props.route.params.employeeId
     const employee = useSelector(state => state.employees.employees.find(employee => employee.id === employeeId))
+    const dispatch = useDispatch();
 
     useEffect(() => {
         props.navigation.setOptions({
-            headerTitle: employee.fullName
-        })
-    }, [employee])
+            headerTitle: employee ? employee.fullName : 'Удаление...'
+        });
+    }, [employee]);
+
+    const deleteHandler = () => {
+        Alert.alert('Удаление?', 'Вы действительно хотите уволить сотрудника?', [
+            { text: 'Нет', style: 'default' },
+            {
+                text: 'Да',
+                style: 'destructive',
+                onPress: () => {
+                    dispatch(employeeActions.deleteEmployee(employeeId));
+                    props.navigation.goBack();
+                }
+            }
+        ]);
+    }
+
+    if (!employee) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color={Colors.primary} />
+            </View>
+        );
+    }
 
     return (
         <Card style={styles.screen}>
@@ -37,7 +61,7 @@ const EmployeeDetailsScreen = props => {
                     <Field title={'Номер телефона:'} value={employee.phoneNumber}/>
                 </View>
                 <View style={styles.btnContainer}>
-                    <Button color={Colors.red} title="Уволить" />
+                    <Button color={Colors.red} title="Уволить" onPress={deleteHandler.bind(this)} />
                 </View>
             </View>
         </Card>
@@ -45,14 +69,12 @@ const EmployeeDetailsScreen = props => {
 }
 
 export const employeeDetailsOptions = navData => {
-    const employeeFullName = navData.route.params.employeeFullName;
     const employeeId = navData.route.params.employeeId;
     return {
-        headerTitle: employeeFullName,
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
                 <Item
-                    title="Edit employee"
+                    title="Edit"
                     iconName="edit"
                     onPress={() => {
                         navData.navigation.navigate('EditEmployee', {
@@ -85,6 +107,11 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         paddingHorizontal: 40
+    },
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 
