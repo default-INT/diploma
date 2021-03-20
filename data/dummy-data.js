@@ -1,4 +1,4 @@
-import { DataItem, Employee, Position } from "../models"
+import { DataItem, Employee, Position, Report, WorkItem, DayStat } from "../models"
 import Colors from "../constants/colors"
 import IconsUri from "../constants/icons"
 
@@ -44,4 +44,25 @@ export const POSITIONS = [
     new Position('pos6', 'Рабочий (стандартный тариф)', 3, 'р/час', false, false),
     new Position('pos7', 'Пилорамщик (подсобник)', 5, 'р/куб.м', false, false),
     new Position('pos8', 'Пилорамщик', 8, 'р/куб.м', false, false),
+]
+
+export const REPORTS = [
+    new Report('r1', new Date(2021, 3, 19), [
+        new WorkItem('wr11', EMPLOYEES[0], POSITIONS[0], 100, 60),
+        new WorkItem('wr12', EMPLOYEES[1], POSITIONS[0], 100, 60),
+        new WorkItem('wr13', EMPLOYEES[2], POSITIONS[4], 8, 20),
+        new WorkItem('wr13', EMPLOYEES[3], POSITIONS[4], 8, 20),
+    ], [
+        new DayStat('stat11', POSITIONS[0], 200, 120),
+        new DayStat('stat12', POSITIONS[4], 16, 40)
+    ], 160),
+    new Report('r2', new Date(2021, 3, 18), [
+        new WorkItem('wr21', EMPLOYEES[3], POSITIONS[0], 110, 66),
+        new WorkItem('wr22', EMPLOYEES[2], POSITIONS[0], 100, 60),
+        new WorkItem('wr23', EMPLOYEES[1], POSITIONS[4], 8, 20),
+        new WorkItem('wr23', EMPLOYEES[0], POSITIONS[4], 8, 20),
+    ], [
+        new DayStat('stat21', POSITIONS[0], 200, 126),
+        new DayStat('stat22', POSITIONS[4], 16, 40)
+    ], 166),
 ]
