@@ -29,7 +29,7 @@ const EmployeeDetailsScreen = props => {
     }, [employee]);
 
     const deleteHandler = () => {
-        Alert.alert('Удаление?', 'Вы действительно хотите уволить сотрудника?', [
+        Alert.alert('Увольнение', 'Вы действительно хотите уволить сотрудника?', [
             { text: 'Нет', style: 'default' },
             {
                 text: 'Да',

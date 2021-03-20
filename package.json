@@ -29,8 +29,7 @@
     "yarn": "^1.22.10"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0",
-    "redux-devtools-extension": "^2.13.9"
+    "@babel/core": "~7.9.0"
   },
   "private": true
 }

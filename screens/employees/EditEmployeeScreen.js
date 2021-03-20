@@ -1,37 +1,14 @@
-import React, {useCallback, useReducer, useState, useEffect, useLayoutEffect} from "react";
-import {View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView, ScrollView, Alert} from "react-native";
-import {HeaderButtons, Item} from "react-navigation-header-buttons";
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useReducer, useState } from "react";
+import { Alert, KeyboardAvoidingView, ScrollView, StyleSheet, View } from "react-native";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { useDispatch, useSelector } from 'react-redux';
 
-import {Input} from "../../components"
-import {employeeActions} from "../../store/actions"
-import {MaterialHeaderButton} from "../../components/UI";
+import { Input } from "../../components";
+import { MaterialHeaderButton } from "../../components/UI";
+import { employeeActions } from "../../store/actions";
+import { formReducer } from "../../store/reducers";
+import { FORM_INPUT_UPDATE } from "../../constants/types";
 import Colors from "../../constants/colors";
-
-const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
-
-const formReducer = (state, action) => {
-    if (action.type === FORM_INPUT_UPDATE) {
-        const updatedValues = {
-            ...state.inputValues,
-            [action.input]: action.value
-        };
-        const updatedValidities = {
-            ...state.inputValidities,
-            [action.input]: action.isValid
-        };
-        let updatedFormIsValid = true;
-        for (const key in updatedValidities) {
-            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-        }
-        return {
-            formIsValid: updatedFormIsValid,
-            inputValidities: updatedValidities,
-            inputValues: updatedValues
-        };
-    }
-    return state;
-};
 
 const EditEmployeeScreen = props => {
     const [error, setError] = useState();
@@ -97,7 +74,7 @@ const EditEmployeeScreen = props => {
 
     useEffect(() => {
         props.navigation.setOptions({
-            headerTitle: employeeActions ? 'Редактирование' : 'Добавление',
+            headerTitle: editedEmployee ? 'Редактирование' : 'Добавление',
             headerRight: () => <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
                 <Item
                     title="Save"
@@ -106,7 +83,7 @@ const EditEmployeeScreen = props => {
                 />
             </HeaderButtons>
         })
-    }, [submitHandler])
+    }, [submitHandler]);
 
     const inputChangeHandler = useCallback(
         (inputIdentifier, inputValue, inputValidity) => {

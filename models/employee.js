@@ -1,4 +1,14 @@
 export default class Employee {
+    /**
+     *
+     * @param id {string}
+     * @param lastName {string}
+     * @param firstName {string}
+     * @param secondName {string}
+     * @param birthdayYear {number}
+     * @param phoneNumber {string}
+     * @param userId {string}
+     */
     constructor(id, lastName, firstName, secondName, birthdayYear, phoneNumber, userId) {
         this.id = id;
         this.lastName = lastName;

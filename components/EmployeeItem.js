@@ -12,10 +12,8 @@ const EmployeeItem = ({employee, ...props}) => {
             <View style={styles.touchable}>
                 <TouchableComponent onPress={props.onSelect} useForeground>
                     <View style={styles.employeeContainer}>
-                        <View>
-                            <View style={styles.title}>
-                                <Text style={styles.titleText}>{employee.fullName}</Text>
-                            </View>
+                        <View style={styles.title}>
+                            <Text style={styles.titleText}>{employee.fullName}</Text>
                         </View>
                         <View style={styles.info}>
                             <Text>Год рождения: {employee.birthdayYear} г.</Text>

@@ -1,4 +1,4 @@
-import { DataItem, Employee } from "../models"
+import { DataItem, Employee, Position } from "../models"
 import Colors from "../constants/colors"
 import IconsUri from "../constants/icons"
 
@@ -33,4 +33,15 @@ export const EMPLOYEES = [
         2000, '+375 (29) 817-47-53',null),
     new Employee('e5', 'Пискун', 'Егор', 'Александрович',
         1998,'+375 (29) 817-47-53', null)
+]
+
+export const POSITIONS = [
+    new Position('pos1', 'Поддоны "ХОЙНИКИ"', 0.6, 'р/шт', true, true),
+    new Position('pos2', 'Поддоны "СОЛЬЗАВОД"', 0.6, 'р/шт', true, true),
+    new Position('pos3', 'Поддоны "НПЗ"', 0.6, 'р/шт', true, true),
+    new Position('pos4', 'Поддоны "БМЗ"', 0.6, 'р/шт', true, true),
+    new Position('pos5', 'Подсобный рабочий', 2.5, 'р/час', false, false),
+    new Position('pos6', 'Рабочий (стандартный тариф)', 3, 'р/час', false, false),
+    new Position('pos7', 'Пилорамщик (подсобник)', 5, 'р/куб.м', false, false),
+    new Position('pos8', 'Пилорамщик', 8, 'р/куб.м', false, false),
 ]

@@ -1,16 +1,18 @@
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
-import {Image, SafeAreaView, StyleSheet, View} from "react-native"
-import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer"
+import {Image, SafeAreaView, StyleSheet, View} from "react-native";
+import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 
-import {MainScreen} from "../screens"
-import {mainScreenOptions} from "../screens/options"
-import {lastReportsOptions} from "../screens/reports/options"
-import {employeesOptions, employeeDetailsOptions, editEmployeeOptions} from "../screens/employees/options"
-import {AddEmployeeReportScreen, AddReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports"
-import {EmployeesScreen, EmployeeDetailsScreen, EditEmployeeScreen} from "../screens/employees"
-import Colors from "../constants/colors"
+import {MainScreen} from "../screens";
+import {mainScreenOptions} from "../screens/options";
+import {lastReportsOptions} from "../screens/reports/options";
+import {employeesOptions, employeeDetailsOptions, editEmployeeOptions} from "../screens/employees/options";
+import {positionScreenOptions} from "../screens/positions/options";
+import {AddEmployeeReportScreen, AddReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
+import {EmployeesScreen, EmployeeDetailsScreen, EditEmployeeScreen} from "../screens/employees";
+import {PositionsScreen, EditPositionScreen} from "../screens/positions";
+import Colors from "../constants/colors";
 
 const defaultStackNavOptions = {
     headerStyle: {
@@ -104,6 +106,25 @@ export const EmployeeNavigator = () => {
     )
 }
 
+
+const PositionStackNavigator = createStackNavigator()
+
+export const PositionNavigator = () => {
+    return (
+        <PositionStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
+            <PositionStackNavigator.Screen
+                name="Positions"
+                component={PositionsScreen}
+                options={positionScreenOptions}
+            />
+            <PositionStackNavigator.Screen
+                name="EditPosition"
+                component={EditPositionScreen}
+            />
+        </PositionStackNavigator.Navigator>
+    )
+}
+
 const PalletProdDrawerNavigator = createDrawerNavigator();
 
 export const PalletProdNavigator = () => {
@@ -166,6 +187,21 @@ export const PalletProdNavigator = () => {
                     drawerIcon: props => (
                         <MaterialIcons
                             name="person"
+                            size={23}
+                            color={props.color}
+                        />
+                    )
+                }}
+            />
+
+            <PalletProdDrawerNavigator.Screen
+                name="Positions"
+                component={PositionNavigator}
+                options={{
+                    drawerLabel: 'Тарифы',
+                    drawerIcon: props => (
+                        <MaterialIcons
+                            name="work"
                             size={23}
                             color={props.color}
                         />
