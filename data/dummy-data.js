@@ -47,22 +47,26 @@ export const POSITIONS = [
 ]
 
 export const REPORTS = [
-    new Report('r1', new Date(2021, 3, 19), [
+    new Report('r1', new Date(2021, 2, 19), [
         new WorkItem('wr11', EMPLOYEES[0], POSITIONS[0], 100, 60),
         new WorkItem('wr12', EMPLOYEES[1], POSITIONS[0], 100, 60),
         new WorkItem('wr13', EMPLOYEES[2], POSITIONS[4], 8, 20),
         new WorkItem('wr13', EMPLOYEES[3], POSITIONS[4], 8, 20),
+        new WorkItem('wr14', EMPLOYEES[4], POSITIONS[1], 120, 72),
     ], [
         new DayStat('stat11', POSITIONS[0], 200, 120),
-        new DayStat('stat12', POSITIONS[4], 16, 40)
+        new DayStat('stat12', POSITIONS[4], 16, 40),
+        new DayStat('stat13', POSITIONS[1], 120, 72)
     ], 160),
-    new Report('r2', new Date(2021, 3, 18), [
+    new Report('r2', new Date(2021, 2, 18), [
         new WorkItem('wr21', EMPLOYEES[3], POSITIONS[0], 110, 66),
         new WorkItem('wr22', EMPLOYEES[2], POSITIONS[0], 100, 60),
         new WorkItem('wr23', EMPLOYEES[1], POSITIONS[4], 8, 20),
         new WorkItem('wr23', EMPLOYEES[0], POSITIONS[4], 8, 20),
+        new WorkItem('wr14', EMPLOYEES[4], POSITIONS[2], 100, 60),
     ], [
         new DayStat('stat21', POSITIONS[0], 200, 126),
-        new DayStat('stat22', POSITIONS[4], 16, 40)
+        new DayStat('stat22', POSITIONS[4], 16, 40),
+        new DayStat('stat23', POSITIONS[2], 100, 60)
     ], 166),
 ]

@@ -1,11 +1,11 @@
-import AddReportScreen from "./AddReportScreen";
-import AddEmployeeReportScreen from "./AddEmployeeReportScreen";
+import EditReportScreen from "./EditReportScreen";
+import EditEmployeeReportScreen from "./EditEmployeeReportScreen";
 import CalendarReportsScreen from "./CalendarReportsScreen";
 import LastReportsScreen from "./LastReportsScreen";
 
 export {
-    AddEmployeeReportScreen,
-    AddReportScreen,
+    EditEmployeeReportScreen,
+    EditReportScreen,
     CalendarReportsScreen,
     LastReportsScreen
 }

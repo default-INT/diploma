@@ -1,7 +1,8 @@
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
-import {Image, SafeAreaView, StyleSheet, View} from "react-native";
+import {Image, SafeAreaView, StyleSheet, View, Text} from "react-native";
 import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 
 import {MainScreen} from "../screens";
@@ -9,7 +10,7 @@ import {mainScreenOptions} from "../screens/options";
 import {lastReportsOptions} from "../screens/reports/options";
 import {employeesOptions, employeeDetailsOptions, editEmployeeOptions} from "../screens/employees/options";
 import {positionScreenOptions} from "../screens/positions/options";
-import {AddEmployeeReportScreen, AddReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
+import {EditEmployeeReportScreen, EditReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
 import {EmployeesScreen, EmployeeDetailsScreen, EditEmployeeScreen} from "../screens/employees";
 import {PositionsScreen, EditPositionScreen} from "../screens/positions";
 import Colors from "../constants/colors";
@@ -56,9 +57,10 @@ export const MainNavigator = () => {
     )
 }
 
+
 const ReportStackNavigator = createStackNavigator();
 
-export const ReportNavigator = () => {
+export const LastReportNavigator = () => {
     return (
         <ReportStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
             <ReportStackNavigator.Screen
@@ -67,18 +69,74 @@ export const ReportNavigator = () => {
                 options={lastReportsOptions}
             />
             <ReportStackNavigator.Screen
-                name="CalendarReports"
-                component={CalendarReportsScreen}
+                name="EditReport"
+                component={EditReportScreen}
             />
             <ReportStackNavigator.Screen
-                name="AddReport"
-                component={AddReportScreen}
-            />
-            <ReportStackNavigator.Screen
-                name="AddEmployeeReport"
-                component={AddEmployeeReportScreen}
+                name="EditEmployeeReport"
+                component={EditEmployeeReportScreen}
             />
         </ReportStackNavigator.Navigator>
+    )
+}
+
+const CalendarStackNavigator = createStackNavigator();
+
+export const CalendarReportNavigator = () => {
+    return (
+        <CalendarStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
+            <CalendarStackNavigator.Screen
+                name="CalendarReports"
+                component={CalendarReportsScreen}
+                options={lastReportsOptions}
+            />
+            <CalendarStackNavigator.Screen
+                name="EditReport"
+                component={EditReportScreen}
+            />
+            <CalendarStackNavigator.Screen
+                name="EditEmployeeReport"
+                component={EditEmployeeReportScreen}
+            />
+        </CalendarStackNavigator.Navigator>
+    )
+}
+
+//TODO: for IOS other API
+const ReportTabNavigator = createMaterialBottomTabNavigator();
+
+export const ReportNavigator = () => {
+    return (
+        <ReportTabNavigator.Navigator
+            activeColor={Colors.white}
+            activeTintColor='white'
+            shifting={true}
+            inactiveColor={Colors.gray}
+            barStyle={{ backgroundColor: Colors.primary }}
+        >
+            <ReportTabNavigator.Screen
+                name="LastReportsScreen"
+                component={LastReportNavigator}
+                options={{
+                    tabBarIcon: tabInfo => {
+                        return <MaterialIcons name="view-list" size={25} color={Colors.white} />;
+                    },
+                    tabBarColor: Colors.primary,
+                    tabBarLabel: 'Последние отчеты'
+                }}
+            />
+            <ReportTabNavigator.Screen
+                name="CalendarReportsScreen"
+                component={CalendarReportNavigator}
+                options={{
+                    tabBarIcon: tabInfo => {
+                        return <Ionicons name="md-calendar" size={25} color={Colors.white} />;
+                    },
+                    tabBarColor: Colors.turquoise,
+                    tabBarLabel: 'Календарь'
+                }}
+            />
+        </ReportTabNavigator.Navigator>
     )
 }
 

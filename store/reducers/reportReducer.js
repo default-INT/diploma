@@ -56,7 +56,7 @@ const handlers = {
     DEFAULT: state => state
 }
 
-export const storageReducer = (state = initialState, action) => {
+export const reportReducer = (state = initialState, action) => {
     const handle = handlers[action.type] || handlers.DEFAULT
     return handle(state, action)
 }
