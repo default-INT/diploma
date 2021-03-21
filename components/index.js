@@ -4,11 +4,12 @@ import WidgetList from "./WidgetList";
 import EmployeeItem from "./EmployeeItem";
 import Card from "./Card";
 import Input from "./Input";
+import Calendar from "./Calendar";
 import PositionItem from "./palletprod/PositionItem";
 import ReportItem from "./palletprod/ReportItem";
 
 
 export {
-    Header, Widget, WidgetList, EmployeeItem, Card, Input,
+    Header, Widget, WidgetList, EmployeeItem, Card, Input, Calendar,
     PositionItem, ReportItem
 }

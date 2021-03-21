@@ -7,7 +7,7 @@ import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 
 import {MainScreen} from "../screens";
 import {mainScreenOptions} from "../screens/options";
-import {lastReportsOptions} from "../screens/reports/options";
+import {lastReportsOptions, calendarOptions} from "../screens/reports/options";
 import {employeesOptions, employeeDetailsOptions, editEmployeeOptions} from "../screens/employees/options";
 import {positionScreenOptions} from "../screens/positions/options";
 import {EditEmployeeReportScreen, EditReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
@@ -88,7 +88,7 @@ export const CalendarReportNavigator = () => {
             <CalendarStackNavigator.Screen
                 name="CalendarReports"
                 component={CalendarReportsScreen}
-                options={lastReportsOptions}
+                options={calendarOptions}
             />
             <CalendarStackNavigator.Screen
                 name="EditReport"

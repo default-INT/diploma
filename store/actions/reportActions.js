@@ -1,6 +1,13 @@
 import {REPORTS_TYPES} from "../../constants/types";
+import {REPORTS} from "../../data/dummy-data";
 import {Report} from "../../models";
 
+export const fetchMonthlyReports = month => {
+    return {
+        type: REPORTS_TYPES.FETCH_MONTHLY_REPORTS,
+        payload: REPORTS.filter(report => report.date.getMonth() === month)
+    }
+}
 
 export const addReport = report => {
     return {

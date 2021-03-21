@@ -1,3 +1,4 @@
-import { lastReportsOptions } from "./LastReportsScreen"
+import { lastReportsOptions } from "./LastReportsScreen";
+import { calendarOptions } from "./CalendarReportsScreen";
 
-export { lastReportsOptions }
+export { lastReportsOptions, calendarOptions }
