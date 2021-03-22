@@ -59,22 +59,23 @@ const handlers = {
         ...state,
         selectedReport: payload
     }),
-    [REPORTS_TYPES.ADD_WORK_ITEM_REPORT]: (state, {payload}) => {
+    [REPORTS_TYPES.ADD_EMPLOYEE_ITEM_REPORT]: (state, {payload}) => {
         const updateSelectedReport = {...state.selectedReport};
-        updateSelectedReport.workItems.push(payload);
-        const updatedDayStatIdx = updateSelectedReport.dayStats.filter(dayStat => dayStat.position.id === payload.position.id);
-        if (updatedDayStatIdx) {
-            updateSelectedReport.dayStats[updatedDayStatIdx].totalNum += payload.itemNum;
-            updateSelectedReport.dayStats[updatedDayStatIdx].totalSalary += payload.position.itemTariff * payload.itemNum;
-        } else {
-            const dayStat = new DayStat(
-                new Date().toISOString(),
-                payload.position,
-                payload.itemNum,
-                payload.position.itemTariff * payload.itemNum
-            );
-            updateSelectedReport.dayStats.push(dayStat);
-        }
+        updateSelectedReport.employeeItems.push(payload);
+        payload.workItems.forEach(workItem => {
+            const updatedDayStatIdx = updateSelectedReport.dayStats.findIndex(dayStat => dayStat.position.id === workItem.position.id);
+            if (updatedDayStatIdx) {
+                updateSelectedReport.dayStats[updatedDayStatIdx].totalNum += workItem.itemNum;
+                updateSelectedReport.dayStats[updatedDayStatIdx].totalSalary += workItem.itemNum * workItem.position.itemTariff;
+            } else {
+                updateSelectedReport.dayStats.push(new DayStat(
+                    new Date().toISOString(),
+                    workItem.position,
+                    workItem.itemNum,
+                    workItem.salary
+                ));
+            }
+        });
         return {
             ...state,
             selectedReport: updateSelectedReport

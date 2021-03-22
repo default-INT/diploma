@@ -1,4 +1,4 @@
-import { DataItem, Employee, Position, Report, WorkItem, DayStat } from "../models"
+import { DataItem, Employee, Position, Report, WorkItem, DayStat, EmployeeItem } from "../models";
 import Colors from "../constants/colors"
 import IconsUri from "../constants/icons"
 
@@ -47,23 +47,46 @@ export const POSITIONS = [
 ]
 
 export const REPORTS = [
+
     new Report('r1', new Date(2021, 2, 19), [
-        new WorkItem('wr11', EMPLOYEES[0], POSITIONS[0], 100, 60),
-        new WorkItem('wr12', EMPLOYEES[1], POSITIONS[0], 100, 60),
-        new WorkItem('wr13', EMPLOYEES[2], POSITIONS[4], 8, 20),
-        new WorkItem('wr14', EMPLOYEES[3], POSITIONS[4], 8, 20),
-        new WorkItem('wr15', EMPLOYEES[4], POSITIONS[1], 120, 72),
+        new EmployeeItem('ewr11', EMPLOYEES[0], [
+            new WorkItem('w111',  POSITIONS[0], 100, 60),
+        ], 60),
+        new EmployeeItem('ewr12', EMPLOYEES[1],[
+            new WorkItem('w121',  POSITIONS[0], 100, 60),
+            new WorkItem('w122',  POSITIONS[1], 110, 66),
+        ], 126),
+        new EmployeeItem('ewr13', EMPLOYEES[2], [
+            new WorkItem('w131', POSITIONS[4], 8, 20)
+        ], 20),
+        new EmployeeItem('ewr14', EMPLOYEES[3], [
+            new WorkItem('w141', POSITIONS[4], 8, 20)
+        ], 20),
+        new EmployeeItem('ewr15', EMPLOYEES[4], [
+            new WorkItem('w151', POSITIONS[1], 120, 72)
+        ], 72),
     ], [
         new DayStat('stat11', POSITIONS[0], 200, 120),
         new DayStat('stat12', POSITIONS[4], 16, 40),
-        new DayStat('stat13', POSITIONS[1], 120, 72)
+        new DayStat('stat13', POSITIONS[1], 230, 138)
     ], 160),
+
     new Report('r2', new Date(2021, 2, 18), [
-        new WorkItem('wr21', EMPLOYEES[3], POSITIONS[0], 110, 66),
-        new WorkItem('wr22', EMPLOYEES[2], POSITIONS[0], 100, 60),
-        new WorkItem('wr23', EMPLOYEES[1], POSITIONS[4], 8, 20),
-        new WorkItem('wr24', EMPLOYEES[0], POSITIONS[4], 8, 20),
-        new WorkItem('wr25', EMPLOYEES[4], POSITIONS[2], 100, 60),
+        new EmployeeItem('ewr21', EMPLOYEES[3], [
+            new WorkItem('w211', POSITIONS[0], 110, 66)
+        ], 66),
+        new EmployeeItem('ewr22', EMPLOYEES[2], [
+            new WorkItem('w221', POSITIONS[0], 100, 60)
+        ], 60),
+        new EmployeeItem('ewr23', EMPLOYEES[1], [
+            new WorkItem('w231', POSITIONS[4], 8, 20)
+        ], 20),
+        new EmployeeItem('ewr24', EMPLOYEES[0], [
+            new WorkItem('w241', POSITIONS[4], 8, 20)
+        ], 20),
+        new EmployeeItem('ewr25', EMPLOYEES[4], [
+            new WorkItem('w251', POSITIONS[2], 100, 60)
+        ]),
     ], [
         new DayStat('stat21', POSITIONS[0], 200, 126),
         new DayStat('stat22', POSITIONS[4], 16, 40),

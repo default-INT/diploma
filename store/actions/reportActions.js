@@ -22,9 +22,9 @@ export const createEmptyReport = date => {
     }
 }
 
-export const addWorkItemReport = payload => {
+export const addEmployeeItemReport = payload => {
     return {
-        type: REPORTS_TYPES.ADD_WORK_ITEM_REPORT,
+        type: REPORTS_TYPES.ADD_EMPLOYEE_ITEM_REPORT,
         payload: payload
     }
 }

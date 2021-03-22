@@ -3,7 +3,7 @@ export default class EmployeeItem {
      *
      * @param {string} id
      * @param {Employee} employee
-     * @param {WorkItem} workItems
+     * @param {Array<WorkItem>} workItems
      * @param {number} totalSalary
      */
     constructor(id, employee, workItems, totalSalary) {

@@ -1,18 +1,15 @@
 import React, {useState, useEffect, useReducer} from "react";
-import {StyleSheet, Text, View, ActivityIndicator} from "react-native";
+import {StyleSheet, Text, View, ActivityIndicator, ScrollView, Alert} from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useSelector, useDispatch} from "react-redux";
 
-import { Input } from "../../components";
-import { Card, WorkItem } from "../../components";
+import { FormTitle, EmployeeItemCmp, CardForm, FormBody } from "../../components";
 import { MaterialHeaderButton, TouchableButton } from "../../components/UI";
-import { reportActions } from "../../store/actions";
-import { formReducer } from "../../store/reducers";
-import { FORM_INPUT_UPDATE } from "../../constants/types";
+import {reportActions} from "../../store/actions";
 import {toDateFormat} from "../../utils";
 import Colors from "../../constants/colors";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
-import {DayStat} from "../../models";
+import DayStatItem from "../../components/palletprod/DayStatItem";
 
 
 const EditReportScreen = props => {
@@ -38,8 +35,6 @@ const EditReportScreen = props => {
         //TODO: must be async + add activity indicator!
         if (reportId) {
             dispatch(reportActions.getReport(reportId));
-            console.log(reportId);
-            console.log(editedReport);
         } else {
             dispatch(reportActions.createEmptyReport(date));
         }
@@ -57,52 +52,89 @@ const EditReportScreen = props => {
         })
     }, []);
 
+    const onAddEmployeeHandler = () => {
+        props.navigation.navigate('EditEmployeeReport', {});
+    }
+
+    const onEditEmployeeItemHandler = employeeItemId => {
+        props.navigation.navigate('EditEmployeeReport', {
+            employeeItemId
+        })
+    };
+
+    const onDeleteEmployeeItemHandler = employeeItemId => {
+        Alert.alert('Удаление', 'Вы действительно хотите удалить сотрудника с отчёта?', [
+            { text: 'Нет', style: 'default' },
+            {
+                text: 'Да',
+                style: 'destructive',
+                onPress: () => {
+
+                }
+            }
+        ]);
+    };
+
     const emptyEmployeesListText = <Text>Список сотрудников пуст!</Text>;
 
     return (
-        <View style={styles.screen}>
+        <ScrollView>
+            <View style={styles.screen}>
 
-            <Card style={styles.formContainer}>
-                <View style={styles.title}>
-                    <Text style={styles.titleText}>Дата: {toDateFormat(date)}</Text>
-                    <TouchableButton iconName="mode-edit" onPress={() => setShowDatePicker(true)} size={24} style={styles.editBtn} />
-                </View>
-                {showDatePicker && (<DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode='date'
-                    is24Hour={true}
-                    display="default"
-                    onChange={dateOnChange}
-                />)}
-            </Card>
+                <CardForm>
+                    <FormTitle >
+                        <Text style={styles.titleText}>Дата: {toDateFormat(date)}</Text>
+                        <TouchableButton iconName="mode-edit" onPress={() => setShowDatePicker(true)} size={24} style={styles.editBtn} />
+                    </FormTitle>
+                    {showDatePicker && (<DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode='date'
+                        is24Hour={true}
+                        display="default"
+                        onChange={dateOnChange}
+                    />)}
+                </CardForm>
 
-            <Card style={styles.formContainer}>
-                <View style={{...styles.title, ...styles.titleLine}}>
-                    <Text style={styles.titleText}>Сотрудники</Text>
-                    <TouchableButton iconName="add-circle-outline" size={24} style={styles.editBtn} />
+                <CardForm>
+                    <FormTitle titleLine>
+                        <Text style={styles.titleText}>Сотрудники</Text>
+                        <TouchableButton iconName="add-circle-outline" onPress={onAddEmployeeHandler} size={24} style={styles.editBtn} />
+                    </FormTitle>
+                    <FormBody>
+                        {reportId && editedReport ? editedReport.employeeItems.length === 0 ? emptyEmployeesListText :
+                            editedReport.employeeItems.map(employeeItem =>
+                                <EmployeeItemCmp
+                                    key={employeeItem.id}
+                                    onEdit={onEditEmployeeItemHandler.bind(this)}
+                                    onDelete={onDeleteEmployeeItemHandler.bind(this)}
+                                    employeeItem={employeeItem}
+                                />)
+                            : emptyEmployeesListText
+                        }
+                    </FormBody>
+                </CardForm>
 
-                </View>
-                <View style={styles.formBody}>
-                    {reportId && editedReport ? editedReport.workItems.length === 0 ? emptyEmployeesListText :
-                        editedReport.workItems.map(workItem => <WorkItem key={workItem.id} workItem={workItem} />)
-                        : emptyEmployeesListText
-                    }
-                </View>
-            </Card>
+                <CardForm>
+                    <FormTitle titleLine>
+                        <Text style={styles.titleText}>Итог за день</Text>
+                    </FormTitle>
+                    <FormBody style={styles.daysStatBox}>
+                        {editedReport && editedReport.dayStats && editedReport.dayStats.length !== 0 ?
+                            <View>
+                                {editedReport.dayStats.map(dayStat => <DayStatItem key={dayStat.id} dayStat={dayStat} />)}
+                                <View style={styles.totalSalaryBox}>
+                                    <Text>Суммарные выплаты рабочим: {editedReport.dayStats.map(dayStat => dayStat.totalSalary)
+                                        .reduce((d1, d2) => d1 + d2)} р</Text>
+                                </View>
+                            </View>
+                            : <Text>Информация отсутствует!</Text>
+                        }
+                    </FormBody>
+                </CardForm>
 
-            <Card style={styles.formContainer}>
-                <View style={{...styles.title, ...styles.titleLine}}>
-                    <Text style={styles.titleText}>Итог за день</Text>
-                </View>
-                <View style={styles.formBody}>
-                    {editedReport ? <Text>WorkItems</Text>
-                        : <Text>Информация отсутствует!</Text>
-                    }
-                </View>
-            </Card>
-
-        </View>
+            </View>
+        </ScrollView>
     )
 }
 
@@ -110,29 +142,18 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1
     },
+    totalSalaryBox: {
+        padding: 10,
+        marginTop: 10,
+        borderTopWidth: 1,
+        borderTopColor: Colors.whitesmoke
+    },
     editBtn: {
         opacity: .5,
         padding: 5
     },
-    formContainer: {
-        padding: 10,
-        margin: 10,
-        backgroundColor: Colors.white,
-    },
-    formBody: {
-        padding: 10,
-        alignItems: 'center'
-    },
-    title: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        height: 50
-    },
-    titleLine: {
-        borderBottomColor: Colors.whitesmoke,
-        borderBottomWidth: 2
+    daysStatBox: {
+        paddingHorizontal: 30
     },
     titleText: {
         fontSize: 16

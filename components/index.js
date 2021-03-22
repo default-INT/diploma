@@ -7,10 +7,11 @@ import Input from "./Input";
 import Calendar from "./Calendar";
 import PositionItem from "./palletprod/PositionItem";
 import ReportItem from "./palletprod/ReportItem";
-import WorkItem from "./palletprod/WorkItem";
+import EmployeeItemCmp from "./palletprod/EmployeeItemCmp";
+import {CardForm, FormTitle, FormBody} from "./card-form/";
 
 
 export {
-    Header, Widget, WidgetList, EmployeeItem, Card, Input, Calendar,
-    PositionItem, ReportItem, WorkItem
+    Header, Widget, WidgetList, EmployeeItem, Card, Input, Calendar, CardForm, FormTitle, FormBody,
+    PositionItem, ReportItem, EmployeeItemCmp
 }

@@ -7,7 +7,7 @@ export default class Employee {
      * @param secondName {string}
      * @param birthdayYear {number}
      * @param phoneNumber {string}
-     * @param userId {string}
+     * @param userId {string|null|undefined}
      */
     constructor(id, lastName, firstName, secondName, birthdayYear, phoneNumber, userId) {
         this.id = id;
