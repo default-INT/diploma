@@ -18,10 +18,19 @@ const CalendarReportsScreen = props => {
 
     const monthChangeHandler = month => {
         dispatch(reportActions.fetchMonthlyReports(month))
-    }
+    };
+
+    const onSelectDate = date => {
+        props.navigation.navigate('EditReport', {
+            selectedDate: true,
+            month: date.getMonth(),
+            year: date.getFullYear(),
+            date: date.getDate()
+        });
+    };
 
     return (<View style={styles.screen}>
-        <Calendar reports={monthlyReports} monthChangeHandler={monthChangeHandler} />
+        <Calendar reports={monthlyReports} onSelectDate={onSelectDate} monthChangeHandler={monthChangeHandler} />
     </View>)
 }
 

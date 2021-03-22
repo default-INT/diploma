@@ -49,3 +49,10 @@ export const eqDates = (date1, date2) => (
     date1.getMonth() === date2.getMonth() &&
     date1.getDate() === date2.getDate()
 )
+
+export const toDateFormat = date => {
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+}

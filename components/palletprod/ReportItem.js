@@ -2,6 +2,7 @@ import React from "react";
 import {View, Text, StyleSheet, TouchableNativeFeedback, TouchableOpacity, Platform} from "react-native";
 
 import Card from "../Card";
+import {toDateFormat} from "../../utils";
 import Colors from "../../constants/colors";
 
 const nameDayOfWeek = {
@@ -14,19 +15,14 @@ const nameDayOfWeek = {
     6: 'сб'
 }
 
-const toDateFormat = date => {
-    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-    const year = date.getFullYear();
-    return `${day}.${month}.${year}`;
-}
+
 
 const ReportItem = ({report, ...props}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
     return (
         <Card style={styles.card} >
             <View style={styles.touchable}>
-                <TouchableComponent onPress={() => ''} useForeground>
+                <TouchableComponent onPress={() => props.onPress(report)} useForeground>
                     <View style={styles.reportContainer}>
                         <View style={styles.title}>
                             <Text style={styles.titleText}>{toDateFormat(report.date)}</Text>

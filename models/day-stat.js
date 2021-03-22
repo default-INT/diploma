@@ -1,7 +1,7 @@
 export default class DayStat {
     /**
      *
-     * @param id {number}
+     * @param id {string}
      * @param position {Position}
      * @param totalNum {number}
      * @param totalSalary {number}

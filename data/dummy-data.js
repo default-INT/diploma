@@ -51,8 +51,8 @@ export const REPORTS = [
         new WorkItem('wr11', EMPLOYEES[0], POSITIONS[0], 100, 60),
         new WorkItem('wr12', EMPLOYEES[1], POSITIONS[0], 100, 60),
         new WorkItem('wr13', EMPLOYEES[2], POSITIONS[4], 8, 20),
-        new WorkItem('wr13', EMPLOYEES[3], POSITIONS[4], 8, 20),
-        new WorkItem('wr14', EMPLOYEES[4], POSITIONS[1], 120, 72),
+        new WorkItem('wr14', EMPLOYEES[3], POSITIONS[4], 8, 20),
+        new WorkItem('wr15', EMPLOYEES[4], POSITIONS[1], 120, 72),
     ], [
         new DayStat('stat11', POSITIONS[0], 200, 120),
         new DayStat('stat12', POSITIONS[4], 16, 40),
@@ -62,8 +62,8 @@ export const REPORTS = [
         new WorkItem('wr21', EMPLOYEES[3], POSITIONS[0], 110, 66),
         new WorkItem('wr22', EMPLOYEES[2], POSITIONS[0], 100, 60),
         new WorkItem('wr23', EMPLOYEES[1], POSITIONS[4], 8, 20),
-        new WorkItem('wr23', EMPLOYEES[0], POSITIONS[4], 8, 20),
-        new WorkItem('wr14', EMPLOYEES[4], POSITIONS[2], 100, 60),
+        new WorkItem('wr24', EMPLOYEES[0], POSITIONS[4], 8, 20),
+        new WorkItem('wr25', EMPLOYEES[4], POSITIONS[2], 100, 60),
     ], [
         new DayStat('stat21', POSITIONS[0], 200, 126),
         new DayStat('stat22', POSITIONS[4], 16, 40),

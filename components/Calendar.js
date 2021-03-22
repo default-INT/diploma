@@ -1,36 +1,24 @@
 import React, {useState} from "react";
 import {View, Text, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform} from "react-native";
-import {MaterialIcons, Ionicons} from "@expo/vector-icons";
+import {Ionicons} from "@expo/vector-icons";
 
 import Card from "./Card";
 import {MONTH_NAMES} from "../constants";
+import TouchableButton from "./UI/TouchableButton";
 import {getMonthDates, eqDates} from "../utils";
 import Colors from "../constants/colors";
 
-const NavButton = ({onPress, iconName, ...props}) => {
-    const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback
-        : TouchableOpacity;
-    return (
-        <View style={styles.touchable}>
-            <TouchableComponent onPress={onPress}>
-                <View style={styles.navBtn} >
-                    <MaterialIcons name={iconName} size={34} color="black" {...props} />
-                </View>
-            </TouchableComponent>
-        </View>
-    )
-};
 
 const CalendarHeader = ({setNextDate, setBeforeDate, currentMonthYear, ...props}) => {
     return (
         <View>
             <View style={styles.header}>
-                <NavButton iconName='navigate-before' onPress={setBeforeDate.bind(this)} />
+                <TouchableButton iconName='navigate-before' onPress={setBeforeDate.bind(this)} />
                 <View style={styles.dateContainer}>
                     <Text style={styles.yearText}>{currentMonthYear.year}</Text>
                     <Text style={styles.monthText}>{MONTH_NAMES[currentMonthYear.month].toUpperCase()}</Text>
                 </View>
-                <NavButton iconName='navigate-next' onPress={setNextDate.bind(this)} />
+                <TouchableButton iconName='navigate-next' onPress={setNextDate.bind(this)} />
             </View>
             <View style={styles.daysOfWeekContainer}>
                 <View style={styles.dayOfWeekItem}>
@@ -60,7 +48,7 @@ const CalendarHeader = ({setNextDate, setBeforeDate, currentMonthYear, ...props}
 };
 
 
-const DateCell = ({date}) => {
+const DateCell = ({date, onPress}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback
         : TouchableOpacity;
     const opacity = date.disable ? 0.2 : 1;
@@ -78,7 +66,7 @@ const DateCell = ({date}) => {
         iconColor = Colors.red;
     }
     return (
-        <TouchableComponent>
+        <TouchableComponent onPress={() => onPress(date.fullDate)}>
             <View style={styles.dateCell}>
                 <Text style={{opacity: opacity }}>{date.fullDate.getDate()}</Text>
                 {iconName && iconColor && <Ionicons style={{opacity: opacity }} name={iconName} size={30} color={iconColor}
@@ -91,7 +79,7 @@ const DateCell = ({date}) => {
 const DatesRow = ({datesRow, ...props}) => {
     return (
         <View style={styles.datesRow}>
-            {datesRow.map(date => <DateCell key={date.fullDate.toISOString()} date={date} />)}
+            {datesRow.map(date => <DateCell key={date.fullDate.toISOString()} date={date} {...props} />)}
         </View>
     )
 };
@@ -103,7 +91,6 @@ const Calendar = ({reports, ...props}) => {
         month: currentDate.getMonth(),
         year: currentDate.getFullYear(),
     });
-    const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
 
     const setNextDate = () => {
         setCurrentMonthYear(prev => {
@@ -112,7 +99,8 @@ const Calendar = ({reports, ...props}) => {
             setDates(getMonthDates(new Date(year, month)));
             return { month, year };
         });
-    }
+    };
+
     const setBeforeDate = () => {
         setCurrentMonthYear(prev => {
             const month = prev.month === 0 ? 11 : prev.month - 1;
@@ -120,7 +108,8 @@ const Calendar = ({reports, ...props}) => {
             setDates(getMonthDates(new Date(year, month)));
             return { month, year };
         })
-    }
+    };
+
 
     return (
         <Card style={styles.card}>
@@ -131,7 +120,7 @@ const Calendar = ({reports, ...props}) => {
                     setNextDate={setNextDate}
                 />
                 <View style={styles.datesContainer}>
-                    {dates.map(datesRow => <DatesRow key={JSON.stringify(datesRow)} datesRow={datesRow} />)}
+                    {dates.map(datesRow => <DatesRow key={JSON.stringify(datesRow)} onPress={props.onSelectDate.bind(this)} datesRow={datesRow} />)}
                 </View>
             </View>
         </Card>

@@ -21,6 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
 
-.idea
-.expo
+.idea/**
+.expo/**
+.vscode/**

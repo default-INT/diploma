@@ -1,9 +1,11 @@
 import {REPORTS_TYPES} from "../../constants/types";
 import {REPORTS} from "../../data/dummy-data";
+import {DayStat} from "../../models";
 
 const initialState = {
     lastReports: REPORTS,
-    monthlyReports: REPORTS.filter(report => report.date.getMonth() === 3)
+    monthlyReports: REPORTS.filter(report => report.date.getMonth() === 3),
+    selectedReport: null
 }
 
 const handlers = {
@@ -52,6 +54,35 @@ const handlers = {
         ...state,
         lastReports: state.lastReports.filter(report => report.id !== payload),
         monthlyReports: state.monthlyReports.filter(report => report.id !== payload)
+    }),
+    [REPORTS_TYPES.GET_REPORT]: (state, {payload}) => ({
+        ...state,
+        selectedReport: payload
+    }),
+    [REPORTS_TYPES.ADD_WORK_ITEM_REPORT]: (state, {payload}) => {
+        const updateSelectedReport = {...state.selectedReport};
+        updateSelectedReport.workItems.push(payload);
+        const updatedDayStatIdx = updateSelectedReport.dayStats.filter(dayStat => dayStat.position.id === payload.position.id);
+        if (updatedDayStatIdx) {
+            updateSelectedReport.dayStats[updatedDayStatIdx].totalNum += payload.itemNum;
+            updateSelectedReport.dayStats[updatedDayStatIdx].totalSalary += payload.position.itemTariff * payload.itemNum;
+        } else {
+            const dayStat = new DayStat(
+                new Date().toISOString(),
+                payload.position,
+                payload.itemNum,
+                payload.position.itemTariff * payload.itemNum
+            );
+            updateSelectedReport.dayStats.push(dayStat);
+        }
+        return {
+            ...state,
+            selectedReport: updateSelectedReport
+        }
+    },
+    [REPORTS_TYPES.CREATE_EMPTY_REPORT]: (state, {payload}) => ({
+        ...state,
+        selectedReport: payload
     }),
     DEFAULT: state => state
 }

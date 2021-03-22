@@ -9,10 +9,19 @@ import {ReportItem} from "../../components";
 
 const LastReportsScreen = props => {
     const reports = useSelector(state => state.reports.lastReports);
+    const onSelectReport = report => {
+        props.navigation.navigate('EditReport', {
+            reportId: report.id,
+            selectedDate: true,
+            month: report.date.getMonth(),
+            year: report.date.getFullYear(),
+            date: report.date.getDate()
+        })
+    }
     return (
         <FlatList
             data={reports}
-            renderItem={itemData => <ReportItem report={itemData.item} />}
+            renderItem={itemData => <ReportItem report={itemData.item} onPress={onSelectReport} />}
         />
     )
 };
