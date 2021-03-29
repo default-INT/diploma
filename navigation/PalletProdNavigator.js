@@ -10,7 +10,7 @@ import {mainScreenOptions} from "../screens/options";
 import {lastReportsOptions, calendarOptions} from "../screens/reports/options";
 import {employeesOptions, employeeDetailsOptions, editEmployeeOptions} from "../screens/employees/options";
 import {positionScreenOptions} from "../screens/positions/options";
-import {EditEmployeeReportScreen, EditReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
+import {EditEmployeeReportScreen, EditWorkItemReportScreen, EditReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
 import {EmployeesScreen, EmployeeDetailsScreen, EditEmployeeScreen} from "../screens/employees";
 import {PositionsScreen, EditPositionScreen} from "../screens/positions";
 import Colors from "../constants/colors";
@@ -27,7 +27,7 @@ const defaultStackNavOptions = {
 
     },
     headerTintColor: Colors.white,
-    headerTitle: 'Is screen'
+    headerTitle: ''
 };
 
 const styles = StyleSheet.create({
@@ -75,6 +75,10 @@ export const LastReportNavigator = () => {
             <ReportStackNavigator.Screen
                 name="EditEmployeeReport"
                 component={EditEmployeeReportScreen}
+            />
+            <ReportStackNavigator.Screen
+                name="EditWorkItemReport"
+                component={EditWorkItemReportScreen}
             />
         </ReportStackNavigator.Navigator>
     )

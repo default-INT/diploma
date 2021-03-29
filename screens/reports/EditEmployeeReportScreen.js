@@ -26,6 +26,14 @@ const EditEmployeeReportScreen = props => {
 
     const emptyWorkItemsListText = <Text>Список работ сотрудника за день пуст!</Text>;
 
+    const onAddWorkItemHandler = () => {
+        navigation.navigate('EditWorkItemReport', {})
+    }
+
+    const onEditWorkItemHandler = workItemId => {
+        navigation.navigate('EditWorkItemReport', {workItemId})
+    }
+
     useEffect(() => {
         navigation.setOptions({
             headerTitle: (editedEmployeeItem ? 'Редактирование' : 'Добавление') + ' сотрудника',
@@ -55,11 +63,17 @@ const EditEmployeeReportScreen = props => {
                 <CardForm>
                     <FormTitle titleLine>
                         <Text>Работа за день</Text>
-                        <TouchableButton iconName="add-circle-outline" size={24} style={styles.editBtn} />
+                        <TouchableButton iconName="add-circle-outline" size={24} style={styles.editBtn}
+                                         onPress={onAddWorkItemHandler.bind(this)} />
                     </FormTitle>
                     <FormBody>
                         {workItems.length === 0 ? emptyWorkItemsListText
-                            : workItems.map(workItem => <WorkItemCmp key={workItem.id} workItem={workItem} />)}
+                            : workItems.map(workItem => (
+                                <WorkItemCmp key={workItem.id}
+                                             workItem={workItem}
+                                             onEdit={onEditWorkItemHandler.bind(this)}
+                                />
+                            ))}
                     </FormBody>
                 </CardForm>
 
