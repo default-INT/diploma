@@ -10,6 +10,7 @@ import {toDateFormat} from "../../utils";
 import Colors from "../../constants/colors";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import DayStatItem from "../../components/palletprod/DayStatItem";
+import {DayStat} from "../../models";
 
 
 const EditReportScreen = props => {
@@ -53,10 +54,12 @@ const EditReportScreen = props => {
     }, []);
 
     const onAddEmployeeHandler = () => {
+        dispatch(reportActions.loadSelectedEmployeeItem());
         props.navigation.navigate('EditEmployeeReport', {});
     }
 
     const onEditEmployeeItemHandler = employeeItemId => {
+        dispatch(reportActions.loadSelectedEmployeeItem(employeeItemId));
         props.navigation.navigate('EditEmployeeReport', {
             employeeItemId
         })
@@ -69,7 +72,7 @@ const EditReportScreen = props => {
                 text: 'Да',
                 style: 'destructive',
                 onPress: () => {
-
+                    dispatch(reportActions.deleteEmployeeItemReport(employeeItemId))
                 }
             }
         ]);
@@ -77,6 +80,36 @@ const EditReportScreen = props => {
 
     const emptyEmployeesListText = <Text>Список сотрудников пуст!</Text>;
 
+    if (!editedReport) {
+        return (
+            <View style={styles.centredScreen}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
+    }
+
+
+    const dayStatsMap = new Map();
+    if (editedReport.employeeItems.length !== 0) {
+        const workItems = editedReport.employeeItems
+            .map(employeeItem => employeeItem.workItems)
+            .reduce((workItems1, workItems2) => workItems1.concat(workItems2));
+
+        workItems.forEach(workItem => {
+            if (!dayStatsMap.has(workItem.position.id)) {
+                dayStatsMap.set(workItem.position.id, new DayStat(
+                    new Date().toISOString(),
+                    workItem.position,
+                    workItem.itemNum,
+                    workItem.itemNum * workItem.position.itemTariff
+                ));
+            } else {
+                dayStatsMap.get(workItem.position.id).totalNum += workItem.itemNum;
+                dayStatsMap.get(workItem.position.id).totalSalary += workItem.itemNum * workItem.position.itemTariff;
+            }
+        });
+    }
+    const dayStats = [...dayStatsMap.values()];
     return (
         <ScrollView>
             <View style={styles.screen}>
@@ -102,8 +135,8 @@ const EditReportScreen = props => {
                         <TouchableButton iconName="add-circle-outline" onPress={onAddEmployeeHandler} size={24} style={styles.editBtn} />
                     </FormTitle>
                     <FormBody>
-                        {reportId && editedReport ? editedReport.employeeItems.length === 0 ? emptyEmployeesListText :
-                            editedReport.employeeItems.map(employeeItem =>
+                        {editedReport ? editedReport.employeeItems.length === 0 ? emptyEmployeesListText :
+                            editedReport.employeeItems.filter(employeeItem => employeeItem.employee).map(employeeItem =>
                                 <EmployeeItemCmp
                                     key={employeeItem.id}
                                     onEdit={onEditEmployeeItemHandler.bind(this)}
@@ -120,11 +153,11 @@ const EditReportScreen = props => {
                         <Text style={styles.titleText}>Итог за день</Text>
                     </FormTitle>
                     <FormBody style={styles.daysStatBox}>
-                        {editedReport && editedReport.dayStats && editedReport.dayStats.length !== 0 ?
+                        {editedReport && dayStats && dayStats.length !== 0 ?
                             <View>
-                                {editedReport.dayStats.map(dayStat => <DayStatItem key={dayStat.id} dayStat={dayStat} />)}
+                                {dayStats.map(dayStat => <DayStatItem key={dayStat.id + dayStat.position.name} dayStat={dayStat} />)}
                                 <View style={styles.totalSalaryBox}>
-                                    <Text>Суммарные выплаты рабочим: {editedReport.dayStats.map(dayStat => dayStat.totalSalary)
+                                    <Text>Суммарные выплаты рабочим: {dayStats.map(dayStat => dayStat.totalSalary)
                                         .reduce((d1, d2) => d1 + d2)} р</Text>
                                 </View>
                             </View>
@@ -139,6 +172,11 @@ const EditReportScreen = props => {
 }
 
 const styles = StyleSheet.create({
+    centredScreen: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     screen: {
         flex: 1
     },

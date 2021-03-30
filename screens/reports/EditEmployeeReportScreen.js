@@ -1,59 +1,114 @@
-import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, View, ScrollView} from "react-native";
-import {useSelector, useDispatch} from "react-redux";
+import React, {useCallback, useEffect, useState} from "react";
+import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
 import {Picker} from "@react-native-picker/picker";
 
-import {FormTitle, CardForm, FormBody, WorkItemCmp} from "../../components";
-import { MaterialHeaderButton, TouchableButton } from "../../components/UI";
+import {CardForm, FormBody, FormTitle, WorkItemCmp} from "../../components";
+import {MaterialHeaderButton, TouchableButton} from "../../components/UI";
 import Colors from "../../constants/colors";
-import DayStatItem from "../../components/palletprod/DayStatItem";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import {EmployeeItem} from "../../models";
+import {reportActions} from "../../store/actions";
 
-const EditEmployeeReportScreen = props => {
 
-    const {navigation, route} = props;
+const EditEmployeeReportScreen = ({navigation, route, ...props}) => {
 
     const employeeItemId = route.params.employeeItemId;
-    const editedEmployeeItem = useSelector(state => state.reports.selectedReport.employeeItems
-        .find(employeeItem => employeeItem.id === employeeItemId));
-
-    const [selectedEmployee, setSelectedEmployee] = useState(editedEmployeeItem ? editedEmployeeItem.employee.id : 0);
-    const [workItems, setWorkItems] = useState(editedEmployeeItem ? editedEmployeeItem.workItems : []);
-
     const employees = useSelector(state => state.employees.employees);
+    const editedEmployeeItem = useSelector(state => state.reports.selectedEmployeeItem);
 
     const dispatch = useDispatch();
+
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState(editedEmployeeItem && editedEmployeeItem.employee ?
+        editedEmployeeItem.employee.id : employees[0].id);
+    const workItems = editedEmployeeItem.workItems ? [...editedEmployeeItem.workItems] : [];
 
     const emptyWorkItemsListText = <Text>Список работ сотрудника за день пуст!</Text>;
 
     const onAddWorkItemHandler = () => {
-        navigation.navigate('EditWorkItemReport', {})
+        navigation.navigate('EditWorkItemReport', {employeeItemId: editedEmployeeItem.id})
     }
 
-    const onEditWorkItemHandler = workItemId => {
-        navigation.navigate('EditWorkItemReport', {workItemId})
+    const onEditWorkItemHandler = (workItemId) => {
+        navigation.navigate('EditWorkItemReport', {workItemId, employeeItemId: editedEmployeeItem.id})
     }
+
+    const onDeleteWorkItemHandler = workItemId => {
+        Alert.alert('Удаление', 'Вы действительно хотите удалить деятельность сотрудника?', [
+            { text: 'Нет', style: 'default' },
+            {
+                text: 'Да',
+                style: 'destructive',
+                onPress: () => {
+                    dispatch(reportActions.deleteWorkItemReport(workItemId));
+                }
+            }
+        ]);
+    }
+
+    const onSaveHandler = useCallback(() => {
+        const workItems = [...editedEmployeeItem.workItems];
+        if (workItems.length === 0) {
+            Alert.alert('Ошибка', 'Список деятельности сотрудника за день не может быть пустым!', [
+                { text: 'Ок'}
+            ]);
+            return;
+        }
+        const employee = employees.find(({id}) => id === selectedEmployeeId);
+        if (!employeeItemId) {
+            dispatch(reportActions.addEmployeeItemReport(new EmployeeItem(
+                editedEmployeeItem.id,
+                employee,
+                workItems,
+                workItems.map(({salary}) => salary)
+                    .reduce((d1, d2) => d1 + d2)
+            )))
+        } else {
+            dispatch(reportActions.updateEmployeeItemReport(new EmployeeItem(
+                editedEmployeeItem.id,
+                employee,
+                workItems,
+                workItems.map(({salary}) => salary)
+                    .reduce((d1, d2) => d1 + d2)
+            )))
+        }
+        navigation.goBack();
+    }, [dispatch, workItems, editedEmployeeItem, selectedEmployeeId]);
+
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: (editedEmployeeItem ? 'Редактирование' : 'Добавление') + ' сотрудника',
+            headerTitle: (employeeItemId ? 'Редактирование' : 'Добавление') + ' сотрудника',
             headerRight: () => <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
                 <Item
                     title="Save"
                     iconName="save"
+                    onPress={() => onSaveHandler()}
                 />
             </HeaderButtons>
         })
-    }, [navigation]);
+    }, [navigation, onSaveHandler]);
+
+    useEffect(() => {
+        dispatch(reportActions.loadSelectedEmployeeItem(employeeItemId));
+    }, []);
+
+    if (!editedEmployeeItem) {
+        return (
+            <View style={styles.screen}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
+    }
 
     return (
         <ScrollView>
-            <View style={styles.screen}>
+            <View>
                 <CardForm>
                     <Picker
-                        selectedValue={selectedEmployee}
+                        selectedValue={selectedEmployeeId}
                         onValueChange={((itemValue, itemIndex) => {
-                            setSelectedEmployee(itemValue);
+                            setSelectedEmployeeId(itemValue);
                         } )}
                     >
                         {employees.map(({fullName, id}) =>  <Picker.Item key={id} label={fullName} value={id} />)}
@@ -72,6 +127,7 @@ const EditEmployeeReportScreen = props => {
                                 <WorkItemCmp key={workItem.id}
                                              workItem={workItem}
                                              onEdit={onEditWorkItemHandler.bind(this)}
+                                             onDelete={onDeleteWorkItemHandler.bind(this)}
                                 />
                             ))}
                     </FormBody>
@@ -103,6 +159,10 @@ const styles = StyleSheet.create({
         opacity: .5,
         padding: 5
     },
+    screen: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })
 
 export default EditEmployeeReportScreen

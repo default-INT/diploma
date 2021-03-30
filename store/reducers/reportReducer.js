@@ -1,12 +1,14 @@
 import {REPORTS_TYPES} from "../../constants/types";
 import {REPORTS} from "../../data/dummy-data";
-import {DayStat} from "../../models";
+import {DayStat, EmployeeItem} from "../../models";
 
 const initialState = {
     lastReports: REPORTS,
     monthlyReports: REPORTS.filter(report => report.date.getMonth() === 3),
-    selectedReport: null
+    selectedReport: null,
+    selectedEmployeeItem: null
 }
+
 
 const handlers = {
     [REPORTS_TYPES.FETCH_LAST_REPORTS]: (state, {payload}) => ({
@@ -62,20 +64,55 @@ const handlers = {
     [REPORTS_TYPES.ADD_EMPLOYEE_ITEM_REPORT]: (state, {payload}) => {
         const updateSelectedReport = {...state.selectedReport};
         updateSelectedReport.employeeItems.push(payload);
-        payload.workItems.forEach(workItem => {
-            const updatedDayStatIdx = updateSelectedReport.dayStats.findIndex(dayStat => dayStat.position.id === workItem.position.id);
-            if (updatedDayStatIdx) {
-                updateSelectedReport.dayStats[updatedDayStatIdx].totalNum += workItem.itemNum;
-                updateSelectedReport.dayStats[updatedDayStatIdx].totalSalary += workItem.itemNum * workItem.position.itemTariff;
-            } else {
-                updateSelectedReport.dayStats.push(new DayStat(
-                    new Date().toISOString(),
-                    workItem.position,
-                    workItem.itemNum,
-                    workItem.salary
-                ));
+
+        return {
+            ...state,
+            selectedReport: updateSelectedReport
+        }
+    },
+    [REPORTS_TYPES.DELETE_EMPLOYEE_ITEM_REPORT]: (state, {payload}) => ({
+        ...state,
+        selectedReport: {
+            ...state.selectedReport,
+            employeeItems: state.selectedReport.employeeItems.filter(e => e.id !== payload)
+        }
+    }),
+    [REPORTS_TYPES.ADD_WORK_ITEM_REPORT]: (state, {payload}) => ({
+        ...state,
+        selectedEmployeeItem: {
+            ...state.selectedEmployeeItem,
+            workItems: state.selectedEmployeeItem.workItems
+                .concat(payload)
+        }
+    }),
+    [REPORTS_TYPES.UPDATE_WORK_ITEM_REPORT]: (state, {payload}) => {
+        const workItems = [...state.selectedEmployeeItem.workItems];
+        const updatedWorkItemIdx = workItems.findIndex(workItem => workItem.id === payload.id);
+        workItems[updatedWorkItemIdx] = payload;
+        return {
+            ...state,
+            selectedEmployeeItem: {
+                ...state.selectedEmployeeItem,
+                workItems: workItems
             }
-        });
+        };
+    },
+    [REPORTS_TYPES.DELETE_WORK_ITEM_REPORT]: (state, {payload}) => ({
+        ...state,
+        selectedEmployeeItem: {
+            ...state.selectedEmployeeItem,
+            workItems: state.selectedEmployeeItem.workItems.filter(({id}) => id !== payload)
+        }
+    }),
+    [REPORTS_TYPES.LOAD_SELECTED_EMPLOYEE_ITEM]: (state, {payload}) => ({
+        ...state,
+        selectedEmployeeItem: payload
+    }),
+    [REPORTS_TYPES.UPDATE_EMPLOYEE_ITEM_REPORT]: (state, {payload}) => {
+        const updateSelectedReport = {...state.selectedReport};
+        const updateIdx = updateSelectedReport.employeeItems.findIndex(employeeItem => employeeItem.id === payload.id);
+        updateSelectedReport.employeeItems[updateIdx] = payload;
+
         return {
             ...state,
             selectedReport: updateSelectedReport

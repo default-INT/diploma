@@ -18,7 +18,7 @@ const WorkItemCmp = ({workItem, ...props}) => {
                     <Text style={styles.titleText}>{workItem.position.name}</Text>
                     <View style={styles.controlButtons}>
                         <TouchableButton iconName="mode-edit" size={20} style={styles.touchBtn} onPress={() => props.onEdit(workItem.id)} />
-                        <TouchableButton iconName="delete" size={20} style={styles.touchBtn} onPress={() => ''} />
+                        <TouchableButton iconName="delete" size={20} style={styles.touchBtn} onPress={() => props.onDelete(workItem.id)} />
                     </View>
                 </View>
                 <View>

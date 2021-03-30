@@ -1,21 +1,25 @@
-import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, View, ScrollView, TextInput, KeyboardAvoidingView} from "react-native";
-import {useSelector, useDispatch} from "react-redux";
+import React, {useCallback, useEffect, useState} from "react";
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
 import {Picker} from "@react-native-picker/picker";
 
-import {FormTitle, CardForm, FormBody, Input} from "../../components";
-import { MaterialHeaderButton, TouchableButton } from "../../components/UI";
+import {CardForm, FormBody, FormTitle} from "../../components";
+import {reportActions} from "../../store/actions";
+import {MaterialHeaderButton} from "../../components/UI";
 import Colors from "../../constants/colors";
-import DayStatItem from "../../components/palletprod/DayStatItem";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import {WorkItem} from "../../models";
 
 const EditWorkItemReportScreen = ({navigation, route,...props}) => {
 
     const workItemId = route.params.workItemId;
-    const editedWorkItem = useSelector(state => state.reports.selectedReport.employeeItems
-        .map(({workItems}) => workItems)
-        .reduce((w1, w2) => w1.concat(w2))
-        .find(({id}) => id === workItemId));
+    const employeeItemId = route.params.employeeItemId;
+
+    const selectedEmployeeItem = useSelector(state => state.reports.selectedEmployeeItem);
+
+
+    const editedWorkItem = selectedEmployeeItem.workItems
+        .find(workItem => workItem.id === workItemId);
 
     const availablePositions = useSelector(state => state.positions.availablePositions);
 
@@ -25,8 +29,24 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
 
     const dispatch = useDispatch();
 
-
-    const emptyWorkItemText = <Text>Список работ сотрудника за день пуст!</Text>;
+    const onSaveHandler = useCallback(() => {
+        if (editedWorkItem) {
+            dispatch(reportActions.updateWorkItemReport(new WorkItem(
+                    editedWorkItem.id,
+                    selectedPosition,
+                    +itemNum,
+                    +(selectedPosition.itemTariff * itemNum).toFixed(2)
+                )
+            ));
+            return;
+        }
+        dispatch(reportActions.addWorkItemToReport(new WorkItem(
+            new Date().toISOString(),
+            selectedPosition,
+            +itemNum,
+            +(selectedPosition.itemTariff * itemNum).toFixed(2)
+        ), employeeItemId));
+    }, [employeeItemId, selectedPositionId, itemNum])
 
     useEffect(() => {
         navigation.setOptions({
@@ -35,10 +55,14 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
                 <Item
                     title="Save"
                     iconName="save"
+                    onPress={() => {
+                        onSaveHandler();
+                        navigation.goBack();
+                    }}
                 />
             </HeaderButtons>
         })
-    }, [navigation]);
+    }, [navigation, onSaveHandler]);
 
     const selectedPosition = availablePositions.find(({id}) => id === selectedPositionId);
 
@@ -46,44 +70,44 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
         <ScrollView>
             <View style={styles.screen}>
                 <KeyboardAvoidingView>
-                <CardForm>
-                    <Picker
-                        selectedValue={selectedPositionId}
-                        onValueChange={((itemValue, itemIndex) => {
-                            setSelectedPositionId(itemValue);
-                        } )}
-                    >
-                        {availablePositions.map(({name, id}) =>  <Picker.Item key={id} label={name} value={id} />)}
-                    </Picker>
-                </CardForm>
-                <CardForm>
-                    <FormTitle titleLine>
-                        <Text>Выполненная нагрузка</Text>
-                    </FormTitle>
-                    <FormBody>
-                        <View style={styles.field}>
-                            <Text>Ставка</Text>
-                            <Text>{selectedPosition.itemTariff} {selectedPosition.itemName}</Text>
-                        </View>
-                        <View style={styles.field}>
-                            <Text>Выполнено за день</Text>
-                            <View style={styles.inputBox}>
-                                <TextInput
-                                    style={styles.numInput}
-                                    keyboardType="numeric"
-                                    maxLength={4}
-                                    value={itemNum + ''}
-                                    onChangeText={text => setItemNum(text)}
-                                />
-                                <Text>{selectedPosition.itemName.split('/')[1]}</Text>
+                    <CardForm>
+                        <Picker
+                            selectedValue={selectedPositionId}
+                            onValueChange={((itemValue, itemIndex) => {
+                                setSelectedPositionId(itemValue);
+                            } )}
+                        >
+                            {availablePositions.map(({name, id}) =>  <Picker.Item key={id} label={name} value={id} />)}
+                        </Picker>
+                    </CardForm>
+                    <CardForm>
+                        <FormTitle titleLine>
+                            <Text>Выполненная нагрузка</Text>
+                        </FormTitle>
+                        <FormBody>
+                            <View style={styles.field}>
+                                <Text>Ставка</Text>
+                                <Text>{selectedPosition.itemTariff} {selectedPosition.itemName}</Text>
                             </View>
-                        </View>
-                        <View style={styles.field}>
-                            <Text>Итоговый заработок</Text>
-                            <Text>{selectedPosition.itemTariff * (+itemNum)} р.</Text>
-                        </View>
-                    </FormBody>
-                </CardForm>
+                            <View style={styles.field}>
+                                <Text>Выполнено за день</Text>
+                                <View style={styles.inputBox}>
+                                    <TextInput
+                                        style={styles.numInput}
+                                        keyboardType="numeric"
+                                        maxLength={4}
+                                        value={itemNum + ''}
+                                        onChangeText={text => setItemNum(text)}
+                                    />
+                                    <Text>{selectedPosition.itemName.split('/')[1]}</Text>
+                                </View>
+                            </View>
+                            <View style={styles.field}>
+                                <Text>Итоговый заработок</Text>
+                                <Text>{(selectedPosition.itemTariff * (+itemNum)).toFixed(2)} р.</Text>
+                            </View>
+                        </FormBody>
+                    </CardForm>
                 </KeyboardAvoidingView>
             </View>
         </ScrollView>
