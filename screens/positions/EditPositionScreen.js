@@ -1,5 +1,5 @@
 import React, {useState, useReducer, useEffect, useCallback} from "react";
-import {View, Text, StyleSheet, CheckBox, KeyboardAvoidingView, ScrollView, Alert } from "react-native";
+import {View, Text, StyleSheet, CheckBox, KeyboardAvoidingView, ScrollView, Alert, ActivityIndicator } from "react-native";
 import {useSelector, useDispatch} from "react-redux";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 
@@ -12,10 +12,10 @@ import Colors from "../../constants/colors";
 
 
 const EditPositionScreen = props => {
-    const [error, setError] = useState();
 
     const positionId = props.route.params.positionId;
     const editedPosition = useSelector(state => state.positions.availablePositions.find(position => position.id === positionId));
+    const {loading, error} = useSelector(state => state.positions);
 
     const [isPallet, setIsPallet] = useState(editedPosition ? editedPosition.isPallet : false);
     const [isStorage, setIsStorage] = useState(editedPosition ? editedPosition.isStorage : false);
@@ -48,33 +48,28 @@ const EditPositionScreen = props => {
         [dispatchFormState]
     );
 
-    const submitHandler = useCallback(() => {
+    const submitHandler = useCallback(async () => {
         if (!formState.formIsValid) {
             Alert.alert('Неверные данные!', 'Проверте данные на корректный ввод!.', [
                 { text: 'Ок' }
             ]);
             return;
         }
-        setError(null);
-        try {
-            if (editedPosition) {
-                dispatch(positionActions.updatePosition({
-                    id: positionId,
-                    ...formState.inputValues,
-                    itemTariff: +formState.inputValues.itemTariff,
-                    isPallet: isPallet,
-                    isStorage: isStorage
-                }))
-            } else {
-                dispatch(positionActions.addPosition({
-                    ...formState.inputValues,
-                    itemTariff: +formState.inputValues.itemTariff,
-                    isPallet: isPallet,
-                    isStorage: isStorage
-                }))
-            }
-        } catch (err) {
-            setError(err.message)
+        if (editedPosition) {
+            await dispatch(positionActions.updatePosition({
+                id: positionId,
+                ...formState.inputValues,
+                itemTariff: +formState.inputValues.itemTariff,
+                isPallet: isPallet,
+                isStorage: isStorage
+            }))
+        } else {
+            await dispatch(positionActions.addPosition({
+                ...formState.inputValues,
+                itemTariff: +formState.inputValues.itemTariff,
+                isPallet: isPallet,
+                isStorage: isStorage
+            }))
         }
         props.navigation.goBack();
     }, [dispatch, positionId, formState, isPallet, isStorage]);
@@ -97,6 +92,14 @@ const EditPositionScreen = props => {
             </HeaderButtons>
         })
     }, [submitHandler]);
+
+    if (loading) {
+        return (
+            <View style={styles.loadingScreen}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
+    }
 
     return (
         <View style={styles.screen}>
@@ -178,6 +181,12 @@ const styles = StyleSheet.create({
     },
     screen: {
         backgroundColor: Colors.white,
+        flex: 1
+    },
+    loadingScreen: {
+        backgroundColor: Colors.white,
+        justifyContent: 'center',
+        alignItems: 'center',
         flex: 1
     }
 });

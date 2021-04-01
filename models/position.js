@@ -1,3 +1,4 @@
+
 export default class Position {
     /**
      *
@@ -15,5 +16,21 @@ export default class Position {
         this.itemName = itemName;
         this.isPallet = isPallet;
         this.isStorage = isStorage;
+    }
+
+    /**
+     *
+     * @param {object} position
+     * @returns {Position}
+     */
+    static of(position) {
+        return new Position(
+            position.id,
+            position.name,
+            position.itemTariff,
+            position.itemName,
+            position.isPallet,
+            position.isStorage
+        )
     }
 }

@@ -67,9 +67,9 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
     const selectedPosition = availablePositions.find(({id}) => id === selectedPositionId);
 
     return (
-        <ScrollView>
-            <View style={styles.screen}>
-                <KeyboardAvoidingView>
+        <KeyboardAvoidingView behavior='position' style={styles.screen} enabled={true}>
+            <ScrollView>
+                <View >
                     <CardForm>
                         <Picker
                             selectedValue={selectedPositionId}
@@ -108,9 +108,9 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
                             </View>
                         </FormBody>
                     </CardForm>
-                </KeyboardAvoidingView>
-            </View>
-        </ScrollView>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 

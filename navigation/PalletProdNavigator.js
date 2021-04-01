@@ -117,6 +117,9 @@ export const ReportNavigator = () => {
             shifting={true}
             inactiveColor={Colors.gray}
             barStyle={{ backgroundColor: Colors.primary }}
+            tabBarOptions={{
+                keyboardHidesTabBar: true
+            }}
         >
             <ReportTabNavigator.Screen
                 name="LastReportsScreen"
