@@ -18,7 +18,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<EmployeeDto> findAll(int page, int size, boolean fired, String lastName) {
+    public List<EmployeeDto> findAll(final int page, final int size, final boolean fired, final String lastName) {
         if (size > 20 || size < 0) {
             throw new IllegalArgumentException("Limit is too much");
         }
@@ -31,8 +31,12 @@ public class EmployeeService {
                 .toList();
     }
 
-    public List<EmployeeDto> findAllByLastNameStartingWith(final String lastName) {
-        return employeeRepository.findAllByFiredFalseAndLastNameStartingWith(lastName)
+    public long countEmployees() {
+        return employeeRepository.count();
+    }
+
+    public List<EmployeeDto> findAllByLastNameStartingWith(final String lastName, boolean fired) {
+        return employeeRepository.findAllByFiredAndLastNameStartingWithAndDeletedFalse(fired, lastName)
                 .stream()
                 .map(EmployeeDto::of)
                 .collect(Collectors.toList());
@@ -50,18 +54,30 @@ public class EmployeeService {
         updateEmployee.setSecondName(employeeDto.getSecondName());
         updateEmployee.setLastName(employeeDto.getLastName());
         updateEmployee.setBirthdayYear(employeeDto.getBirthdayYear());
+        updateEmployee.setFired(employeeDto.isFired());
 
         return EmployeeDto.of(employeeRepository.save(updateEmployee));
     }
 
-    public void delete(final EmployeeDto employeeDto) {
-        deleteById(employeeDto.getId());
+    public boolean fireEmployee(final EmployeeDto employeeDto) {
+        return fireEmployee(employeeDto.getId());
     }
 
-    public void deleteById(final String id) {
+    public boolean fireEmployee(final String id) {
         final Employee updateEmployee = employeeRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new); //TODO: Custom Exception
         updateEmployee.setFired(true);
-        employeeRepository.save(updateEmployee);
+        return employeeRepository.save(updateEmployee).isFired();
+    }
+
+    public boolean delete(final EmployeeDto employeeDto) {
+        return deleteById(employeeDto.getId());
+    }
+
+    public boolean deleteById(final String id) {
+        final Employee updateEmployee = employeeRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new); //TODO: Custom Exception
+        updateEmployee.setFired(true);
+        return employeeRepository.save(updateEmployee).isDeleted();
     }
 }

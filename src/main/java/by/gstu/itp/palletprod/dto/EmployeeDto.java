@@ -1,6 +1,7 @@
 package by.gstu.itp.palletprod.dto;
 
 import by.gstu.itp.palletprod.model.Employee;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -16,7 +17,10 @@ public class EmployeeDto {
         employeeDto.setSecondName(employee.getSecondName());
         employeeDto.setLastName(employee.getLastName());
         employeeDto.setBirthdayYear(employee.getBirthdayYear());
+        employeeDto.setPhoneNumber(employee.getPhoneNumber());
+        employeeDto.setUserId(employee.getUserId());
         employeeDto.setFired(employee.isFired());
+        employeeDto.setDeleted(employee.isDeleted());
 
         return employeeDto;
     }
@@ -33,14 +37,44 @@ public class EmployeeDto {
     private String lastName;
     @Min(1930)
     private int birthdayYear;
-    private boolean fired;
+    @Size(min = 2, max = 30)
+    private String phoneNumber;
+    private String userId;
+    private boolean isFired;
+    private boolean isDeleted;
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @JsonProperty("isDeleted")
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    @JsonProperty("isFired")
     public boolean isFired() {
-        return fired;
+        return isFired;
     }
 
     public void setFired(boolean deleted) {
-        this.fired = deleted;
+        this.isFired = deleted;
     }
 
     public String getId() {

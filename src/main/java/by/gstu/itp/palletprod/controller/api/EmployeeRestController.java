@@ -32,9 +32,15 @@ public class EmployeeRestController {
         return employeeService.findAll(page, size, fired, lastName);
     }
 
+    @GetMapping("/count")
+    public long countEmployees() {
+        return employeeService.countEmployees();
+    }
+
     @GetMapping
-    public List<EmployeeDto> findAll(@RequestParam(name = "lastName", defaultValue = "") String lastName) {
-        return employeeService.findAllByLastNameStartingWith(lastName);
+    public List<EmployeeDto> findAll(@RequestParam(name = "lastName", defaultValue = "") String lastName,
+                                     @RequestParam(name = "fired", defaultValue = "false") boolean fired) {
+        return employeeService.findAllByLastNameStartingWith(lastName, fired);
     }
 
     @PostMapping
@@ -46,7 +52,7 @@ public class EmployeeRestController {
     }
 
     @PutMapping
-    public EmployeeDto update(@RequestParam @Valid EmployeeDto employeeDto, BindingResult bindingResult) {
+    public EmployeeDto update(@RequestBody @Valid EmployeeDto employeeDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new DataValidationException(bindingResult);
         }
@@ -54,8 +60,12 @@ public class EmployeeRestController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> delete(@RequestBody EmployeeDto employeeDto) {
-        employeeService.delete(employeeDto);
-        return ResponseEntity.ok("Delete employee is successful");
+    public boolean delete(@RequestBody EmployeeDto employeeDto) {
+        return employeeService.delete(employeeDto);
+    }
+
+    @DeleteMapping("/fire")
+    public boolean fireEmployee(@RequestBody EmployeeDto employeeDto) {
+        return employeeService.fireEmployee(employeeDto);
     }
 }

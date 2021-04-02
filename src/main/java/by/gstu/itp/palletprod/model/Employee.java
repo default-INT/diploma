@@ -4,7 +4,6 @@ import by.gstu.itp.palletprod.dto.EmployeeDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -18,6 +17,10 @@ public class Employee {
         employee.setSecondName(employeeDto.getSecondName());
         employee.setLastName(employeeDto.getLastName());
         employee.setBirthdayYear(employeeDto.getBirthdayYear());
+        employee.setPhoneNumber(employeeDto.getPhoneNumber());
+        employee.setUserId(employeeDto.getUserId());
+        employee.setFired(employeeDto.isFired());
+        employee.setDeleted(employeeDto.isDeleted());
 
         return employee;
     }
@@ -32,11 +35,40 @@ public class Employee {
     private String secondName;
     @Column(name = "last_name", nullable = false)
     private String lastName;
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+    @Column(name = "user_id")
+    private String userId;
     @Column(nullable = false)
     private int birthdayYear;
-    //TODO: need add delete property (bool deleted)
     @Column(nullable = false)
     private boolean fired = false;
+    @Column(nullable = false)
+    private boolean deleted = false;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public boolean isFired() {
         return fired;
@@ -44,17 +76,6 @@ public class Employee {
 
     public void setFired(boolean fired) {
         this.fired = fired;
-    }
-
-    @OneToMany(mappedBy = "employee")
-    private Set<EmployeeReport> employeeReports;
-
-    public Set<EmployeeReport> getEmployeeReports() {
-        return employeeReports;
-    }
-
-    public void setEmployeeReports(Set<EmployeeReport> employeeReports) {
-        this.employeeReports = employeeReports;
     }
 
     public String getId() {
