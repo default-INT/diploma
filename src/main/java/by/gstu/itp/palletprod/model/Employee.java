@@ -1,9 +1,11 @@
 package by.gstu.itp.palletprod.model;
 
 import by.gstu.itp.palletprod.dto.EmployeeDto;
+import by.gstu.itp.palletprod.model.report.EmployeeItem;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -45,6 +47,17 @@ public class Employee {
     private boolean fired = false;
     @Column(nullable = false)
     private boolean deleted = false;
+
+    @OneToMany(mappedBy = "employee")
+    private List<EmployeeItem> employeeItems;
+
+    public List<EmployeeItem> getEmployeeItems() {
+        return employeeItems;
+    }
+
+    public void setEmployeeItems(List<EmployeeItem> employeeItems) {
+        this.employeeItems = employeeItems;
+    }
 
     public boolean isDeleted() {
         return deleted;

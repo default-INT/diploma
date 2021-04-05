@@ -1,10 +1,14 @@
 package by.gstu.itp.palletprod.model;
 
 import by.gstu.itp.palletprod.dto.PositionDto;
+import by.gstu.itp.palletprod.model.report.DayStat;
+import by.gstu.itp.palletprod.model.report.WorkItem;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "positions")
@@ -39,6 +43,12 @@ public class Position {
     private boolean storage;
     @Column(nullable = false)
     private boolean deleted;
+
+    @OneToMany(mappedBy = "position")
+    private List<WorkItem> workItems;
+
+    @OneToMany(mappedBy = "position")
+    private List<DayStat> dayStats;
 
     public String getId() {
         return id;
@@ -94,5 +104,37 @@ public class Position {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public List<WorkItem> getWorkItems() {
+        return workItems;
+    }
+
+    public void setWorkItems(List<WorkItem> workItems) {
+        this.workItems = workItems;
+    }
+
+    public List<DayStat> getDayStats() {
+        return dayStats;
+    }
+
+    public void setDayStats(List<DayStat> dayStats) {
+        this.dayStats = dayStats;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return pallet == position.pallet && storage == position.storage
+                && name.equals(position.name)
+                && itemTariff.equals(position.itemTariff)
+                && itemName.equals(position.itemName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, itemTariff, itemName, pallet, storage);
     }
 }

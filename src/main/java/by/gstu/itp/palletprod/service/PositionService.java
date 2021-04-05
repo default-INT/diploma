@@ -36,13 +36,19 @@ public class PositionService {
         final Position position = positionRepository.findById(positionDto.getId())
                 .orElseThrow(IllegalArgumentException::new);
 
-        position.setName(positionDto.getName());
-        position.setItemTariff(positionDto.getItemTariff());
-        position.setItemName(positionDto.getItemName());
-        position.setPallet(positionDto.isPallet());
-        position.setStorage(positionDto.isStorage());
+        final Position updatePosition = Position.of(positionDto);
 
-        return PositionDto.of(positionRepository.save(position));
+        if (position.equals(updatePosition)) {
+            throw new IllegalStateException();
+        }
+
+        position.setDeleted(true);
+
+        positionRepository.save(position);
+
+        updatePosition.setId(null);
+
+        return PositionDto.of(positionRepository.save(updatePosition));
     }
 
     public boolean delete(final PositionDto positionDto) {
