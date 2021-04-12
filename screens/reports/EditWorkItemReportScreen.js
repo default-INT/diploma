@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {ActivityIndicator, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {Picker} from "@react-native-picker/picker";
 
 import {CardForm, FormBody, FormTitle} from "../../components";
-import {reportActions} from "../../store/actions";
+import {positionActions, reportActions} from "../../store/actions";
 import {MaterialHeaderButton} from "../../components/UI";
 import Colors from "../../constants/colors";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
@@ -21,13 +21,17 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
     const editedWorkItem = selectedEmployeeItem.workItems
         .find(workItem => workItem.id === workItemId);
 
-    const availablePositions = useSelector(state => state.positions.availablePositions);
+    const {availablePositions, loading: loadingPosition} = useSelector(state => state.positions);
 
     const [itemNum, setItemNum] = useState(editedWorkItem ? editedWorkItem.itemNum : 0);
     const [selectedPositionId, setSelectedPositionId] = useState(editedWorkItem ? editedWorkItem.position.id
-        : availablePositions[0].id);
+        : 0);
 
     const dispatch = useDispatch();
+
+    const loadPositions = useCallback(() => {
+        dispatch(positionActions.fetchPosition())
+    }, [dispatch]);
 
     const onSaveHandler = useCallback(() => {
         if (editedWorkItem) {
@@ -46,7 +50,11 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
             +itemNum,
             +(selectedPosition.itemTariff * itemNum).toFixed(2)
         ), employeeItemId));
-    }, [employeeItemId, selectedPositionId, itemNum])
+    }, [employeeItemId, selectedPositionId, itemNum]);
+
+    useEffect(() => {
+        loadPositions();
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -64,21 +72,40 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
         })
     }, [navigation, onSaveHandler]);
 
+    useEffect(() => {
+        if (availablePositions && availablePositions.length !== 0) {
+            setSelectedPositionId(editedWorkItem ? editedWorkItem.position.id
+                : availablePositions[0].id);
+        }
+    }, [availablePositions]);
+
     const selectedPosition = availablePositions.find(({id}) => id === selectedPositionId);
+
+    if (availablePositions.length === 0 || !selectedPosition || loadingPosition) {
+        return (
+            <View style={styles.screenLoader}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
+    }
 
     return (
         <KeyboardAvoidingView behavior='position' style={styles.screen} enabled={true}>
             <ScrollView>
                 <View >
                     <CardForm>
-                        <Picker
-                            selectedValue={selectedPositionId}
-                            onValueChange={((itemValue, itemIndex) => {
-                                setSelectedPositionId(itemValue);
-                            } )}
-                        >
-                            {availablePositions.map(({name, id}) =>  <Picker.Item key={id} label={name} value={id} />)}
-                        </Picker>
+                        {availablePositions.length === 0 ? <View>
+                                <ActivityIndicator size='large' color={Colors.primary} />
+                        </View> :
+                            <Picker
+                                selectedValue={selectedPositionId}
+                                onValueChange={((itemValue, itemIndex) => {
+                                    setSelectedPositionId(itemValue);
+                                } )}
+                            >
+                                {availablePositions.map(({name, id}) =>  <Picker.Item key={id} label={name} value={id} />)}
+                            </Picker>
+                        }
                     </CardForm>
                     <CardForm>
                         <FormTitle titleLine>
@@ -115,6 +142,11 @@ const EditWorkItemReportScreen = ({navigation, route,...props}) => {
 }
 
 const styles = StyleSheet.create({
+    screenLoader: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     editBtn: {
         opacity: .5,
         padding: 5

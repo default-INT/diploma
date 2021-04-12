@@ -56,3 +56,13 @@ export const toDateFormat = date => {
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
 }
+
+export const nameDayOfWeek = {
+    0: 'вс',
+    1: 'пн',
+    2: 'вт',
+    3: 'ср',
+    4: 'чт',
+    5: 'пт',
+    6: 'сб'
+}

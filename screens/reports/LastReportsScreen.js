@@ -1,27 +1,54 @@
-import React from "react";
-import {StyleSheet, Text, View, FlatList} from "react-native";
+import React, {useEffect, useCallback} from "react";
+import {StyleSheet, Text, View, ActivityIndicator, FlatList} from "react-native";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {useSelector, useDispatch} from "react-redux";
 
 import {HeaderToggleButton} from "../default-options";
 import {MaterialHeaderButton} from "../../components/UI";
 import {ReportItem} from "../../components";
+import {reportActions} from "../../store/actions";
+import Colors from "../../constants/colors";
 
-const LastReportsScreen = props => {
-    const reports = useSelector(state => state.reports.lastReports);
+const LastReportsScreen = ({navigation, ...props}) => {
+    const {lastReports, loading, error } = useSelector(state => state.reports);
+    const dispatch = useDispatch();
+
+    const loadReports = useCallback(() => {
+        dispatch(reportActions.fetchLastReports(1));
+    }, [dispatch]);
+
     const onSelectReport = report => {
-        props.navigation.navigate('EditReport', {
+        dispatch(reportActions.selectReport(report));
+        navigation.navigate('EditReport', {
             reportId: report.id,
             selectedDate: true,
             month: report.date.getMonth(),
             year: report.date.getFullYear(),
             date: report.date.getDate()
         })
+    };
+
+
+    useEffect(() => {
+        return navigation.dangerouslyGetParent().addListener('focus', () => {
+            loadReports();
+        });
+    }, [navigation]);
+
+    if (loading) {
+        return (
+            <View style={styles.screen}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
     }
+
     return (
         <FlatList
-            data={reports}
+            data={lastReports}
             renderItem={itemData => <ReportItem report={itemData.item} onPress={onSelectReport} />}
+            refreshing={loading}
+            onRefresh={() => loadReports()}
         />
     )
 };
@@ -48,7 +75,11 @@ export const lastReportsOptions = navData => {
 
 
 const styles = StyleSheet.create({
-
+    screen: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
 
 export default LastReportsScreen

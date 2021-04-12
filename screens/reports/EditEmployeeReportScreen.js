@@ -8,19 +8,19 @@ import {MaterialHeaderButton, TouchableButton} from "../../components/UI";
 import Colors from "../../constants/colors";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {EmployeeItem} from "../../models";
-import {reportActions} from "../../store/actions";
+import {employeeActions, reportActions} from "../../store/actions";
 
 
 const EditEmployeeReportScreen = ({navigation, route, ...props}) => {
 
     const employeeItemId = route.params.employeeItemId;
-    const employees = useSelector(state => state.employees.employees);
+    const {employees, loading} = useSelector(state => state.employees);
     const editedEmployeeItem = useSelector(state => state.reports.selectedEmployeeItem);
 
     const dispatch = useDispatch();
 
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(editedEmployeeItem && editedEmployeeItem.employee ?
-        editedEmployeeItem.employee.id : employees[0].id);
+        editedEmployeeItem.employee.id : 0);
     const workItems = editedEmployeeItem.workItems ? [...editedEmployeeItem.workItems] : [];
 
     const emptyWorkItemsListText = <Text>Список работ сотрудника за день пуст!</Text>;
@@ -45,6 +45,10 @@ const EditEmployeeReportScreen = ({navigation, route, ...props}) => {
             }
         ]);
     }
+
+    const loadEmployees = useCallback(() => {
+        dispatch(employeeActions.fetchEmployees());
+    }, [dispatch]);
 
     const onSaveHandler = useCallback(() => {
         const workItems = [...editedEmployeeItem.workItems];
@@ -90,10 +94,13 @@ const EditEmployeeReportScreen = ({navigation, route, ...props}) => {
     }, [navigation, onSaveHandler]);
 
     useEffect(() => {
+        if (employees.length === 0) {
+            loadEmployees();
+        }
         dispatch(reportActions.loadSelectedEmployeeItem(employeeItemId));
     }, []);
 
-    if (!editedEmployeeItem) {
+    if (!editedEmployeeItem || loading || employees.length === 0) {
         return (
             <View style={styles.screen}>
                 <ActivityIndicator size='large' color={Colors.primary} />
@@ -160,6 +167,7 @@ const styles = StyleSheet.create({
         padding: 5
     },
     screen: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     }

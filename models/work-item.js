@@ -1,3 +1,5 @@
+import Position from "./position";
+
 export default class WorkItem {
     /**
      *
@@ -11,5 +13,14 @@ export default class WorkItem {
         this.position = position;
         this.itemNum = itemNum;
         this.salary = salary;
+    }
+
+    static of(workItem) {
+        return new WorkItem(
+            workItem.id,
+            Position.of(workItem.position),
+            workItem.itemNum,
+            workItem.salary
+        )
     }
 }

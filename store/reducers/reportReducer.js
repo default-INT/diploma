@@ -3,7 +3,9 @@ import {REPORTS} from "../../data/dummy-data";
 import {DayStat, EmployeeItem} from "../../models";
 
 const initialState = {
-    lastReports: REPORTS,
+    loading: false,
+    error: null,
+    lastReports: [],
     monthlyReports: REPORTS.filter(report => report.date.getMonth() === 3),
     selectedReport: null,
     selectedEmployeeItem: null
@@ -19,13 +21,16 @@ const handlers = {
         ...state,
         monthlyReports: payload
     }),
-    [REPORTS_TYPES.ADD_REPORT]: (state, {payload}) => ({
-        ...state,
-        lastReports: [payload, ...state.lastReports],
-        monthlyReports: payload.date.getMonth() === state.monthlyReports[0].getMonth() ?
-            state.monthlyReports.concat(payload).sort((d1, d2) => d1 > d2 ? 1 : -1)
-            : state.monthlyReports
-    }),
+    [REPORTS_TYPES.ADD_REPORT]: (state, {payload}) => {
+        console.log(payload);
+        return {
+            ...state,
+            lastReports: [payload, ...state.lastReports].sort((r1, r2) => r1.date > r2.date ? 1 : -1),
+            monthlyReports: payload.date.getMonth() === state.monthlyReports[0].getMonth() ?
+                state.monthlyReports.concat(payload).sort((r1, r2) => r1.date > r2.date ? 1 : -1)
+                : state.monthlyReports
+        }
+    },
     [REPORTS_TYPES.UPDATE_REPORT]: (state, {payload}) => {
         const updateLastReportIdx = state.lastReports.findIndex(report => report.id === payload.id);
         const updateMonthlyReportIdx = state.lastReports.findIndex(report => report.id === payload.id);
@@ -122,10 +127,22 @@ const handlers = {
         ...state,
         selectedReport: payload
     }),
+    [REPORTS_TYPES.SET_ERROR]: (state, {payload}) => ({
+        ...state,
+        error: payload
+    }),
+    [REPORTS_TYPES.START_LOADING]: (state) => ({
+        ...state,
+        loading: true
+    }),
+    [REPORTS_TYPES.END_LOADING]: (state) => ({
+        ...state,
+        loading: false
+    }),
     DEFAULT: state => state
 }
 
 export const reportReducer = (state = initialState, action) => {
-    const handle = handlers[action.type] || handlers.DEFAULT
+    const handle = handlers[action.type] || handlers.DEFAULT;
     return handle(state, action)
 }

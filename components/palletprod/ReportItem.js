@@ -2,19 +2,8 @@ import React from "react";
 import {View, Text, StyleSheet, TouchableNativeFeedback, TouchableOpacity, Platform} from "react-native";
 
 import Card from "../Card";
-import {toDateFormat} from "../../utils";
+import {toDateFormat, nameDayOfWeek} from "../../utils";
 import Colors from "../../constants/colors";
-
-const nameDayOfWeek = {
-    0: 'вс',
-    1: 'пн',
-    2: 'вт',
-    3: 'ср',
-    4: 'чт',
-    5: 'пт',
-    6: 'сб'
-}
-
 
 
 const ReportItem = ({report, ...props}) => {

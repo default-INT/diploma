@@ -29,9 +29,10 @@ const handlers = {
             .sort((p1, p2) => p1.id > p2.id ? 1 : -1)
     }),
     [POSITION_TYPES.UPDATE_POSITION]: (state, {payload}) => {
-        const updateIdx = state.availablePositions.findIndex(p => p.id === payload.id);
+        const {position, oldId} = payload;
+        const updateIdx = state.availablePositions.findIndex(p => p.id === oldId);
         const updatedPositions = [...state.availablePositions];
-        updatedPositions[updateIdx] = payload;
+        updatedPositions[updateIdx] = position;
         return ({
             ...state,
             availablePositions: updatedPositions

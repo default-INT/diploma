@@ -2,7 +2,9 @@ import {EMPLOYEES} from "../../data/dummy-data"
 import {EMPLOYEE_TYPES} from "../../constants/types"
 
 const initialState = {
-    employees: EMPLOYEES
+    employees: [],
+    loading: false,
+    error: null
 }
 
 const handlers = {
@@ -23,9 +25,21 @@ const handlers = {
             employees: updatedEmployees
         }
     },
-    [EMPLOYEE_TYPES.DELETE_EMPLOYEE]: (state, {payload}) => ({
+    [EMPLOYEE_TYPES.FIRE_EMPLOYEE]: (state, {payload}) => ({
         ...state,
         employees: state.employees.filter(employee => employee.id !== payload)
+    }),
+    [EMPLOYEE_TYPES.SET_ERROR]: (state, {payload}) => ({
+        ...state,
+        error: payload
+    }),
+    [EMPLOYEE_TYPES.START_LOADING]: (state) => ({
+        ...state,
+        loading: true
+    }),
+    [EMPLOYEE_TYPES.END_LOADING]: (state) => ({
+        ...state,
+        loading: false
     }),
     DEFAULT: state => state
 }

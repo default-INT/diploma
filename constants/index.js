@@ -13,4 +13,4 @@ export const MONTH_NAMES = [
     'декабрь',
 ];
 
-export const SERVER_URL = 'http://192.168.1.5:8080'
+export const SERVER_URL = 'http://192.168.43.144:8080'

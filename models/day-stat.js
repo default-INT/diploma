@@ -1,3 +1,5 @@
+import Position from "./position";
+
 export default class DayStat {
     /**
      *
@@ -11,5 +13,14 @@ export default class DayStat {
         this.position = position;
         this.totalNum = totalNum;
         this.totalSalary = totalSalary;
+    }
+
+    static of(dayStat) {
+        return new DayStat(
+            dayStat.id,
+            Position.of(dayStat.position),
+            dayStat.totalNum,
+            dayStat.totalSalary
+        )
     }
 }

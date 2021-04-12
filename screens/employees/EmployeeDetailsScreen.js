@@ -17,16 +17,25 @@ const Field = ({title, value}) => {
     )
 }
 
-const EmployeeDetailsScreen = props => {
+const EmployeeDetailsScreen = ({navigation, ...props}) => {
     const employeeId = props.route.params.employeeId
-    const employee = useSelector(state => state.employees.employees.find(employee => employee.id === employeeId))
+    const employee = useSelector(state => state.employees.employees.find(employee => employee.id === employeeId));
+    const {loading, error} = useSelector(state => state.employees);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-        props.navigation.setOptions({
-            headerTitle: employee ? employee.fullName : 'Удаление...'
+        navigation.setOptions({
+            headerTitle: employee ? employee.fullName : 'Увольнение...'
         });
-    }, [employee]);
+    }, [navigation]);
+
+    useEffect(() => {
+        if (error) {
+            Alert.alert('Произошла ошибка!', error, [{ text: 'Ок' }]);
+        }
+    }, [error]);
+
 
     const deleteHandler = () => {
         Alert.alert('Увольнение', 'Вы действительно хотите уволить сотрудника?', [
@@ -35,17 +44,25 @@ const EmployeeDetailsScreen = props => {
                 text: 'Да',
                 style: 'destructive',
                 onPress: () => {
-                    dispatch(employeeActions.deleteEmployee(employeeId));
-                    props.navigation.goBack();
+                    dispatch(employeeActions.fireEmployee(employeeId));
+                    navigation.goBack();
                 }
             }
         ]);
     }
 
-    if (!employee) {
+    if (loading) {
         return (
             <View style={styles.centered}>
                 <ActivityIndicator size="large" color={Colors.primary} />
+            </View>
+        );
+    }
+
+    if (!employee) {
+        return (
+            <View style={styles.centered}>
+                <Text>Не удалось найти сотрудника!</Text>
             </View>
         );
     }

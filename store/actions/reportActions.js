@@ -1,6 +1,75 @@
 import {REPORTS_TYPES} from "../../constants/types";
 import {REPORTS} from "../../data/dummy-data";
+import {SERVER_URL} from "../../constants";
 import {EmployeeItem, Report, WorkItem} from "../../models";
+
+export const fetchLastReports = page => {
+    return async dispatch => {
+        dispatch({type: REPORTS_TYPES.START_LOADING});
+        dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
+        try {
+            const response = await fetch(`${SERVER_URL}/reports?size=10&page=${page}`);
+            if (!response.ok) {
+                dispatch({
+                    type: REPORTS_TYPES.SET_ERROR,
+                    payload: 'Не удалось получить данные об отчётах. Status: ' + response.status
+                });
+                dispatch({type: REPORTS_TYPES.END_LOADING});
+                return;
+            }
+            const reports = await response.json();
+            dispatch({
+                type: REPORTS_TYPES.FETCH_LAST_REPORTS,
+                payload: reports.map(report => Report.of(report))
+            });
+        } catch (err) {
+            dispatch({
+                type: REPORTS_TYPES.SET_ERROR,
+                payload: err.message
+            });
+        }
+        dispatch({type: REPORTS_TYPES.END_LOADING});
+    }
+}
+
+export const addReport = (date, report) => {
+    return async (dispatch, getState) => {
+        dispatch({type: REPORTS_TYPES.START_LOADING});
+        dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
+        try {
+            const response = await fetch(`${SERVER_URL}/reports`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...report.toReq(),
+                    date: date
+                })
+            });
+            if (!response.ok) {
+                dispatch({
+                    type: REPORTS_TYPES.SET_ERROR,
+                    payload: 'Не удалось получить данные об отчётах. Status: ' + response.status
+                });
+                dispatch({type: REPORTS_TYPES.END_LOADING});
+                return;
+            }
+            const newReport = await response.json();
+
+            dispatch({
+                type: REPORTS_TYPES.ADD_REPORT,
+                payload: Report.of(newReport)
+            });
+        } catch (err) {
+            dispatch({
+                type: REPORTS_TYPES.SET_ERROR,
+                payload: err.message
+            });
+        }
+        dispatch({type: REPORTS_TYPES.END_LOADING});
+    }
+};
 
 export const fetchMonthlyReports = month => {
     return {
@@ -99,25 +168,19 @@ export const addEmployeeItemReport = payload => {
     }
 }
 
+export const selectReport = report => {
+    return {
+        type: REPORTS_TYPES.GET_REPORT,
+        payload: report
+    }
+}
+
 export const getReport = reportId => {
     return {
         type: REPORTS_TYPES.GET_REPORT,
         payload: {...REPORTS.find(report => report.id === reportId)}
     }
 }
-
-export const addReport = report => {
-    return {
-        type: REPORTS_TYPES.ADD_REPORT,
-        payload: new Report(
-            new Date().toISOString(),
-            report.date,
-            report.workItems,
-            report.dayStats,
-            report. totalSalary
-        )
-    };
-};
 
 export const updateReport = report => {
     return {

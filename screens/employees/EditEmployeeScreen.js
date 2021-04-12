@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
-import { Alert, KeyboardAvoidingView, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, KeyboardAvoidingView, ScrollView, StyleSheet, View, ActivityIndicator } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,10 +11,10 @@ import { FORM_INPUT_UPDATE } from "../../constants/types";
 import Colors from "../../constants/colors";
 
 const EditEmployeeScreen = props => {
-    const [error, setError] = useState();
 
     const employeeId = props.route.params.employeeId;
     const editedEmployee = useSelector(state => state.employees.employees.find(employee => employee.id === employeeId));
+    const {error, loading} = useSelector(state => state.employees);
     const dispatch = useDispatch();
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -48,29 +48,20 @@ const EditEmployeeScreen = props => {
             ]);
             return;
         }
-        setError(null);
-        try {
-            if (editedEmployee) {
-                dispatch(employeeActions.updateEmployee({
-                    id: employeeId,
-                    ...formState.inputValues,
-                    birthdayYear: +formState.inputValues.birthdayYear
-                }))
-            } else {
-                dispatch(employeeActions.addEmployees({
-                    ...formState.inputValues,
-                    birthdayYear: +formState.inputValues.birthdayYear
-                }))
-            }
-        } catch (err) {
-            setError(err.message)
+        if (editedEmployee) {
+            dispatch(employeeActions.updateEmployee({
+                id: employeeId,
+                ...formState.inputValues,
+                birthdayYear: +formState.inputValues.birthdayYear
+            }))
+        } else {
+            dispatch(employeeActions.addEmployees({
+                ...formState.inputValues,
+                birthdayYear: +formState.inputValues.birthdayYear
+            }))
         }
         props.navigation.goBack();
     }, [dispatch, employeeId, formState]);
-
-    // useEffect(() => {
-    //     props.navigation.setParams({ ...formState.inputValues });
-    // }, [submitHandler]);
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -96,6 +87,14 @@ const EditEmployeeScreen = props => {
         },
         [dispatchFormState]
     );
+
+    if (loading) {
+        return (
+            <View style={styles.loadingScreen}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
+    }
 
     return (
         <View style={styles.screen}>
@@ -185,6 +184,12 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: Colors.white,
         flex: 1
+    },
+    loadingScreen: {
+        flex: 1,
+        backgroundColor: Colors.white,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 

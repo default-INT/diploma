@@ -1,3 +1,6 @@
+import Employee from "./employee";
+import WorkItem from "./work-item";
+
 export default class EmployeeItem {
     /**
      *
@@ -11,5 +14,14 @@ export default class EmployeeItem {
         this.employee = employee;
         this.workItems = workItems;
         this.totalSalary = totalSalary;
+    }
+
+    static of(employeeItem) {
+        return new EmployeeItem(
+            employeeItem.id,
+            Employee.of(employeeItem.employee),
+            employeeItem.workItems.map(workItem => WorkItem.of(workItem)),
+            employeeItem.totalSalary
+        )
     }
 }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {StyleSheet, Text, View, ActivityIndicator, ScrollView, Alert} from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useSelector, useDispatch} from "react-redux";
@@ -22,7 +22,7 @@ const EditReportScreen = props => {
         : new Date());
 
     const reportId = routeParams.reportId;
-    const editedReport = useSelector(state => state.reports.selectedReport);
+    const {selectedReport:editedReport, loading, error} = useSelector(state => state.reports);
 
     const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -32,11 +32,21 @@ const EditReportScreen = props => {
         setDate(currentDate);
     }
 
+    const navigation = props.navigation;
+
+    const submitHandler = useCallback(async () => {
+        if (!reportId) {
+            await dispatch(reportActions.addReport(date, editedReport));
+        }
+        if (error === null) {
+            navigation.goBack();
+        }
+    }, [date, setDate, editedReport, dispatch, navigation]);
+
     useEffect(() => {
         //TODO: must be async + add activity indicator!
-        if (reportId) {
-            dispatch(reportActions.getReport(reportId));
-        } else {
+        if (!reportId) {
+            // dispatch(reportActions.getReport(reportId));
             dispatch(reportActions.createEmptyReport(date));
         }
     }, []);
@@ -48,10 +58,11 @@ const EditReportScreen = props => {
                 <Item
                     title="Save"
                     iconName="save"
+                    onPress={submitHandler.bind(this)}
                 />
             </HeaderButtons>
         })
-    }, []);
+    }, [submitHandler]);
 
     const onAddEmployeeHandler = () => {
         dispatch(reportActions.loadSelectedEmployeeItem());
@@ -80,7 +91,7 @@ const EditReportScreen = props => {
 
     const emptyEmployeesListText = <Text>Список сотрудников пуст!</Text>;
 
-    if (!editedReport) {
+    if (!editedReport || loading) {
         return (
             <View style={styles.centredScreen}>
                 <ActivityIndicator size='large' color={Colors.primary} />

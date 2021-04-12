@@ -84,7 +84,10 @@ export const updatePosition = position => {
             const updatePosition = await response.json();
             dispatch({
                 type: POSITION_TYPES.UPDATE_POSITION,
-                payload: Position.of(updatePosition)
+                payload: {
+                    position: Position.of(updatePosition),
+                    oldId: position.id
+                }
             });
         } catch (err) {
             dispatch({type: POSITION_TYPES.SET_ERROR, payload: err.message});
@@ -120,6 +123,11 @@ export const deletePosition = positionId => {
                 dispatch({
                     type: POSITION_TYPES.DELETE_POSITION,
                     payload: positionId
+                });
+            } else {
+                dispatch({
+                    type: POSITION_TYPES.SET_ERROR,
+                    payload: 'Не удалось удалить тариф. Status: ' + response.status
                 });
             }
         } catch (err) {
