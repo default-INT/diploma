@@ -1,7 +1,7 @@
-import React, {useEffect, useCallback} from "react";
-import {StyleSheet, Text, View, ActivityIndicator, FlatList} from "react-native";
+import React, {useCallback, useEffect} from "react";
+import {ActivityIndicator, Alert, Button, FlatList, StyleSheet, Text, View} from "react-native";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {HeaderToggleButton} from "../default-options";
 import {MaterialHeaderButton} from "../../components/UI";
@@ -28,10 +28,23 @@ const LastReportsScreen = ({navigation, ...props}) => {
         })
     };
 
+    const onDeleteHandler = reportId => {
+        Alert.alert('Удаление', 'Вы действительно хотите удалить отчёт?', [
+            { text: 'Нет', style: 'default' },
+            {
+                text: 'Да',
+                style: 'destructive',
+                onPress: () => {
+                    dispatch(reportActions.deleteReport(reportId));
+                }
+            }
+        ]);
+    }
 
     useEffect(() => {
-        return navigation.dangerouslyGetParent().addListener('focus', () => {
+        return navigation.addListener('focus', () => {
             loadReports();
+            dispatch(reportActions.createEmptyReport(new Date()));
         });
     }, [navigation]);
 
@@ -43,10 +56,33 @@ const LastReportsScreen = ({navigation, ...props}) => {
         )
     }
 
+    if (error) {
+        return (
+            <View style={styles.screen}>
+                <Text>{error}</Text>
+                <View style={styles.btnStyle}>
+                    <Button title='Попробовать снова' color={Colors.primary} onPress={() => loadReports()}/>
+                </View>
+            </View>
+        )
+    }
+
+    if (lastReports.length === 0) {
+        return (
+            <View style={styles.screen}>
+                <Text>Не было найденно ни одного отчёта</Text>
+            </View>
+        )
+    }
+
     return (
         <FlatList
             data={lastReports}
-            renderItem={itemData => <ReportItem report={itemData.item} onPress={onSelectReport} />}
+            renderItem={itemData => <ReportItem
+                report={itemData.item}
+                onPress={onSelectReport}
+                onLongPress={onDeleteHandler}
+            />}
             refreshing={loading}
             onRefresh={() => loadReports()}
         />
@@ -80,6 +116,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-})
+    btnStyle: {
+        marginTop: 20
+    },
+});
 
-export default LastReportsScreen
+export default LastReportsScreen;

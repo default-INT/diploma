@@ -17,9 +17,15 @@ const EditReportScreen = props => {
     const routeParams = props.route.params;
     const dispatch = useDispatch();
 
-    const [date, setDate] = useState(routeParams.selectedDate ?
-        new Date(routeParams.year, routeParams.month, routeParams.date)
-        : new Date());
+    let dateInit = new Date();
+    if (routeParams.selectedDate) {
+        const day = routeParams.date < 10 ? '0' + routeParams.date : routeParams.date;
+        const month = routeParams.month + 1 < 10 ? '0' + (routeParams.month + 1) : (routeParams.month + 1);
+        const dateFormat = `${routeParams.year}-${month}-${day}T00:00`;0
+        dateInit = new Date(dateFormat);
+    }
+
+    const [date, setDate] = useState(dateInit);
 
     const reportId = routeParams.reportId;
     const {selectedReport:editedReport, loading, error} = useSelector(state => state.reports);
@@ -37,6 +43,8 @@ const EditReportScreen = props => {
     const submitHandler = useCallback(async () => {
         if (!reportId) {
             await dispatch(reportActions.addReport(date, editedReport));
+        } else {
+            await dispatch(reportActions.updateReport(date, editedReport));
         }
         if (error === null) {
             navigation.goBack();
@@ -169,7 +177,7 @@ const EditReportScreen = props => {
                                 {dayStats.map(dayStat => <DayStatItem key={dayStat.id + dayStat.position.name} dayStat={dayStat} />)}
                                 <View style={styles.totalSalaryBox}>
                                     <Text>Суммарные выплаты рабочим: {dayStats.map(dayStat => dayStat.totalSalary)
-                                        .reduce((d1, d2) => d1 + d2)} р</Text>
+                                        .reduce((d1, d2) => d1 + d2).toFixed(2)} р</Text>
                                 </View>
                             </View>
                             : <Text>Информация отсутствует!</Text>

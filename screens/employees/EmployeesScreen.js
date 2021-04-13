@@ -51,6 +51,13 @@ const EmployeesScreen = props => {
         )
     }
 
+    if (employees.length === 0) {
+        return (
+            <View style={styles.screen}>
+                <Text>Не было найденно ни одного сотрудника</Text>
+            </View>
+        )
+    }
 
     return (
         <FlatList

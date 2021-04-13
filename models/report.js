@@ -19,6 +19,20 @@ export default class Report {
         this.totalSalary = totalSalary;
     }
 
+    static toHttpRequestFormat(report) {
+        return {
+            date: report.date,
+            employeeItems: report.employeeItems.map(employeeItem => ({
+                employeeId: employeeItem.employee.id,
+                totalSalary: employeeItem.totalSalary,
+                workItems: employeeItem.workItems.map(workItem => ({
+                    itemNum: workItem.itemNum,
+                    positionId: workItem.position.id
+                }))
+            }))
+        }
+    }
+
     toReq = () => {
         return {
             date: this.date,

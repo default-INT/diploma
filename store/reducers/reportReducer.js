@@ -21,41 +21,27 @@ const handlers = {
         ...state,
         monthlyReports: payload
     }),
-    [REPORTS_TYPES.ADD_REPORT]: (state, {payload}) => {
-        console.log(payload);
+    [REPORTS_TYPES.ADD_REPORT]: (state, {payload}) => ({
+        ...state,
+        lastReports: [payload, ...state.lastReports].sort((r1, r2) => r1.date > r2.date ? 1 : -1),
+        monthlyReports: payload.date.getMonth() === state.monthlyReports[0].getMonth() ?
+            state.monthlyReports.concat(payload).sort((r1, r2) => r1.date > r2.date ? 1 : -1)
+            : state.monthlyReports
+    }),
+    [REPORTS_TYPES.UPDATE_REPORT]: (state, {payload}) => {
+        const {report:updateReport, oldId} = payload;
         return {
             ...state,
-            lastReports: [payload, ...state.lastReports].sort((r1, r2) => r1.date > r2.date ? 1 : -1),
+            lastReports: [updateReport, ...state.lastReports.filter(report => report.id !== oldId)]
+                .sort((r1, r2) => r1.date > r2.date ? 1 : -1),
             monthlyReports: payload.date.getMonth() === state.monthlyReports[0].getMonth() ?
-                state.monthlyReports.concat(payload).sort((r1, r2) => r1.date > r2.date ? 1 : -1)
-                : state.monthlyReports
-        }
-    },
-    [REPORTS_TYPES.UPDATE_REPORT]: (state, {payload}) => {
-        const updateLastReportIdx = state.lastReports.findIndex(report => report.id === payload.id);
-        const updateMonthlyReportIdx = state.lastReports.findIndex(report => report.id === payload.id);
-        let newState = {
-            ...state
-        }
-        if (updateLastReportIdx) {
-            const updatedLastReports = [...state.lastReports];
-            updatedLastReports[updateLastReportIdx] = payload;
-            newState = {
-                ...newState,
-                lastReports: updatedLastReports
-            };
-        }
+                state.monthlyReports
+                    .filter(report => report.id !== oldId)
+                    .concat(updateReport)
+                    .sort((r1, r2) => r1.date > r2.date ? 1 : -1)
 
-        if (updateMonthlyReportIdx) {
-            const updatedMonthlyReports = [...state.monthlyReports];
-            updatedMonthlyReports[updateMonthlyReportIdx] = payload;
-            newState = {
-                ...newState,
-                monthlyReports: updatedMonthlyReports
-            };
+                : state.monthlyReports.filter(report => report.id !== oldId)
         }
-
-        return newState;
     },
     [REPORTS_TYPES.DELETE_REPORT]: (state, {payload}) => ({
         ...state,

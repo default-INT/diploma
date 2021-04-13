@@ -79,6 +79,13 @@ const EditEmployeeReportScreen = ({navigation, route, ...props}) => {
         navigation.goBack();
     }, [dispatch, workItems, editedEmployeeItem, selectedEmployeeId]);
 
+    useEffect(() => {
+        if (employees && employees.length !== 0) {
+            setSelectedEmployeeId(editedEmployeeItem && editedEmployeeItem.employee ?
+                editedEmployeeItem.employee.id
+                : employees[0].id);
+        }
+    }, [employees]);
 
     useEffect(() => {
         navigation.setOptions({

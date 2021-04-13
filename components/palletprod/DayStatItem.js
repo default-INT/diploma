@@ -15,7 +15,7 @@ const DayStatItem = ({dayStat, ...props}) => {
             <Text>{dayStat.position.name}</Text>
             <View style={styles.values}>
                 <Text>{dayStat.totalNum} {dayStat.position.itemName.split('/')[1]}</Text>
-                <Text>{dayStat.totalSalary} р.</Text>
+                <Text>{dayStat.totalSalary.toFixed(2)} р.</Text>
             </View>
         </View>
     )
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     values: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 100
+        width: 120
     }
 });
 

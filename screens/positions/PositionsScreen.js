@@ -66,6 +66,14 @@ const PositionsScreen = ({navigation, ...props}) => {
         )
     }
 
+    if (positions.length === 0) {
+        return (
+            <View style={styles.screen}>
+                <Text>Не было найденно ни одного тарифа</Text>
+            </View>
+        )
+    }
+
     return (
         <FlatList
             data={positions}

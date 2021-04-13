@@ -1,17 +1,20 @@
 import React from "react";
-import {View, Text, StyleSheet, TouchableNativeFeedback, TouchableOpacity, Platform} from "react-native";
+import {Platform, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View} from "react-native";
 
 import Card from "../Card";
-import {toDateFormat, nameDayOfWeek} from "../../utils";
+import {nameDayOfWeek, toDateFormat} from "../../utils";
 import Colors from "../../constants/colors";
 
 
-const ReportItem = ({report, ...props}) => {
+const ReportItem = ({report, onLongPress, onPress, ...props}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
+
+    const dayStats = report.dayStats.filter(({position}) => position.isPallet);
+
     return (
         <Card style={styles.card} >
             <View style={styles.touchable}>
-                <TouchableComponent onPress={() => props.onPress(report)} useForeground>
+                <TouchableComponent onPress={() => onPress(report)} useForeground onLongPress={() => onLongPress(report.id)}>
                     <View style={styles.reportContainer}>
                         <View style={styles.title}>
                             <Text style={styles.titleText}>{toDateFormat(report.date)}</Text>
@@ -22,11 +25,13 @@ const ReportItem = ({report, ...props}) => {
                             </Text>
                         </View>
                         <View style={styles.info}>
-                            {report.dayStats.filter(dayStat => dayStat.position.isPallet)
-                                .map(dayStat => <View key={dayStat.id} style={styles.field}>
-                                    <Text>{dayStat.position.name}</Text>
-                                    <Text>{dayStat.totalNum} шт</Text>
-                                </View>)}
+                            {dayStats.length === 0 ?
+                                <View style={styles.field}><Text>Не было сбито ни одного поддона.</Text></View> :
+                                dayStats.map(dayStat => <View key={dayStat.id} style={styles.field}>
+                                        <Text>{dayStat.position.name}</Text>
+                                        <Text>{dayStat.totalNum} шт</Text>
+                                    </View>)
+                            }
                         </View>
                     </View>
                 </TouchableComponent>
