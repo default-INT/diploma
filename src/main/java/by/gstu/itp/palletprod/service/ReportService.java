@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,15 @@ public class ReportService {
         this.reportRepository = reportRepository;
         this.positionRepository = positionRepository;
         this.employeeRepository = employeeRepository;
+    }
+
+    public List<ReportDto> findAllMonthAndYear(final int month, final int year) {
+        LocalDate dateAfter = LocalDate.of(year, month, 1).minusDays(1);
+        LocalDate dateBefore = dateAfter.plusDays(1).plusMonths(1);
+        return reportRepository.findAllByDateAfterAndDateBefore(dateAfter, dateBefore)
+                .stream()
+                .map(ReportDto::of)
+                .collect(Collectors.toList());
     }
 
     public List<ReportDto> findAll(final int page, final int size) {

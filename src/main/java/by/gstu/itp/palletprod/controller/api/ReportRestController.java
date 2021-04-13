@@ -25,6 +25,12 @@ public class ReportRestController {
         return reportService.findAll(page, size);
     }
 
+    @GetMapping("/week")
+    public List<ReportDto> findAllByMonthAndYear(@RequestParam(name = "month") int month,
+                                                 @RequestParam(name = "year") int year) {
+        return reportService.findAllMonthAndYear(month, year);
+    }
+
     @PutMapping
     public ReportDto update(@RequestBody ReportDto reportDto) {
         return reportService.update(reportDto);
