@@ -1,5 +1,6 @@
 package by.gstu.itp.palletprod.model.report;
 
+import by.gstu.itp.palletprod.dto.report.DayStatDto;
 import by.gstu.itp.palletprod.model.Position;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,6 +10,17 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "day_stats")
 public class DayStat {
+    public static DayStat of(final DayStatDto dayStatDto) {
+        final DayStat dayStat = new DayStat();
+
+        dayStat.setId(dayStatDto.getId());
+        dayStat.setPositionId(dayStatDto.getPositionId());
+        dayStat.setTotalNum(dayStatDto.getTotalNum());
+        dayStat.setTotalSalary(dayStatDto.getTotalSalary());
+
+        return dayStat;
+    }
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
@@ -16,7 +28,9 @@ public class DayStat {
 
     @Column(name = "position_id", nullable = false, updatable = false, insertable = false)
     private String positionId;
-    @Column(name = "total_num", nullable = false)
+    @Column(name = "report_id", updatable = false, insertable = false)
+    private String reportId;
+    @Column(name = "total_num")
     private int totalNum;
     @Column(name = "total_salary", nullable = false)
     private BigDecimal totalSalary;
@@ -24,6 +38,10 @@ public class DayStat {
     @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", updatable = false, insertable = false)
+    private Report report;
 
     public String getId() {
         return id;
@@ -64,5 +82,21 @@ public class DayStat {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public String getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(String reportId) {
+        this.reportId = reportId;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
     }
 }

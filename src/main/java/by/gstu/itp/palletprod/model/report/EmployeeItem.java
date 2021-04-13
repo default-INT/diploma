@@ -1,22 +1,39 @@
 package by.gstu.itp.palletprod.model.report;
 
+import by.gstu.itp.palletprod.dto.report.EmployeeItemDto;
 import by.gstu.itp.palletprod.model.Employee;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "employee_items")
 public class EmployeeItem {
+    public static EmployeeItem of(final EmployeeItemDto employeeItemDto) {
+        final EmployeeItem employeeItem = new EmployeeItem();
+
+        employeeItem.setId(employeeItemDto.getId());
+        employeeItem.setEmployeeId(employeeItemDto.getEmployeeId());
+        employeeItem.setTotalSalary(employeeItemDto.getTotalSalary());
+
+        employeeItem.setWorkItems(
+                employeeItemDto.getWorkItems().stream().map(WorkItem::of)
+                    .collect(Collectors.toList())
+        );
+
+        return employeeItem;
+    }
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
     @Column(name = "employee_id", nullable = false, updatable = false, insertable = false)
     private String employeeId;
-    @Column(name = "report_id", nullable = false, updatable = false, insertable = false)
+    @Column(name = "report_id", updatable = false, insertable = false)
     private String reportId;
     @Column(name = "total_salary", nullable = false)
     private BigDecimal totalSalary;
@@ -29,7 +46,8 @@ public class EmployeeItem {
     @JoinColumn(name = "report_id")
     private Report report;
 
-    @OneToMany(mappedBy = "employeeItem")
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "employee_item_id")
     private List<WorkItem> workItems;
 
     public String getId() {

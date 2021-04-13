@@ -1,5 +1,6 @@
 package by.gstu.itp.palletprod.model.report;
 
+import by.gstu.itp.palletprod.dto.report.WorkItemDto;
 import by.gstu.itp.palletprod.model.Position;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,6 +10,17 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "work_items")
 public class WorkItem {
+    public static WorkItem of(final WorkItemDto workItemDto) {
+        final WorkItem workItem = new WorkItem();
+
+        workItem.setId(workItemDto.getId());
+        workItem.setPositionId(workItemDto.getPositionId());
+        workItem.setItemNum(workItemDto.getItemNum());
+        workItem.setSalary(workItemDto.getSalary());
+
+        return workItem;
+    }
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
@@ -22,7 +34,7 @@ public class WorkItem {
     @Column(name = "salary", nullable = false)
     private BigDecimal salary;
 
-    @Column(name = "employee_item_id", nullable = false, updatable = false, insertable = false)
+    @Column(name = "employee_item_id", updatable = false, insertable = false)
     private String employeeItemId;
 
     @ManyToOne
@@ -30,7 +42,7 @@ public class WorkItem {
     private Position position;
 
     @ManyToOne
-    @JoinColumn(name = "employee_item_id")
+    @JoinColumn(name = "employee_item_id", updatable = false, insertable = false)
     private EmployeeItem employeeItem;
 
     public String getEmployeeItemId() {
