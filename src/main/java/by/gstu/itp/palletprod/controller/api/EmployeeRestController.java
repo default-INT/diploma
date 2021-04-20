@@ -3,7 +3,6 @@ package by.gstu.itp.palletprod.controller.api;
 import by.gstu.itp.palletprod.dto.EmployeeDto;
 import by.gstu.itp.palletprod.exception.DataValidationException;
 import by.gstu.itp.palletprod.service.EmployeeService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +19,12 @@ public class EmployeeRestController {
         this.employeeService = employeeService;
     }
 
+    @GetMapping("/count")
+    public int countEmployee() {
+        return employeeService.countAvailableEmployee();
+    }
+
+
     @GetMapping("{page}")
     public List<EmployeeDto> findAll(@PathVariable int page,
                                      @RequestParam(name = "size", defaultValue = "0") int size,
@@ -30,11 +35,6 @@ public class EmployeeRestController {
             size = 20;
         }
         return employeeService.findAll(page, size, fired, lastName);
-    }
-
-    @GetMapping("/count")
-    public long countEmployees() {
-        return employeeService.countEmployees();
     }
 
     @GetMapping

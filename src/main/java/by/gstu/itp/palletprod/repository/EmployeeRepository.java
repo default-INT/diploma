@@ -11,4 +11,5 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, String>, PagingAndSortingRepository<Employee, String> {
     List<Employee> findAllByFiredAndLastNameStartingWithAndDeletedFalse(boolean fired, String lastName);
     Page<Employee> findAllByFiredAndLastNameStartingWith(boolean fired, String lastName, Pageable pageRequest);
+    int countByFiredFalse();
 }

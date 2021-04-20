@@ -42,6 +42,13 @@ public class ReportService {
                 .collect(Collectors.toList());
     }
 
+    public List<ReportDto> findAll() {
+        return reportRepository.findAll()
+                .stream()
+                .map(ReportDto::of)
+                .collect(Collectors.toList());
+    }
+
     public List<ReportDto> findAll(final int page, final int size) {
         if (size > 20 || size < 0) {
             throw new IllegalArgumentException("Limit is too much");

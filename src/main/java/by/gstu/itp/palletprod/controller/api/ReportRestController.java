@@ -22,7 +22,7 @@ public class ReportRestController {
         if (size <= 0) {
             size = 10;
         }
-        return reportService.findAll(page, size);
+        return reportService.findAll();
     }
 
     @GetMapping("/week")

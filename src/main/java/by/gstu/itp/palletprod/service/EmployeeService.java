@@ -18,6 +18,10 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    public int countAvailableEmployee() {
+        return employeeRepository.countByFiredFalse();
+    }
+
     public List<EmployeeDto> findAll(final int page, final int size, final boolean fired, final String lastName) {
         if (size > 20 || size < 0) {
             throw new IllegalArgumentException("Limit is too much");
