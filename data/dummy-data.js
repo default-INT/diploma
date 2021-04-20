@@ -48,7 +48,7 @@ export const POSITIONS = [
 
 export const REPORTS = [
 
-    new Report('rd1', new Date(2021, 2, 19), [
+    new Report('rd1', new Date(2021, 3, 2), [
         new EmployeeItem('ewr11', EMPLOYEES[0], [
             new WorkItem('w111',  POSITIONS[0], 100, 60),
         ], 60),
@@ -71,7 +71,7 @@ export const REPORTS = [
         new DayStat('stat13', POSITIONS[1], 230, 138)
     ], 298),
 
-    new Report('rd2', new Date(2021, 2, 18), [
+    new Report('rd2', new Date(2021, 3, 1), [
         new EmployeeItem('ewr21', EMPLOYEES[3], [
             new WorkItem('w211', POSITIONS[0], 110, 66)
         ], 66),

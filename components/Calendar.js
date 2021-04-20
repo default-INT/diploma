@@ -1,5 +1,6 @@
-import React, {useState} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform} from "react-native";
+import React, {useState, useEffect, useCallback} from "react";
+import {View, Text, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform, ActivityIndicator} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
 import {Ionicons} from "@expo/vector-icons";
 
 import Card from "./Card";
@@ -7,6 +8,7 @@ import {MONTH_NAMES} from "../constants";
 import TouchableButton from "./UI/TouchableButton";
 import {getMonthDates, eqDates} from "../utils";
 import Colors from "../constants/colors";
+import {reportActions} from "../store/actions";
 
 
 const CalendarHeader = ({setNextDate, setBeforeDate, currentMonthYear, ...props}) => {
@@ -48,14 +50,24 @@ const CalendarHeader = ({setNextDate, setBeforeDate, currentMonthYear, ...props}
 };
 
 
-const DateCell = ({date, onPress}) => {
+const DateCell = ({date, onSelectDate, onEditReport, loading}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback
         : TouchableOpacity;
     const opacity = date.disable ? 0.2 : 1;
     const dateNow = new Date()
     let iconName;
     let iconColor;
-    if (date.status && date.report) {
+    if (date.loading) {
+        return (
+            <TouchableComponent>
+                <View style={styles.dateCell}>
+                    <Text style={{opacity: opacity }}>{date.fullDate.getDate()}</Text>
+                    <ActivityIndicator size='small' color={Colors.primary} />
+                </View>
+            </TouchableComponent>
+        )
+    }
+    if (date.report) {
         iconName = 'ios-checkmark-circle';
         iconColor = Colors.primary;
     } else if (eqDates(date.fullDate, dateNow)) {
@@ -65,8 +77,15 @@ const DateCell = ({date, onPress}) => {
         iconName = 'ios-help-circle';
         iconColor = Colors.red;
     }
+    const onSelectHandler = () => {
+        if (date.report) {
+            onEditReport(date.report);
+        } else {
+            onSelectDate(date.fullDate);
+        }
+    }
     return (
-        <TouchableComponent onPress={() => onPress(date.fullDate)}>
+        <TouchableComponent onPress={onSelectHandler}>
             <View style={styles.dateCell}>
                 <Text style={{opacity: opacity }}>{date.fullDate.getDate()}</Text>
                 {iconName && iconColor && <Ionicons style={{opacity: opacity }} name={iconName} size={30} color={iconColor}
@@ -84,13 +103,35 @@ const DatesRow = ({datesRow, ...props}) => {
     )
 };
 
-const Calendar = ({reports, ...props}) => {
+const Calendar = ({monthlyReports, ...props}) => {
     const currentDate = new Date();
-    const [dates, setDates] = useState(getMonthDates(currentDate))
+    const [dates, setDates] = useState(getMonthDates(currentDate));
+    const dispatch = useDispatch();
+
     const [currentMonthYear, setCurrentMonthYear] = useState({
         month: currentDate.getMonth(),
         year: currentDate.getFullYear(),
     });
+
+    const loadReportsOnMonthYear = useCallback( async () => {
+        await dispatch(reportActions.fetchMonthlyReports(currentMonthYear.month, currentMonthYear.year));
+        setDates(prevDates => {
+            const newDates = [...prevDates];
+            for (let i = 0; i < newDates.length; i++) {
+                for (let j = 0; j < newDates[i].length; j++) {
+                    const report = monthlyReports.reports.find(report => eqDates(report.date, newDates[i][j].fullDate));
+                    if (report) {
+                        newDates[i][j] = {
+                            ...newDates[i][j],
+                            report
+                        }
+                    }
+                    newDates[i][j].loading = false;
+                }
+            }
+            return newDates;
+        });
+    }, [dates, currentMonthYear, monthlyReports]);
 
     const setNextDate = () => {
         setCurrentMonthYear(prev => {
@@ -110,6 +151,9 @@ const Calendar = ({reports, ...props}) => {
         })
     };
 
+    useEffect(() => {
+        loadReportsOnMonthYear();
+    }, [currentMonthYear, monthlyReports]);
 
     return (
         <Card style={styles.card}>
@@ -120,7 +164,12 @@ const Calendar = ({reports, ...props}) => {
                     setNextDate={setNextDate}
                 />
                 <View style={styles.datesContainer}>
-                    {dates.map(datesRow => <DatesRow key={JSON.stringify(datesRow)} onPress={props.onSelectDate.bind(this)} datesRow={datesRow} />)}
+                    {dates.map(datesRow => <DatesRow
+                        key={JSON.stringify(datesRow)}
+                        onSelectDate={props.onSelectDate.bind(this)}
+                        onEditReport={props.onEditReport.bind(this)}
+                        datesRow={datesRow}
+                    />)}
                 </View>
             </View>
         </Card>

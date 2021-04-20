@@ -2,8 +2,9 @@ import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import {Image, SafeAreaView, StyleSheet, View, Text} from "react-native";
 import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import {Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {Ionicons, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 import {MainScreen} from "../screens";
 import {mainScreenOptions} from "../screens/options";
@@ -13,6 +14,8 @@ import {positionScreenOptions} from "../screens/positions/options";
 import {EditEmployeeReportScreen, EditWorkItemReportScreen, EditReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
 import {EmployeesScreen, EmployeeDetailsScreen, EditEmployeeScreen} from "../screens/employees";
 import {PositionsScreen, EditPositionScreen} from "../screens/positions";
+import {StatisticMainScreen, StatisticEmployeeScreen, StatisticStorageScreen} from "../screens/statistics";
+import {statisticStorageScreenOptions, statisticEmployeeScreenOptions, statisticMainScreenOptions} from "../screens/statistics/options"
 import Colors from "../constants/colors";
 
 const defaultStackNavOptions = {
@@ -107,18 +110,27 @@ export const CalendarReportNavigator = () => {
 }
 
 //TODO: for IOS other API
-const ReportTabNavigator = createMaterialBottomTabNavigator();
+const ReportTabNavigator = createBottomTabNavigator();
 
 export const ReportNavigator = () => {
     return (
         <ReportTabNavigator.Navigator
             activeColor={Colors.white}
-            activeTintColor='white'
-            shifting={true}
-            inactiveColor={Colors.gray}
-            barStyle={{ backgroundColor: Colors.primary }}
+            layzy={true}
+            inactiveColor={Colors.whitesmoke}
             tabBarOptions={{
-                keyboardHidesTabBar: true
+                keyboardHidesTabBar: true,
+                activeTintColor: Colors.white,
+                inactiveTintColor: Colors.whitesmoke,
+                inactiveBackgroundColor: Colors.primary,
+                activeBackgroundColor: Colors.primary,
+                tabStyle: {
+                    paddingTop: 10
+                },
+                labelStyle: {
+                    fontSize: 10,
+                    paddingBottom: 5
+                }
             }}
         >
             <ReportTabNavigator.Screen
@@ -126,9 +138,8 @@ export const ReportNavigator = () => {
                 component={LastReportNavigator}
                 options={{
                     tabBarIcon: tabInfo => {
-                        return <MaterialIcons name="view-list" size={25} color={Colors.white} />;
+                        return <MaterialIcons name="view-list" size={tabInfo.focused ? 25 : 18} color={Colors.white} style={{opacity: tabInfo.focused ? 1 : 0.5}} />;
                     },
-                    tabBarColor: Colors.primary,
                     tabBarLabel: 'Последние отчеты'
                 }}
             />
@@ -137,9 +148,8 @@ export const ReportNavigator = () => {
                 component={CalendarReportNavigator}
                 options={{
                     tabBarIcon: tabInfo => {
-                        return <Ionicons name="md-calendar" size={25} color={Colors.white} />;
+                        return <Ionicons name="md-calendar" size={tabInfo.focused ? 25 : 18} color={Colors.white} style={{opacity: tabInfo.focused ? 1 : 0.5}} />;
                     },
-                    tabBarColor: Colors.turquoise,
                     tabBarLabel: 'Календарь'
                 }}
             />
@@ -187,6 +197,108 @@ export const PositionNavigator = () => {
                 component={EditPositionScreen}
             />
         </PositionStackNavigator.Navigator>
+    )
+}
+
+const StatisticMainStackNavigator = createStackNavigator();
+
+export const StatisticMainNavigator = () => {
+    return (
+        <StatisticMainStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
+            <StatisticMainStackNavigator.Screen
+                name="StatisticMain"
+                component={StatisticMainScreen}
+                options={statisticMainScreenOptions}
+            />
+        </StatisticMainStackNavigator.Navigator>
+    )
+};
+
+const StatisticEmployeeStackNavigator = createStackNavigator();
+
+export const StatisticEmployeeNavigator = () => {
+    return (
+        <StatisticEmployeeStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
+            <StatisticEmployeeStackNavigator.Screen
+                name="StatisticEmployee"
+                component={StatisticEmployeeScreen}
+                options={statisticEmployeeScreenOptions}
+            />
+        </StatisticEmployeeStackNavigator.Navigator>
+    )
+};
+
+const StatisticStorageStackNavigator = createStackNavigator();
+
+export const StatisticStorageNavigator = () => {
+    return (
+        <StatisticStorageStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
+            <StatisticStorageStackNavigator.Screen
+                name="StatisticStorage"
+                component={StatisticStorageScreen}
+                options={statisticStorageScreenOptions}
+            />
+        </StatisticStorageStackNavigator.Navigator>
+    )
+};
+
+const StatisticTabNavigator = createBottomTabNavigator();
+
+export const StatisticNavigator = () => {
+    return (
+        <StatisticTabNavigator.Navigator
+            activeColor={Colors.white}
+            layzy={true}
+            inactiveColor={Colors.whitesmoke}
+            tabBarOptions={{
+                keyboardHidesTabBar: true,
+                activeTintColor: Colors.white,
+                inactiveTintColor: Colors.whitesmoke,
+                inactiveBackgroundColor: Colors.primary,
+                activeBackgroundColor: Colors.primary,
+                tabStyle: {
+                    paddingTop: 10
+                },
+                labelStyle: {
+                    fontSize: 10,
+                    paddingBottom: 5
+                }
+            }}
+        >
+            <StatisticTabNavigator.Screen
+                name="StatisticMainNavigator"
+                component={StatisticMainNavigator}
+                options={{
+                    tabBarIcon: tabInfo => {
+                        return <Ionicons name="md-calendar" size={tabInfo.focused ? 25 : 18}
+                                         color={Colors.white} style={{opacity: tabInfo.focused ? 1 : 0.5}} />;
+                    },
+                    tabBarLabel: 'По дате'
+                }}
+            />
+            <StatisticTabNavigator.Screen
+                name="StatisticEmployeeNavigator"
+                component={StatisticEmployeeNavigator}
+                options={{
+                    tabBarIcon: tabInfo => {
+                        return <MaterialIcons name="person" size={tabInfo.focused ? 25 : 18}
+                                         color={Colors.white} style={{opacity: tabInfo.focused ? 1 : 0.5}} />;
+                    },
+                    tabBarLabel: 'По сотруднику'
+                }}
+            />
+            <StatisticTabNavigator.Screen
+                name="StatisticStorageNavigator"
+                component={StatisticStorageNavigator}
+                options={{
+                    tabBarIcon: tabInfo => {
+                        return <Ionicons name="construct" size={tabInfo.focused ? 25 : 18}
+                                         color={Colors.white} style={{opacity: tabInfo.focused ? 1 : 0.5}} />;
+                    },
+                    tabBarLabel: 'По складу'
+                }}
+            />
+        </StatisticTabNavigator.Navigator>
     )
 }
 
@@ -267,6 +379,21 @@ export const PalletProdNavigator = () => {
                     drawerIcon: props => (
                         <MaterialIcons
                             name="work"
+                            size={23}
+                            color={props.color}
+                        />
+                    )
+                }}
+            />
+
+            <PalletProdDrawerNavigator.Screen
+                name="Statistic"
+                component={StatisticNavigator}
+                options={{
+                    drawerLabel: 'Статистика',
+                    drawerIcon: props => (
+                        <MaterialCommunityIcons
+                            name="chart-line"
                             size={23}
                             color={props.color}
                         />

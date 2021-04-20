@@ -8,20 +8,33 @@ import {MaterialHeaderButton} from "../../components/UI";
 import {Calendar} from "../../components";
 import {reportActions} from "../../store/actions";
 
-const CalendarReportsScreen = props => {
+const CalendarReportsScreen = ({navigation, ...props}) => {
     const monthlyReports = useSelector(state => state.reports.monthlyReports);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(reportActions.fetchMonthlyReports(new Date().getMonth()))
-    }, []);
+        return navigation.addListener('focus', () => {
+            dispatch(reportActions.createEmptyReport(new Date()));
+        });
+    }, [navigation]);
 
     const monthChangeHandler = month => {
-        dispatch(reportActions.fetchMonthlyReports(month))
+        dispatch(reportActions.fetchMonthlyReports(month));
     };
 
+    const onEditReport = report => {
+        dispatch(reportActions.selectReport(report));
+        navigation.navigate('EditReport', {
+            reportId: report.id,
+            selectedDate: true,
+            month: report.date.getMonth(),
+            year: report.date.getFullYear(),
+            date: report.date.getDate()
+        });
+    }
+
     const onSelectDate = date => {
-        props.navigation.navigate('EditReport', {
+        navigation.navigate('EditReport', {
             selectedDate: true,
             month: date.getMonth(),
             year: date.getFullYear(),
@@ -30,7 +43,7 @@ const CalendarReportsScreen = props => {
     };
 
     return (<View style={styles.screen}>
-        <Calendar reports={monthlyReports} onSelectDate={onSelectDate} monthChangeHandler={monthChangeHandler} />
+        <Calendar monthlyReports={monthlyReports} onSelectDate={onSelectDate} monthChangeHandler={monthChangeHandler} onEditReport={onEditReport} />
     </View>)
 }
 

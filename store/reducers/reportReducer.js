@@ -1,18 +1,33 @@
 import {REPORTS_TYPES} from "../../constants/types";
-import {REPORTS} from "../../data/dummy-data";
-import {DayStat, EmployeeItem} from "../../models";
 
 const initialState = {
     loading: false,
     error: null,
     lastReports: [],
-    monthlyReports: REPORTS.filter(report => report.date.getMonth() === 3),
+    monthlyReports: {
+        month: 3,
+        year: 2021,
+        reports: []
+    },
     selectedReport: null,
     selectedEmployeeItem: null
 }
 
 
 const handlers = {
+
+    [REPORTS_TYPES.SET_ERROR]: (state, {payload}) => ({
+        ...state,
+        error: payload
+    }),
+    [REPORTS_TYPES.START_LOADING]: (state) => ({
+        ...state,
+        loading: true
+    }),
+    [REPORTS_TYPES.END_LOADING]: (state) => ({
+        ...state,
+        loading: false
+    }),
     [REPORTS_TYPES.FETCH_LAST_REPORTS]: (state, {payload}) => ({
         ...state,
         lastReports: payload
@@ -112,18 +127,6 @@ const handlers = {
     [REPORTS_TYPES.CREATE_EMPTY_REPORT]: (state, {payload}) => ({
         ...state,
         selectedReport: payload
-    }),
-    [REPORTS_TYPES.SET_ERROR]: (state, {payload}) => ({
-        ...state,
-        error: payload
-    }),
-    [REPORTS_TYPES.START_LOADING]: (state) => ({
-        ...state,
-        loading: true
-    }),
-    [REPORTS_TYPES.END_LOADING]: (state) => ({
-        ...state,
-        loading: false
     }),
     DEFAULT: state => state
 }

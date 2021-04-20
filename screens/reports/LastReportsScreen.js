@@ -25,7 +25,7 @@ const LastReportsScreen = ({navigation, ...props}) => {
             month: report.date.getMonth(),
             year: report.date.getFullYear(),
             date: report.date.getDate()
-        })
+        });
     };
 
     const onDeleteHandler = reportId => {
@@ -42,9 +42,13 @@ const LastReportsScreen = ({navigation, ...props}) => {
     }
 
     useEffect(() => {
+        loadReports();
+    }, []);
+
+    useEffect(() => {
+        dispatch(reportActions.fetchMonthlyReports(new Date().getMonth(), new Date().getFullYear()));
         return navigation.addListener('focus', () => {
             loadReports();
-            dispatch(reportActions.createEmptyReport(new Date()));
         });
     }, [navigation]);
 
@@ -71,6 +75,9 @@ const LastReportsScreen = ({navigation, ...props}) => {
         return (
             <View style={styles.screen}>
                 <Text>Не было найденно ни одного отчёта</Text>
+                <View style={styles.btnStyle}>
+                    <Button title='Обновить' color={Colors.primary} onPress={() => loadReports()}/>
+                </View>
             </View>
         )
     }

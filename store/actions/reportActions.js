@@ -5,6 +5,16 @@ import {EmployeeItem, Report, WorkItem} from "../../models";
 
 export const fetchLastReports = page => {
     return async dispatch => {
+        dispatch(dispatch({
+            type: REPORTS_TYPES.CREATE_EMPTY_REPORT,
+            payload: new Report(
+                new Date().toISOString(),
+                new Date(),
+                [],
+                [],
+                0
+            )
+        }));
         dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
@@ -130,7 +140,7 @@ export const deleteReport = reportId => {
             if (!response.ok) {
                 dispatch({
                     type: REPORTS_TYPES.SET_ERROR,
-                    payload: 'Не удалось получить данные об отчётах. Status: ' + response.status
+                    payload: 'Не удалось получить удалить отчёт. Status: ' + response.status
                 });
                 dispatch({type: REPORTS_TYPES.END_LOADING});
                 return;
@@ -157,10 +167,35 @@ export const deleteReport = reportId => {
     };
 };
 
-export const fetchMonthlyReports = month => {
-    return {
-        type: REPORTS_TYPES.FETCH_MONTHLY_REPORTS,
-        payload: REPORTS.filter(report => report.date.getMonth() === month)
+export const fetchMonthlyReports = (month, year) => {
+    return async dispatch => {
+        // dispatch({type: REPORTS_TYPES.START_LOADING});
+        dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
+        try {
+            const response = await fetch(`${SERVER_URL}/reports?month=${month}&year=${year}`);
+            if (!response.ok) {
+                dispatch({
+                    type: REPORTS_TYPES.SET_ERROR,
+                    payload: 'Не удалось получить данные об отчётах. Status: ' + response.status
+                });
+                // dispatch({type: REPORTS_TYPES.END_LOADING});
+                return;
+            }
+            const reports = await response.json();
+            dispatch({
+                type: REPORTS_TYPES.FETCH_MONTHLY_REPORTS,
+                payload: {
+                    month, year,
+                    reports: reports.map(report => Report.of(report))
+                }
+            });
+        }  catch (err) {
+            dispatch({
+                type: REPORTS_TYPES.SET_ERROR,
+                payload: err.message
+            });
+        }
+        // dispatch({type: REPORTS_TYPES.END_LOADING});
     }
 };
 
