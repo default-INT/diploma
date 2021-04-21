@@ -22,10 +22,17 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "by.palletprod.rnapp",
+      "buildNumber": "1.1.0",
       "supportsTablet": true
     },
     "android": {
-      "package": "by.palletprod.rnapp"
+      "package": "by.palletprod.rnapp",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     }
   }
 }

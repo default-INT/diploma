@@ -13,4 +13,4 @@ export const MONTH_NAMES = [
     'декабрь',
 ];
 
-export const SERVER_URL = 'http://192.168.43.144:8080'
+export const SERVER_URL = 'http://palletproddemo-env.eba-mtntmjk2.eu-central-1.elasticbeanstalk.com'

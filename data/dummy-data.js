@@ -16,9 +16,9 @@ export const COMPANY_DATA = {
     ],
     countEmployee: new DataItem('countEmployee', 'Количество сотрудников', 20,
         IconsUri.employees, Colors.orange),
-    income: new DataItem('income', 'Доход', '5000$',
+    income: new DataItem('income', 'Доход', '5000р',
         IconsUri.dollar, Colors.green),
-    avgSalary: new DataItem('avgSalary', 'Средняя зарплата', '500р',
+    avgSalary: new DataItem('avgSalary', 'Средняя зарплата за день', '45.60р',
         IconsUri.employeeSalary, Colors.turquoise)
 }
 

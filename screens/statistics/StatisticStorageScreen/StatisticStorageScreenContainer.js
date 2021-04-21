@@ -1,15 +1,13 @@
-import React, {useEffect, useCallback} from "react";
-import {View, ActivityIndicator, StyleSheet, FlatList, Alert, Button, Text} from "react-native";
-import {useSelector, useDispatch} from "react-redux";
+import React from "react";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
-import {HeaderToggleButton} from "../default-options";
-import {MaterialHeaderButton} from "../../components/UI";
 
-const StatisticStorageScreen = props => {
+import StatisticStorageScreenView from "./StatisticStorageScreenView";
+import {HeaderToggleButton} from "../../default-options";
+import {MaterialHeaderButton} from "../../../components/UI";
+
+const StatisticStorageScreenContainer = props => {
     return (
-        <View>
-            <Text>Statistic storage screen!</Text>
-        </View>
+        <StatisticStorageScreenView />
     )
 }
 
@@ -30,8 +28,4 @@ export const statisticStorageScreenOptions = navData => {
     }
 }
 
-const styles = StyleSheet.create({
-
-});
-
-export default StatisticStorageScreen;
+export default StatisticStorageScreenContainer;

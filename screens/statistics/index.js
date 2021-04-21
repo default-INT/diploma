@@ -1,7 +1,3 @@
-import StatisticMainScreen from "./StatisticMainScreen";
-import StatisticEmployeeScreen from "./StatisticEmployeeScreen";
-import StatisticStorageScreen from "./StatisticStorageScreen";
-
-export {
-    StatisticMainScreen, StatisticEmployeeScreen, StatisticStorageScreen
-}
+export {StatisticMainScreen} from "./StatisticMainScreen";
+export {StatisticEmployeeScreen} from "./StatisticEmployeeScreen";
+export {StatisticStorageScreen} from "./StatisticStorageScreen";

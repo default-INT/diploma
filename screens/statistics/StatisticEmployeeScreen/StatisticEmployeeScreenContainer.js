@@ -1,15 +1,14 @@
-import React, {useEffect, useCallback} from "react";
-import {View, ActivityIndicator, StyleSheet, FlatList, Alert, Button, Text} from "react-native";
-import {useSelector, useDispatch} from "react-redux";
+import React from "react";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
-import {HeaderToggleButton} from "../default-options";
-import {MaterialHeaderButton} from "../../components/UI";
 
-const StatisticEmployeeScreen = props => {
+import {HeaderToggleButton} from "../../default-options";
+import {MaterialHeaderButton} from "../../../components/UI";
+import StatisticEmployeeScreenView from "./StatisticEmployeeScreenView";
+
+const StatisticEmployeeScreenContainer = props => {
     return (
-        <View>
-            <Text>Statistic employee screen!</Text>
-        </View>
+        <StatisticEmployeeScreenView
+        />
     )
 }
 
@@ -30,8 +29,4 @@ export const statisticEmployeeScreenOptions = navData => {
     }
 }
 
-const styles = StyleSheet.create({
-
-});
-
-export default StatisticEmployeeScreen;
+export default StatisticEmployeeScreenContainer;

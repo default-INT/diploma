@@ -3,7 +3,7 @@ export default class DataItem {
      *
      * @param id {string}
      * @param name {string}
-     * @param value {number}
+     * @param value {number|string}
      * @param iconUri {string}
      * @param color {string}
      */
