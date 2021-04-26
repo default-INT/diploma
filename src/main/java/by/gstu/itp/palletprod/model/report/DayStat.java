@@ -26,7 +26,7 @@ public class DayStat {
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
 
-    @Column(name = "position_id", nullable = false, updatable = false, insertable = false)
+    @Column(name = "position_id", updatable = false, insertable = false)
     private String positionId;
     @Column(name = "report_id", updatable = false, insertable = false)
     private String reportId;

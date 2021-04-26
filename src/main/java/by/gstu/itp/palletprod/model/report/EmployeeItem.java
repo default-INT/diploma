@@ -31,7 +31,7 @@ public class EmployeeItem {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
-    @Column(name = "employee_id", nullable = false, updatable = false, insertable = false)
+    @Column(name = "employee_id", updatable = false, insertable = false)
     private String employeeId;
     @Column(name = "report_id", updatable = false, insertable = false)
     private String reportId;

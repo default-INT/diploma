@@ -3,6 +3,7 @@ package by.gstu.itp.palletprod.model;
 import by.gstu.itp.palletprod.dto.PositionDto;
 import by.gstu.itp.palletprod.model.report.DayStat;
 import by.gstu.itp.palletprod.model.report.WorkItem;
+import by.gstu.itp.palletprod.model.storage.StorageItem;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -50,12 +51,23 @@ public class Position {
     @OneToMany(mappedBy = "position")
     private List<DayStat> dayStats;
 
+    @OneToMany(mappedBy = "position")
+    private List<StorageItem> storageItems;
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public List<StorageItem> getStorageItems() {
+        return storageItems;
+    }
+
+    public void setStorageItems(List<StorageItem> storageItems) {
+        this.storageItems = storageItems;
     }
 
     public String getName() {
