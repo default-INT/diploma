@@ -119,19 +119,11 @@ const EditEmployeeReportScreen = ({navigation, route, ...props}) => {
         <ScrollView>
             <View>
                 <CardForm>
-                    {/*<EmployeePicker*/}
-                    {/*    employees={employees}*/}
-                    {/*    selectedEmployeeId={selectedEmployeeId}*/}
-                    {/*    setSelectedEmployeeId={setSelectedEmployeeId}*/}
-                    {/*/>*/}
-                    <Picker
-                        selectedValue={selectedEmployeeId}
-                        onValueChange={((itemValue, itemIndex) => {
-                            setSelectedEmployeeId(itemValue);
-                        } )}
-                    >
-                        {employees.map(({fullName, id}) =>  <Picker.Item key={id} label={fullName} value={id} />)}
-                    </Picker>
+                    <EmployeePicker
+                        employees={employees}
+                        selectedEmployeeId={selectedEmployeeId}
+                        setSelectedEmployeeId={setSelectedEmployeeId}
+                    />
                 </CardForm>
 
                 <CardForm>

@@ -2,13 +2,13 @@ import {STAT_TYPES} from "../../constants/types";
 
 
 const initialState = {
-    employeeStatistic: null
+    employeesStatistic: null
 }
 
 const handlers = {
     [STAT_TYPES.FETCH_EMPLOYEE_STAT]: (state, {payload}) => ({
         ...state,
-        employeeStatistic: payload
+        employeesStatistic: payload
     }),
     DEFAULT: state => state
 }

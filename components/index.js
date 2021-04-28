@@ -12,9 +12,11 @@ import EmployeeItemCmp from "./palletprod/EmployeeItemCmp";
 import WorkItemCmp from "./palletprod/WorkItemCmp";
 import StatisticEmployeeItem from "./palletprod/StatisticEmployeeItem";
 import {CardForm, FormTitle, FormBody} from "./card-form/";
+import FromToDateSelector from "./FromToDateSelector";
 
 
 export {
     Header, Widget, WidgetList, EmployeeItem, Card, Input, Calendar, CardForm, FormTitle, FormBody,
-    PositionItem, ReportItem, EmployeeItemCmp, WorkItemCmp, StatisticEmployeeItem, EmployeePicker
+    PositionItem, ReportItem, EmployeeItemCmp, WorkItemCmp, StatisticEmployeeItem, EmployeePicker,
+    FromToDateSelector
 }
