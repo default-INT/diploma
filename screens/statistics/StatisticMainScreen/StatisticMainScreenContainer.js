@@ -48,7 +48,6 @@ const StatisticMainScreenContainer = props => {
             fromDateOnChange={fromDateOnChange}
             toDateOnChange={toDateOnChange}
             setDatePicker={setDatePicker}
-
             loading={loading}
             employeeStatistic={employeeStatistic}
             fetchStatistic={fetchStatistic}
