@@ -3,7 +3,7 @@ import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View} from "reac
 import {useDispatch, useSelector} from "react-redux";
 import {Picker} from "@react-native-picker/picker";
 
-import {CardForm, FormBody, FormTitle, WorkItemCmp} from "../../components";
+import {CardForm, FormBody, FormTitle, WorkItemCmp, EmployeePicker} from "../../components";
 import {MaterialHeaderButton, TouchableButton} from "../../components/UI";
 import Colors from "../../constants/colors";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
@@ -119,6 +119,11 @@ const EditEmployeeReportScreen = ({navigation, route, ...props}) => {
         <ScrollView>
             <View>
                 <CardForm>
+                    {/*<EmployeePicker*/}
+                    {/*    employees={employees}*/}
+                    {/*    selectedEmployeeId={selectedEmployeeId}*/}
+                    {/*    setSelectedEmployeeId={setSelectedEmployeeId}*/}
+                    {/*/>*/}
                     <Picker
                         selectedValue={selectedEmployeeId}
                         onValueChange={((itemValue, itemIndex) => {

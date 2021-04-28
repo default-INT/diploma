@@ -1,4 +1,5 @@
 import React from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 
 import {HeaderToggleButton} from "../../default-options";
@@ -6,6 +7,7 @@ import {MaterialHeaderButton} from "../../../components/UI";
 import StatisticEmployeeScreenView from "./StatisticEmployeeScreenView";
 
 const StatisticEmployeeScreenContainer = props => {
+
     return (
         <StatisticEmployeeScreenView
         />

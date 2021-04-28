@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontSize: 16
+    },
+    totalSalaryText: {
+        fontWeight: 'bold'
     }
 });
 
