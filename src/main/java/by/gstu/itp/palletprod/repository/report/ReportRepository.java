@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report, String> {
-    List<Report> findAllByDateAfterAndDateBefore(LocalDate dateAfter, LocalDate dateBefore);
+    List<Report> findAllByDateAfterAndDateBeforeOrderByDateDesc(LocalDate dateAfter, LocalDate dateBefore);
     boolean existsByDate(LocalDate date);
     void deleteById(String id);
 }

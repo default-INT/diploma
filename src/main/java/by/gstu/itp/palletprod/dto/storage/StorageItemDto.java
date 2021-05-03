@@ -22,6 +22,15 @@ public class StorageItemDto {
     private String positionName;
     private int count;
 
+    public StorageItemDto() {
+
+    }
+
+    public StorageItemDto(int count, String positionId) {
+        this.count = count;
+        this.positionId = positionId;
+    }
+
     public String getId() {
         return id;
     }

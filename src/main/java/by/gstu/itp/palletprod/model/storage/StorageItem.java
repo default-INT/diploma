@@ -27,6 +27,14 @@ public class StorageItem {
     @JoinColumn(name = "storage_id")
     private Storage storage;
 
+    public StorageItem() {
+    }
+
+    public StorageItem(int count, Position position) {
+        this.count = count;
+        this.position = position;
+    }
+
     public StorageItem copy() {
         final StorageItem storageItem = new StorageItem();
         storageItem.setPosition(position);

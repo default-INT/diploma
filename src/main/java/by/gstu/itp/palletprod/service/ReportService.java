@@ -8,6 +8,8 @@ import by.gstu.itp.palletprod.model.report.DayStat;
 import by.gstu.itp.palletprod.model.report.EmployeeItem;
 import by.gstu.itp.palletprod.model.report.Report;
 import by.gstu.itp.palletprod.model.report.WorkItem;
+import by.gstu.itp.palletprod.model.storage.Storage;
+import by.gstu.itp.palletprod.model.storage.StorageItem;
 import by.gstu.itp.palletprod.repository.EmployeeRepository;
 import by.gstu.itp.palletprod.repository.PositionRepository;
 import by.gstu.itp.palletprod.repository.report.ReportRepository;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,18 +28,20 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final PositionRepository positionRepository;
     private final EmployeeRepository employeeRepository;
+    private final StorageService storageService;
 
     public ReportService(ReportRepository reportRepository, PositionRepository positionRepository,
-                         EmployeeRepository employeeRepository) {
+                         EmployeeRepository employeeRepository, StorageService storageService) {
         this.reportRepository = reportRepository;
         this.positionRepository = positionRepository;
         this.employeeRepository = employeeRepository;
+        this.storageService = storageService;
     }
 
     public List<ReportDto> findAllMonthAndYear(final int month, final int year) {
         LocalDate dateAfter = LocalDate.of(year, month, 1).minusDays(1);
         LocalDate dateBefore = dateAfter.plusDays(1).plusMonths(1);
-        return reportRepository.findAllByDateAfterAndDateBefore(dateAfter, dateBefore)
+        return reportRepository.findAllByDateAfterAndDateBeforeOrderByDateDesc(dateAfter, dateBefore)
                 .stream()
                 .map(ReportDto::of)
                 .collect(Collectors.toList());
@@ -69,6 +74,7 @@ public class ReportService {
         if (!report.getDate().isEqual(reportDto.getDate()) && reportRepository.existsByDate(reportDto.getDate())) {
             throw new ExistsReportDateException();
         }
+
         delete(reportDto.getId());
 
         final Report updateReport = calculateActualReport(reportDto);
@@ -94,6 +100,8 @@ public class ReportService {
             throw new ExistsReportDateException();
         }
         final Report report = calculateActualReport(reportDto);
+
+        storageService.addItems(report);
 
         return ReportDto.of(reportRepository.save(report));
     }

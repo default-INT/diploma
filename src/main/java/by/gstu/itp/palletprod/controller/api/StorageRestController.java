@@ -29,6 +29,6 @@ public class StorageRestController {
 
     @DeleteMapping("/delete-items")
     public StorageDto deleteStorageItems(@RequestBody List<StorageItemDto> storageItems) {
-        return storageService.deleteItem(storageItems);
+        return storageService.deleteItems(storageItems);
     }
 }

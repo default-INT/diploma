@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "employees")
@@ -53,6 +54,10 @@ public class Employee {
 
     public List<EmployeeItem> getEmployeeItems() {
         return employeeItems;
+    }
+
+    public String getFullName() {
+        return lastName + " " + firstName.charAt(0) + "." + secondName.charAt(0) + ".";
     }
 
     public void setEmployeeItems(List<EmployeeItem> employeeItems) {
@@ -129,5 +134,18 @@ public class Employee {
 
     public void setBirthdayYear(int age) {
         this.birthdayYear = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return birthdayYear == employee.birthdayYear && id.equals(employee.id) && firstName.equals(employee.firstName) && secondName.equals(employee.secondName) && lastName.equals(employee.lastName) && phoneNumber.equals(employee.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, secondName, lastName, phoneNumber, birthdayYear);
     }
 }
