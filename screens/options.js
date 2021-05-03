@@ -1,3 +1,3 @@
-import { mainScreenOptions } from "./MainScreen"
+import { mainScreenOptions } from "./main/MainScreen";
 
 export { mainScreenOptions }

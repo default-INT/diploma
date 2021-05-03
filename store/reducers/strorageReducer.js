@@ -1,11 +1,15 @@
-import {COMPANY_DATA} from "../../data/dummy-data"
+import {STORAGE_TYPES} from "../../constants/types";
 
 
 const initialState = {
-    storage: COMPANY_DATA.storage
+    actualStorage: []
 }
 
 const handlers = {
+    [STORAGE_TYPES.FETCH_ACTUAL_STORAGE]: (state, {payload}) => ({
+        ...state,
+        actualStorage: payload
+    }),
     DEFAULT: state => state
 }
 
