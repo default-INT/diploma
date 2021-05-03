@@ -9,18 +9,25 @@ import {statisticActions} from "../../../store/actions";
 
 const StatisticMainScreenContainer = props => {
     const [fromDate, setFromDate] = useState(new Date());
+    const [error, setError] = useState(null);
     const [toDate, setToDate] = useState(new Date(fromDate.getFullYear(), fromDate.getMonth() + 1,
         fromDate.getDate()));
     const [showDatePicker, setShowDatePicker] = useState('off');
     const [loading, setLoading] = useState(false);
 
-    const {employeeStatistic} = useSelector(state => state.statistics);
+    const {employeesStatistic} = useSelector(state => state.statistics);
 
     const dispatch = useDispatch();
 
     const fetchStatistic = useCallback(async () => {
-        setLoading(true);
-        await dispatch(statisticActions.getEmployeeStatistic(fromDate, toDate));
+        try {
+            setError(null);
+            setLoading(true);
+            await dispatch(statisticActions.getEmployeeStatistic(fromDate, toDate));
+
+        } catch (err) {
+            setError(err.message);
+        }
         setLoading(false);
     }, [fromDate, toDate, dispatch, loading]);
 
@@ -48,8 +55,10 @@ const StatisticMainScreenContainer = props => {
             fromDateOnChange={fromDateOnChange}
             toDateOnChange={toDateOnChange}
             setDatePicker={setDatePicker}
+
+            error={error}
             loading={loading}
-            employeeStatistic={employeeStatistic}
+            employeesStatistic={employeesStatistic}
             fetchStatistic={fetchStatistic}
         />
     );

@@ -7,6 +7,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    centredCard: {
+        padding: 10,
+        margin: 10,
+        height: 100,
+        justifyContent: 'center'
+    },
     screen: {
         flex: 1
     },

@@ -19,9 +19,10 @@ const StatisticMainScreenView = props => {
         toDateOnChange,
         setDatePicker,
 
+        error,
         loading,
         fetchStatistic,
-        employeeStatistic
+        employeesStatistic
     } = props;
 
     const showDatePicket = (date, onChange) => (
@@ -43,6 +44,11 @@ const StatisticMainScreenView = props => {
         )
     }
 
+    const getTotalSalary = employeesStatistic => {
+        return employeesStatistic.length !== 0 ? ' ' + employeesStatistic.map(item => item.totalSalary)
+            .reduce((a, b) => a + b) : ' ' + 0;
+    }
+
     return (
         <ScrollView>
             <View>
@@ -51,20 +57,23 @@ const StatisticMainScreenView = props => {
                         <Text style={styles.titleText}>С даты:  {toDateFormat(fromDate)}</Text>
                         <TouchableButton iconName="mode-edit" onPress={() => setDatePicker('from')}
                                          size={24} style={styles.editBtn} />
-                        {showDatePicker === 'from' && (showDatePicket(fromDate, fromDateOnChange))}
                     </FormTitle>
+                    {showDatePicker === 'from' && (showDatePicket(fromDate, fromDateOnChange))}
                     <FormTitle >
                         <Text style={styles.titleText}>По дату: {toDateFormat(toDate)}</Text>
                         <TouchableButton iconName="mode-edit" onPress={() => setDatePicker('to')}
                                          size={24} style={styles.editBtn} />
-                        {showDatePicker === 'to' && (showDatePicket(toDate, toDateOnChange))}
                     </FormTitle>
+                    {showDatePicker === 'to' && (showDatePicket(toDate, toDateOnChange))}
                     <View>
                         <Button title='Получить отчёт' color={Colors.primary} onPress={fetchStatistic} />
                     </View>
                 </CardForm>
-                {employeeStatistic && (<>
-                        {employeeStatistic.map(item => (
+                {error && (<CardForm style={styles.centredCard}>
+                    <Text>{error}</Text>
+                </CardForm>)}
+                {!error && employeesStatistic && (<>
+                        {employeesStatistic.map(item => (
                             <StatisticEmployeeItem key={item.employee} statistic={item}/>
                         ))}
                         <CardForm>
@@ -72,8 +81,7 @@ const StatisticMainScreenView = props => {
                                 <Text>
                                     Суммарная выплата рабочим:
                                     <Text style={styles.totalSalaryText}>
-                                        {employeeStatistic.length !== 0 ? ' ' + employeeStatistic.map(item => item.totalSalary)
-                                            .reduce((a, b) => a + b) : ' ' + 0} р
+                                        {getTotalSalary(employeesStatistic)} р
                                     </Text>
                                 </Text>
                             </FormTitle>
