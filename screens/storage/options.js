@@ -1,0 +1,1 @@
+export {storageMainScreenOptions} from "./StorageMainScreen";

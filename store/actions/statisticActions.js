@@ -19,4 +19,25 @@ export const getEmployeeStatistic = (date1, date2) => {
             payload: statistic
         });
     }
+};
+
+export const getStatisticByEmployee = (date1, date2, employeeId) => {
+    return async dispatch => {
+        const dateAfter = dateFormatter(date1);
+        const dateBefore = dateFormatter(date2);
+
+        const response = await fetch(`${SERVER_URL}/stat/employees?dateAfter=${dateAfter}&dateBefore=${dateBefore}&employeeId=${employeeId}`);
+
+        if (!response.ok) {
+            throw new Error('Не удалось получить статистику по заданной дате и сотруднику. Status: ' + response.status);
+        }
+        const statistic = await response.json();
+        if (statistic.length === 0) {
+            throw new Error('Данный сотрудник в выбранный период времени не выолнял никакой работы.');
+        }
+        dispatch({
+            type: STAT_TYPES.FETCH_STAT_BY_EMPLOYEE,
+            payload: statistic[0]
+        });
+    }
 }

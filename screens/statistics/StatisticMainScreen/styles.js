@@ -4,6 +4,7 @@ import Colors from "../../../constants/colors";
 const styles = StyleSheet.create({
     centredScreen: {
         flex: 1,
+        marginTop: 20,
         justifyContent: 'center',
         alignItems: 'center'
     },

@@ -9,21 +9,20 @@ import IconsUri from "../../../constants/icons";
 const MainScreenView = ({navigation, ...props}) => {
 
     const {
-        companyData,
         storageData,
         storageLoading,
         error
     } = props;
 
-    if (companyData.error || error) {
+    if (error) {
         return (
             <View style={styles.centredScreen}>
-                <Text>{companyData.error || error}</Text>
+                <Text>{error}</Text>
             </View>
         )
     }
 
-    if (companyData.loading || storageLoading) {
+    if (storageLoading) {
         return (
             <View style={styles.centredScreen}>
                 <ActivityIndicator size='large' color={Colors.primary}/>
@@ -35,14 +34,8 @@ const MainScreenView = ({navigation, ...props}) => {
     return (
         <ScrollView>
             <View style={styles.screen}>
-                <WidgetList title='Информация о предприятии'>
-                    <Widget dataItem={companyData.countEmployee}  />
-                    <Widget dataItem={companyData.avgSalary}  />
-                </WidgetList>
-                <WidgetList title='Склад'>
-                    {storageData.actualStorage.length !== 0 ? storageData.actualStorage.map(item => <Widget key={item.id} dataItem={item} />)
-                     : <Widget dataItem={emptyData} />}
-                </WidgetList>
+                {storageData.actualStorage.length !== 0 ? storageData.actualStorage.map(item => <Widget key={item.id} dataItem={item} />)
+                    : <Widget dataItem={emptyData} />}
             </View>
         </ScrollView>
     )

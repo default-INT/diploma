@@ -58,6 +58,7 @@ export const addReport = (date, report) => {
                 })
             });
             if (!response.ok) {
+                console.log('response error');
                 dispatch({
                     type: REPORTS_TYPES.SET_ERROR,
                     payload: 'Не удалось добавить отчёт. Status: ' + response.status
@@ -72,6 +73,7 @@ export const addReport = (date, report) => {
                 payload: Report.of(newReport)
             });
         } catch (err) {
+            console.log(err.message);
             dispatch({
                 type: REPORTS_TYPES.SET_ERROR,
                 payload: err.message

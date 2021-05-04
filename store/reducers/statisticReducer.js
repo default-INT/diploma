@@ -10,6 +10,10 @@ const handlers = {
         ...state,
         employeesStatistic: payload
     }),
+    [STAT_TYPES.FETCH_STAT_BY_EMPLOYEE]: (state, {payload}) => ({
+        ...state,
+        statisticByEmployee: payload
+    }),
     DEFAULT: state => state
 }
 

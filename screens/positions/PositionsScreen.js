@@ -70,6 +70,9 @@ const PositionsScreen = ({navigation, ...props}) => {
         return (
             <View style={styles.screen}>
                 <Text>Не было найденно ни одного тарифа</Text>
+                <View style={styles.btnStyle}>
+                    <Button title='Попробовать снова' color={Colors.primary} onPress={() => loadPositions()}/>
+                </View>
             </View>
         )
     }

@@ -22,6 +22,9 @@ const StatisticEmployeeScreenView = props => {
         selectedEmployeeId,
         setSelectedEmployeeId,
 
+        statisticByEmployee,
+        loadStatisticByEmployee,
+
         error,
         loading,
     } = props;
@@ -62,13 +65,6 @@ const StatisticEmployeeScreenView = props => {
         )
     }
 
-    if (loading) {
-        return (
-            <View style={styles.centredScreen}>
-                <ActivityIndicator size='large' color={Colors.primary} />
-            </View>
-        )
-    }
 
     return (
         <ScrollView>
@@ -95,12 +91,18 @@ const StatisticEmployeeScreenView = props => {
 
                 <CardForm>
                     <View>
-                        <Button title='Получить отчёт' color={Colors.primary} onPress={() => ''} />
+                        <Button title='Получить отчёт' color={Colors.primary} onPress={() => loadStatisticByEmployee()} />
                     </View>
                 </CardForm>
                 {error && (<CardForm style={styles.centredCard}>
                     <Text>{error}</Text>
                 </CardForm>)}
+                {loading && <View style={styles.centredScreen}>
+                    <ActivityIndicator size='large' color={Colors.primary} />
+                </View>}
+                {!error && !loading && statisticByEmployee && (
+                    <StatisticEmployeeItem statistic={statisticByEmployee}/>
+                )}
 
             </View>
         </ScrollView>

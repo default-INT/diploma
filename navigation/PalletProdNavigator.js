@@ -3,7 +3,6 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {Image, SafeAreaView, StyleSheet, View, Text} from "react-native";
 import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {Ionicons, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 import {MainScreen} from "../screens";
@@ -11,10 +10,12 @@ import {mainScreenOptions} from "../screens/options";
 import {lastReportsOptions, calendarOptions} from "../screens/reports/options";
 import {employeesOptions, employeeDetailsOptions, editEmployeeOptions} from "../screens/employees/options";
 import {positionScreenOptions} from "../screens/positions/options";
+import {storageMainScreenOptions} from "../screens/storage/options";
 import {EditEmployeeReportScreen, EditWorkItemReportScreen, EditReportScreen, CalendarReportsScreen, LastReportsScreen} from "../screens/reports";
 import {EmployeesScreen, EmployeeDetailsScreen, EditEmployeeScreen} from "../screens/employees";
 import {PositionsScreen, EditPositionScreen} from "../screens/positions";
 import {StatisticMainScreen, StatisticEmployeeScreen, StatisticStorageScreen} from "../screens/statistics";
+import {StorageMainScreen} from "../screens/storage";
 import {statisticStorageScreenOptions, statisticEmployeeScreenOptions, statisticMainScreenOptions} from "../screens/statistics/options"
 import Colors from "../constants/colors";
 
@@ -154,6 +155,20 @@ export const ReportNavigator = () => {
                 }}
             />
         </ReportTabNavigator.Navigator>
+    )
+}
+
+const StorageStackNavigator = createStackNavigator();
+
+export const StorageNavigator = () => {
+    return (
+        <StorageStackNavigator.Navigator screenOptions={defaultStackNavOptions}>
+            <StorageStackNavigator.Screen
+                name="StorageMain"
+                component={StorageMainScreen}
+                options={storageMainScreenOptions}
+            />
+        </StorageStackNavigator.Navigator>
     )
 }
 
@@ -349,6 +364,21 @@ export const PalletProdNavigator = () => {
                     drawerIcon: props => (
                         <Ionicons
                             name="md-calendar"
+                            size={23}
+                            color={props.color}
+                        />
+                    )
+                }}
+            />
+
+            <PalletProdDrawerNavigator.Screen
+                name="Storage"
+                component={StorageNavigator}
+                options={{
+                    drawerLabel: 'Склад',
+                    drawerIcon: props => (
+                        <MaterialIcons
+                            name="store"
                             size={23}
                             color={props.color}
                         />
