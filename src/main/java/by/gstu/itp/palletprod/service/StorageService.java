@@ -49,7 +49,7 @@ public class StorageService {
     public StorageDto addItems(List<StorageItemDto> storageItems) {
         final Storage storage = new Storage();
         final Storage storageWrite = storageRepository.findTopByOrderByDateTimeEditDesc()
-                .orElseThrow(NotFoundStorageWriteException::new);
+                .orElse(Storage.getEmpty());
 
         final List<StorageItem> updateStorageItems = getActualStorageItems(storageWrite.getStorageItems(), storageItems, Integer::sum);
         storage.setStorageItems(updateStorageItems);
@@ -81,7 +81,7 @@ public class StorageService {
                         newStorageItem.setPosition(positionRepository.findById(storageItemDto.getPositionId())
                                 .orElseThrow(NotFoundException::new));
                         newStorageItem.setCount(storageItemDto.getCount());
-                        stringStorageItemHashMap.put(storageItemDto.getStorageId(), newStorageItem);
+                        stringStorageItemHashMap.put(storageItemDto.getPositionId(), newStorageItem);
                     } else {
                         stringStorageItemHashMap.get(storageItemDto.getPositionId())
                                 .setCount(func.apply(storageItem.get().getCount(), storageItemDto.getCount()));

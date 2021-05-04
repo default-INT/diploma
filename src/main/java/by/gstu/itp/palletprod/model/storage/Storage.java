@@ -4,11 +4,19 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "storages")
 public class Storage {
+    public static Storage getEmpty() {
+        final Storage storage = new Storage();
+        storage.setDateTimeEdit(Instant.now());
+        storage.setStorageItems(new ArrayList<>());
+        return storage;
+    }
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")

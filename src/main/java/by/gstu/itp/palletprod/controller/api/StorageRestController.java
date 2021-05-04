@@ -7,6 +7,8 @@ import by.gstu.itp.palletprod.service.StorageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,7 +25,10 @@ public class StorageRestController {
         try {
             return ResponseEntity.ok(storageService.getActualStorageData());
         } catch (NotFoundStorageWriteException e) {
-            return ResponseEntity.ok("Storage is empty");
+            final StorageDto emptyStorage = new StorageDto();
+            emptyStorage.setStorageItems(new ArrayList<>());
+            emptyStorage.setDateTimeEdit(Instant.now());
+            return ResponseEntity.ok(emptyStorage);
         }
     }
 
