@@ -8,24 +8,27 @@ import by.gstu.itp.palletprod.model.report.DayStat;
 import by.gstu.itp.palletprod.model.report.Report;
 import by.gstu.itp.palletprod.model.storage.Storage;
 import by.gstu.itp.palletprod.model.storage.StorageItem;
+import by.gstu.itp.palletprod.model.storage.UnloadingEvent;
 import by.gstu.itp.palletprod.repository.PositionRepository;
 import by.gstu.itp.palletprod.repository.storage.StorageRepository;
+import by.gstu.itp.palletprod.repository.storage.UnloadingEventRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class StorageService {
     private final StorageRepository storageRepository;
     private final PositionRepository positionRepository;
+    private final UnloadingEventRepository unloadingEventRepository;
 
-    public StorageService(StorageRepository storageRepository, PositionRepository positionRepository) {
+    public StorageService(StorageRepository storageRepository, PositionRepository positionRepository, UnloadingEventRepository unloadingEventRepository) {
         this.storageRepository = storageRepository;
         this.positionRepository = positionRepository;
+        this.unloadingEventRepository = unloadingEventRepository;
     }
 
     public StorageDto getActualStorageData() {
@@ -64,6 +67,7 @@ public class StorageService {
         );
     }
 
+    // TODO: edit logic
     public List<StorageItem> getActualStorageItems(List<StorageItem> actualStorageItems, List<StorageItemDto> storageItemsDto,
                                                    BinaryOperator<Integer> func) {
         final Map<String, StorageItem> stringStorageItemHashMap = actualStorageItems.stream()
@@ -100,8 +104,26 @@ public class StorageService {
         newStore.setDateTimeEdit(Instant.now());
         newStore.setStorageItems(updateStoreItems);
 
+        // TODO: wrong date!!!!
+        final UnloadingEvent unloadingEvent = new UnloadingEvent();
+
+        unloadingEvent.setStorage(newStore);
+        unloadingEvent.setUnloadingDateTime(Instant.now());
+
         storageRepository.save(newStore);
+
+        unloadingEventRepository.save(unloadingEvent);
 
         return StorageDto.of(newStore);
     }
+
+    public List<StorageDto> findAllUnloadingEvents() {
+        final List<UnloadingEvent> unloadingEvents = unloadingEventRepository.findAllByOrderByUnloadingDateTimeDesc();
+
+        return unloadingEvents.stream()
+                .map(unloadingEvent -> StorageDto.of(unloadingEvent.getStorage()))
+                .collect(Collectors.toList());
+    }
+
+
 }

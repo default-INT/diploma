@@ -32,6 +32,18 @@ public class StorageRestController {
         }
     }
 
+    @GetMapping("/unloading-events")
+    public ResponseEntity<?> getUnloadingEvents() {
+        try {
+            return ResponseEntity.ok(storageService.findAllUnloadingEvents());
+        } catch (NotFoundStorageWriteException e) {
+            final StorageDto emptyStorage = new StorageDto();
+            emptyStorage.setStorageItems(new ArrayList<>());
+            emptyStorage.setDateTimeEdit(Instant.now());
+            return ResponseEntity.ok(emptyStorage);
+        }
+    }
+
     @DeleteMapping("/delete-items")
     public StorageDto deleteStorageItems(@RequestBody List<StorageItemDto> storageItems) {
         return storageService.deleteItems(storageItems);
