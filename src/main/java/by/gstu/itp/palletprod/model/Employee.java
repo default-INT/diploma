@@ -2,6 +2,7 @@ package by.gstu.itp.palletprod.model;
 
 import by.gstu.itp.palletprod.dto.EmployeeDto;
 import by.gstu.itp.palletprod.model.report.EmployeeItem;
+import by.gstu.itp.palletprod.model.user.User;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -21,7 +22,6 @@ public class Employee {
         employee.setLastName(employeeDto.getLastName());
         employee.setBirthdayYear(employeeDto.getBirthdayYear());
         employee.setPhoneNumber(employeeDto.getPhoneNumber());
-        employee.setUserId(employeeDto.getUserId());
         employee.setFired(employeeDto.isFired());
         employee.setDeleted(employeeDto.isDeleted());
 
@@ -40,8 +40,6 @@ public class Employee {
     private String lastName;
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
-    @Column(name = "user_id")
-    private String userId;
     @Column(nullable = false)
     private int birthdayYear;
     @Column(nullable = false)
@@ -51,6 +49,17 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<EmployeeItem> employeeItems;
+
+    @OneToOne(mappedBy = "employee")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public List<EmployeeItem> getEmployeeItems() {
         return employeeItems;
@@ -78,14 +87,6 @@ public class Employee {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public boolean isFired() {

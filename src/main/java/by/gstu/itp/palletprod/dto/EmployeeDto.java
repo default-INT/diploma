@@ -18,7 +18,6 @@ public class EmployeeDto {
         employeeDto.setLastName(employee.getLastName());
         employeeDto.setBirthdayYear(employee.getBirthdayYear());
         employeeDto.setPhoneNumber(employee.getPhoneNumber());
-        employeeDto.setUserId(employee.getUserId());
         employeeDto.setFired(employee.isFired());
         employeeDto.setDeleted(employee.isDeleted());
 
@@ -39,7 +38,6 @@ public class EmployeeDto {
     private int birthdayYear;
     @Size(min = 2, max = 30)
     private String phoneNumber;
-    private String userId;
     private boolean isFired;
     private boolean isDeleted;
 
@@ -49,14 +47,6 @@ public class EmployeeDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     @JsonProperty("isDeleted")
