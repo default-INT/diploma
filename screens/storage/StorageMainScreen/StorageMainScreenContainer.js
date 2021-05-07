@@ -52,15 +52,6 @@ export const storageMainScreenOptions = navData => {
                     }}
                 />
             </HeaderButtons>
-        ),
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-                <Item
-                    title="Edit"
-                    iconName="edit"
-                    onPress={() => ''}
-                />
-            </HeaderButtons>
         )
     }
 }

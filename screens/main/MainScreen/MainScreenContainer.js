@@ -8,7 +8,7 @@ import {MaterialHeaderButton} from "../../../components/UI";
 
 const MainScreenContainer = ({navigation, ...props}) => {
     const companyData = useSelector(state => state.company);
-    const storageData = useSelector(state => state.storage);
+    const {actualStorage} = useSelector(state => state.storage);
     const [storageLoading, setStorageLoading] = useState(false);
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const MainScreenContainer = ({navigation, ...props}) => {
             setError(err.message);
         }
         setStorageLoading(false);
-    }, [storageData, dispatch, setStorageLoading]);
+    }, [dispatch, setStorageLoading]);
 
     useEffect(() => {
         return navigation.addListener('focus',  () => {
@@ -30,11 +30,10 @@ const MainScreenContainer = ({navigation, ...props}) => {
             dispatch(companyActions.fetchAllCompanyData());
         });
     }, [navigation]);
-
     return (
         <MainScreenView
             companyData={companyData}
-            storageData={storageData}
+            actualStorage={actualStorage}
             storageLoading={storageLoading}
             error={error}
         />

@@ -54,7 +54,7 @@ const PositionItem = ({position, ...props}) => {
 
 const styles = StyleSheet.create({
     btn: {
-        width: 140,
+        width: 180,
         marginVertical: 5,
     },
     btnContainer: {

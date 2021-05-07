@@ -2,13 +2,18 @@ import {STORAGE_TYPES} from "../../constants/types";
 
 
 const initialState = {
-    actualStorage: []
+    actualStorage: [],
+    unloadingEvents: []
 }
 
 const handlers = {
     [STORAGE_TYPES.FETCH_ACTUAL_STORAGE]: (state, {payload}) => ({
         ...state,
         actualStorage: payload
+    }),
+    [STORAGE_TYPES.FETCH_UNLOADING_EVENTS]: (state, {payload}) => ({
+        ...state,
+        unloadingEvents: payload
     }),
     DEFAULT: state => state
 }

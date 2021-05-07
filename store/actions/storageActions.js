@@ -23,3 +23,17 @@ export const fetchActualStorage = () => {
         });
     }
 }
+
+export const fetchUnloadingEvents = () => {
+    return async dispatch => {
+        const response = await fetch(`${SERVER_URL}/storage/unloading-events`);
+        if (!response.ok) {
+            throw new Error('Что то пошло не так. Status: ' + response.status);
+        }
+        const unloadingEvents = await response.json();
+        dispatch({
+            type: STORAGE_TYPES.FETCH_UNLOADING_EVENTS,
+            payload: unloadingEvents
+        });
+    }
+}

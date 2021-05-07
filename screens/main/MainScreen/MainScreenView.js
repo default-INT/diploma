@@ -10,7 +10,7 @@ const MainScreenView = ({navigation, ...props}) => {
 
     const {
         companyData,
-        storageData,
+        actualStorage,
         storageLoading,
         error
     } = props;
@@ -40,7 +40,7 @@ const MainScreenView = ({navigation, ...props}) => {
                     <Widget dataItem={companyData.avgSalary}  />
                 </WidgetList>
                 <WidgetList title='Склад'>
-                    {storageData.actualStorage.length !== 0 ? storageData.actualStorage.map(item => <Widget key={item.id} dataItem={item} />)
+                    {actualStorage.length !== 0 ? actualStorage.map(item => <Widget key={item.id} dataItem={item} />)
                      : <Widget dataItem={emptyData} />}
                 </WidgetList>
             </View>
