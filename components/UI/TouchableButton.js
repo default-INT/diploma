@@ -9,7 +9,7 @@ const TouchableButton = ({onPress = () => '', iconName, ...props}) => {
         <View style={styles.touchable}>
             <TouchableComponent onPress={onPress}>
                 <View style={styles.btn} >
-                    <MaterialIcons name={iconName} size={34} color="black" {...props} />
+                    <MaterialIcons name={iconName} size={34} color="black" {...props} style={styles.icon} />
                 </View>
             </TouchableComponent>
         </View>
@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         borderRadius: 50
     },
+    icon: {
+        opacity: .5,
+        padding: 5
+    }
 })
 
 export default TouchableButton;

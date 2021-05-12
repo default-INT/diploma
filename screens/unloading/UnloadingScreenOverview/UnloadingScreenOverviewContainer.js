@@ -64,7 +64,7 @@ export const unloadingScreenOverviewOptions = navData => {
                     title="Add"
                     iconName="add-circle-outline"
                     onPress={() => {
-                        navData.navigation.navigate('', {})
+                        navData.navigation.navigate('AddUnloading');
                     }}
                 />
             </HeaderButtons>
