@@ -16,8 +16,8 @@
 – добавление, удаление и редактирование должностей сотрудников в системе;
 – удалённый доступ к системе.
 
-Главный экрна
-![alt text](https://sun9-46.userapi.com/impg/JILNFb06YgIxItQzYJhiVZMjEqYMuBpNhg6cuw/sWg2lMeq8M0.jpg?size=738x1600&quality=96&sign=98afda9c62a7f031e328c84caebee394&type=album)
+
+<img src="https://sun9-46.userapi.com/impg/JILNFb06YgIxItQzYJhiVZMjEqYMuBpNhg6cuw/sWg2lMeq8M0.jpg?size=738x1600&quality=96&sign=98afda9c62a7f031e328c84caebee394&type=album" width="500">
 
 Календарь для выбора отчётов
 ![alt text](https://sun9-70.userapi.com/impg/hkluezXyCB5oBu0JkRhgzlvDMFMeMvVr7-APkg/TX0r3MJXOxk.jpg?size=738x1600&quality=96&sign=bfe88fa24bacbb9d1d2025feec12e596&type=album)
