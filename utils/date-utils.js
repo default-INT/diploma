@@ -59,6 +59,15 @@ export const toDateFormat = date => {
     return `${day}.${month}.${year}`;
 }
 
+export const toDateTimeFormat = date => {
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    const year = date.getFullYear();
+    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    return `${day}.${month}.${year} ${hour}:${minutes}`;
+}
+
 export const nameDayOfWeek = {
     0: 'вс',
     1: 'пн',
@@ -67,4 +76,11 @@ export const nameDayOfWeek = {
     4: 'чт',
     5: 'пт',
     6: 'сб'
+}
+
+export const setDateTimeCurrentTimeZone = date => {
+    const currentDateTime = new Date(date);
+    const offset = currentDateTime.getTimezoneOffset();
+    currentDateTime.setMinutes(currentDateTime.getMinutes() - offset);
+    return currentDateTime;
 }

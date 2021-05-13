@@ -21,7 +21,7 @@ const EditReportScreen = props => {
     if (routeParams.selectedDate) {
         const day = routeParams.date < 10 ? '0' + routeParams.date : routeParams.date;
         const month = routeParams.month + 1 < 10 ? '0' + (routeParams.month + 1) : (routeParams.month + 1);
-        const dateFormat = `${routeParams.year}-${month}-${day}T00:00`;0
+        const dateFormat = `${routeParams.year}-${month}-${day}T00:00`;
         dateInit = new Date(dateFormat);
     }
 

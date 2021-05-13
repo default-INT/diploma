@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, StyleSheet, ActivityIndicator, ScrollView} from "react-native";
+import {View, Text, StyleSheet, ActivityIndicator, ScrollView, TextInput} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import Colors from "../../../constants/colors";
@@ -7,6 +7,7 @@ import {toDateFormat} from "../../../utils";
 import {TouchableButton} from "../../../components/UI";
 import {TitleText} from "../../../components/UI/texts";
 import {FormRow, CardForm, FormBody, FormTitle} from "../../../components/card-form";
+import {setDateTimeCurrentTimeZone, toDateTimeFormat} from "../../../utils/date-utils";
 
 const AddUnloadingScreenView = props => {
     const {
@@ -14,24 +15,40 @@ const AddUnloadingScreenView = props => {
         loading,
         error,
 
+        formState,
+        changeFormState,
+        addLoading,
+
+        timeOnChange,
         unloadingDate,
         showDatePicker,
         onShowDatePicker,
         dateOnChange
     } = props;
 
-    const showDatePicket = (date, onChange) => (
-        <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode='date'
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-        />
+    //TODO: check for IOS
+    const showDatePicket = (date, onChangeDate, onChangeTime) => (
+        <>
+            <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode='date'
+                is24Hour={true}
+                display="default"
+                onChange={onChangeDate}
+            />
+            <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode='time'
+                is24Hour={true}
+                display="default"
+                onChange={onChangeTime}
+            />
+        </>
     )
 
-    if (loading) {
+    if (loading || !formState || addLoading) {
         return (
             <View style={styles.centredScreen} >
                 <ActivityIndicator size='large' color={Colors.primary}/>
@@ -52,11 +69,11 @@ const AddUnloadingScreenView = props => {
             <View>
                 <CardForm>
                     <FormTitle >
-                        <TitleText>Дата выгрузки:  {toDateFormat(unloadingDate)}</TitleText>
+                        <TitleText>Дата выгрузки:  {toDateTimeFormat(unloadingDate)}</TitleText>
                         <TouchableButton iconName="mode-edit" onPress={() => onShowDatePicker()}
                                          size={24} style={styles.editBtn} />
                     </FormTitle>
-                    {showDatePicker && (showDatePicket(unloadingDate, dateOnChange))}
+                    {showDatePicker && (showDatePicket(unloadingDate, dateOnChange, timeOnChange))}
                 </CardForm>
                 <CardForm>
                     <FormTitle titleLine>
@@ -66,8 +83,14 @@ const AddUnloadingScreenView = props => {
                         {storagePositions.map(pos => (
                             <FormRow key={pos.id}>
                                 <Text>{pos.name}</Text>
-                                <View>
-
+                                <View style={styles.rowItem}>
+                                    <TextInput
+                                        style={styles.input}
+                                        value={formState[pos.id]}
+                                        onChangeText={text => changeFormState(pos.id, text)}
+                                        keyboardType='numeric'
+                                        maxLength={3}
+                                    />
                                     <Text>{pos.itemName.split('/')[1]}</Text>
                                 </View>
                             </FormRow>
@@ -85,6 +108,15 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    rowItem: {
+        flexDirection: 'row'
+    },
+    input: {
+        borderBottomWidth: 2,
+        borderBottomColor: Colors.primary,
+        marginRight: 10,
+        textAlign: 'center'
     }
 });
 

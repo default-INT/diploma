@@ -4,34 +4,43 @@ import {View, StyleSheet, Text, Platform, TouchableNativeFeedback, TouchableOpac
 import Colors from "../../constants/colors";
 import Card from "../Card";
 import {nameDayOfWeek, toDateFormat} from "../../utils";
+import {toDateTimeFormat} from "../../utils/date-utils";
+import {TouchWrapper} from "../UI";
 
-const UnloadingEvent = ({unloadingItem, ...props}) => {
+const UnloadingEvent = ({unloadingItem, onDeleteEvent, ...props}) => {
     const date = new Date(unloadingItem.dateTimeEdit);
     return (
         <Card style={styles.card}>
-            <View style={styles.title}>
-                <Text style={styles.titleText}>{toDateFormat(date)}</Text>
-                <Text style={{
-                    ...styles.titleText,
-                    color: date.getDay() === 6 || date.getDay() === 0 ? Colors.red : Colors.black}}>
-                    {nameDayOfWeek[date.getDay()].toUpperCase()}
-                </Text>
-            </View>
-            <View style={styles.info}>
-                {unloadingItem.storageItems.map(storageItem => (
-                    <View key={storageItem.id} style={styles.field}>
-                        <Text>{storageItem.positionName}</Text>
-                        <Text>{storageItem.count} шт</Text>
+            <TouchWrapper onLongPress={() => onDeleteEvent(unloadingItem.id)}>
+                <View style={styles.wrap}>
+                    <View style={styles.title}>
+                        <Text style={styles.titleText}>{toDateTimeFormat(date)}</Text>
+                        <Text style={{
+                            ...styles.titleText,
+                            color: date.getDay() === 6 || date.getDay() === 0 ? Colors.red : Colors.black}}>
+                            {nameDayOfWeek[date.getDay()].toUpperCase()}
+                        </Text>
                     </View>
-                ))}
-            </View>
+                    <View style={styles.info}>
+                        {unloadingItem.storageItems.map(storageItem => (
+                            <View key={storageItem.id} style={styles.field}>
+                                <Text>{storageItem.positionName}</Text>
+                                <Text>{storageItem.count} шт</Text>
+                            </View>
+                        ))}
+                    </View>
+                </View>
+            </TouchWrapper>
         </Card>
     )
 }
 
 const styles = StyleSheet.create({
     card: {
-        margin: 20,
+        marginHorizontal: 20,
+        marginVertical: 10
+    },
+    wrap: {
         padding: 20
     },
     title: {

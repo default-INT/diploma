@@ -4,7 +4,7 @@ import UnloadingScreenOverviewView from "./UnloadingScreenOverviewView";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 
 import {MaterialHeaderButton} from "../../../components/UI";
-import {companyActions, storageActions} from "../../../store/actions";
+import {companyActions, reportActions, storageActions} from "../../../store/actions";
 import {Alert} from "react-native";
 
 
@@ -27,6 +27,27 @@ const UnloadingScreenOverviewContainer = ({navigation, ...props}) => {
         setLoading(false);
     }, [dispatch]);
 
+    const onDeleteEvent = eventId => {
+        Alert.alert('Удаление', 'Вы действительно хотите удалить отчёт?', [
+            { text: 'Нет', style: 'default' },
+            {
+                text: 'Да',
+                style: 'destructive',
+                onPress: async () => {
+                    setLoading(true);
+                    try {
+                        await dispatch(storageActions.deleteUnloadingEvent(eventId));
+                    } catch (err) {
+                        console.warn(err.message);
+                        Alert.alert('Error', err.message, [{text: 'Ok'}]);
+                    }
+                    setLoading(false);
+                }
+            }
+        ]);
+
+    }
+
     useEffect(() => {
         return navigation.addListener('focus',  () => {
             loadUnloadingEvents();
@@ -39,6 +60,8 @@ const UnloadingScreenOverviewContainer = ({navigation, ...props}) => {
             loading={loading}
             error={error}
             unloadingEvents={unloadingEvents}
+            onDeleteEvent={onDeleteEvent}
+            loadUnloadingEvents={loadUnloadingEvents}
         />
     )
 }

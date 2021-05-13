@@ -15,6 +15,14 @@ const handlers = {
         ...state,
         unloadingEvents: payload
     }),
+    [STORAGE_TYPES.ADD_UNLOADING_EVENT]: (state, {payload}) => ({
+        ...state,
+        unloadingEvents: state.unloadingEvents.concat(payload).sort((u1, u2) => u1 - u2)
+    }),
+    [STORAGE_TYPES.DELETE_UNLOADING_EVENT]: (state, {payload}) => ({
+        ...state,
+        unloadingEvents: state.unloadingEvents.filter(e => e.id !== payload)
+    }),
     DEFAULT: state => state
 }
 
