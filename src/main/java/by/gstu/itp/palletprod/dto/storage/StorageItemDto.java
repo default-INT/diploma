@@ -1,6 +1,7 @@
 package by.gstu.itp.palletprod.dto.storage;
 
 import by.gstu.itp.palletprod.model.storage.StorageItem;
+import by.gstu.itp.palletprod.model.storage.UnloadingItem;
 
 public class StorageItemDto {
     public static StorageItemDto of(StorageItem storageItem) {
@@ -12,6 +13,19 @@ public class StorageItemDto {
         storageItemDto.setCount(storageItem.getCount());
 
         storageItemDto.setPositionName(storageItem.getPosition().getName());
+
+        return storageItemDto;
+    }
+
+    public static StorageItemDto of(UnloadingItem unloadingItem) {
+        final StorageItemDto storageItemDto = new StorageItemDto();
+
+        storageItemDto.setId(unloadingItem.getId());
+        storageItemDto.setPositionId(unloadingItem.getPositionId());
+        storageItemDto.setStorageId(unloadingItem.getUnloadingEventId());
+        storageItemDto.setCount(unloadingItem.getCount());
+
+        storageItemDto.setPositionName(unloadingItem.getPosition().getName());
 
         return storageItemDto;
     }

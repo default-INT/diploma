@@ -1,17 +1,19 @@
 package by.gstu.itp.palletprod.model.storage;
 
+import by.gstu.itp.palletprod.dto.storage.StorageItemDto;
 import by.gstu.itp.palletprod.model.Position;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-//TODO: rewrite logic
+@Entity
+@Table(name = "unloading_items")
 public class UnloadingItem {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
-    @Column(name = "position_id", updatable = false, insertable = false)
+    @Column(name = "position_id")
     private String positionId;
     @Column(name = "unloading_event_id", updatable = false, insertable = false)
     private String unloadingEventId;
@@ -19,8 +21,9 @@ public class UnloadingItem {
     private int count;
 
     @ManyToOne
-    @JoinColumn(name = "position_id")
+    @JoinColumn(name = "position_id", updatable = false, insertable = false)
     private Position position;
+
     @OneToOne
     @JoinColumn(name = "unloading_event_id", referencedColumnName = "id")
     private UnloadingEvent unloadingEvent;

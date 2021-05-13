@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "unloading_events")
@@ -20,6 +21,10 @@ public class UnloadingEvent {
     @OneToOne
     @JoinColumn(name = "storage_id", referencedColumnName = "id")
     private Storage storage;
+
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "unloading_event_id")
+    private List<UnloadingItem> unloadingItems;
 
     public String getId() {
         return id;
@@ -51,5 +56,13 @@ public class UnloadingEvent {
 
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    public List<UnloadingItem> getUnloadingItems() {
+        return unloadingItems;
+    }
+
+    public void setUnloadingItems(List<UnloadingItem> unloadingItems) {
+        this.unloadingItems = unloadingItems;
     }
 }

@@ -9,6 +9,7 @@ import by.gstu.itp.palletprod.model.report.Report;
 import by.gstu.itp.palletprod.model.storage.Storage;
 import by.gstu.itp.palletprod.model.storage.StorageItem;
 import by.gstu.itp.palletprod.model.storage.UnloadingEvent;
+import by.gstu.itp.palletprod.model.storage.UnloadingItem;
 import by.gstu.itp.palletprod.repository.PositionRepository;
 import by.gstu.itp.palletprod.repository.storage.StorageRepository;
 import by.gstu.itp.palletprod.repository.storage.UnloadingEventRepository;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class StorageService {
+
     private final StorageRepository storageRepository;
     private final PositionRepository positionRepository;
     private final UnloadingEventRepository unloadingEventRepository;
@@ -61,17 +63,11 @@ public class StorageService {
         return StorageDto.of(storageRepository.save(storage));
     }
 
-    public StorageDto deleteItems(Report report) {
-        return deleteItems(
-                datStatMapToStorageItem(report.getDayStats())
-        );
-    }
-
     // TODO: edit logic
     public List<StorageItem> getActualStorageItems(List<StorageItem> actualStorageItems, List<StorageItemDto> storageItemsDto,
                                                    BinaryOperator<Integer> func) {
         final Map<String, StorageItem> stringStorageItemHashMap = actualStorageItems.stream()
-                .collect(Collectors.toMap(StorageItem::getPositionId, storageItem -> storageItem));
+                .collect(Collectors.toMap(StorageItem::getPositionId, StorageItem::copy));
         storageItemsDto
                 .forEach(storageItemDto -> {
                     final Optional<StorageItem> storageItem = actualStorageItems
@@ -94,8 +90,9 @@ public class StorageService {
         return new ArrayList<>(stringStorageItemHashMap.values());
     }
 
-    //TODO: will fix deleting (trouble with date asc|dsc)
-    public StorageDto deleteItems(List<StorageItemDto> storageItemsDto) {
+    public StorageDto deleteItems(final StorageDto storageDto) {
+        final List<StorageItemDto> storageItemsDto = storageDto.getStorageItems();
+
         final Storage storageWrite = storageRepository.findTopByOrderByDateTimeEditDesc()
                 .orElseThrow(NotFoundStorageWriteException::new);
         final List<StorageItem> storageItems = storageWrite.getStorageItems();
@@ -104,26 +101,46 @@ public class StorageService {
         newStore.setDateTimeEdit(Instant.now());
         newStore.setStorageItems(updateStoreItems);
 
-        // TODO: wrong date!!!!
         final UnloadingEvent unloadingEvent = new UnloadingEvent();
 
         unloadingEvent.setStorage(newStore);
-        unloadingEvent.setUnloadingDateTime(Instant.now());
+        unloadingEvent.setUnloadingDateTime(storageDto.getDateTimeEdit());
+        unloadingEvent.setUnloadingItems(
+                storageItemsDto.stream()
+                    .map(this::storageItemMapToUnloadingItem)
+                    .collect(Collectors.toList())
+        );
 
         storageRepository.save(newStore);
 
-        unloadingEventRepository.save(unloadingEvent);
+        final UnloadingEvent newUnloadingEvent = unloadingEventRepository.save(unloadingEvent);
 
-        return StorageDto.of(newStore);
+        return StorageDto.of(newUnloadingEvent);
     }
 
     public List<StorageDto> findAllUnloadingEvents() {
         final List<UnloadingEvent> unloadingEvents = unloadingEventRepository.findAllByOrderByUnloadingDateTimeDesc();
 
         return unloadingEvents.stream()
-                .map(unloadingEvent -> StorageDto.of(unloadingEvent.getStorage()))
+                .map(StorageDto::of)
                 .collect(Collectors.toList());
     }
 
+    public boolean deleteUnloadingEvent(String unloadingEventId) {
+        try {
+            unloadingEventRepository.deleteById(unloadingEventId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    private UnloadingItem storageItemMapToUnloadingItem(final StorageItemDto storageItemDto) {
+        final UnloadingItem unloadingItem = new UnloadingItem();
+        unloadingItem.setPositionId(storageItemDto.getPositionId());
+        unloadingItem.setPosition(positionRepository.findById(storageItemDto.getPositionId())
+                .orElseThrow(NotFoundException::new));
+        unloadingItem.setCount(storageItemDto.getCount());
+        return unloadingItem;
+    }
 }

@@ -44,8 +44,13 @@ public class StorageRestController {
         }
     }
 
-    @DeleteMapping("/delete-items")
-    public StorageDto deleteStorageItems(@RequestBody List<StorageItemDto> storageItems) {
-        return storageService.deleteItems(storageItems);
+    @PostMapping("/delete-items")
+    public StorageDto deleteStorageItems(@RequestBody StorageDto storageDto) {
+        return storageService.deleteItems(storageDto);
+    }
+
+    @DeleteMapping("/unloading-event")
+    public boolean deleteUnloadingEvent(@RequestBody StorageDto storageDto) {
+        return storageService.deleteUnloadingEvent(storageDto.getId());
     }
 }

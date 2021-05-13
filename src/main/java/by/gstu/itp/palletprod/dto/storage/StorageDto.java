@@ -1,6 +1,7 @@
 package by.gstu.itp.palletprod.dto.storage;
 
 import by.gstu.itp.palletprod.model.storage.Storage;
+import by.gstu.itp.palletprod.model.storage.UnloadingEvent;
 
 import java.time.Instant;
 import java.util.List;
@@ -17,6 +18,21 @@ public class StorageDto {
                 .stream()
                 .map(StorageItemDto::of)
                 .collect(Collectors.toList())
+        );
+
+        return storageDto;
+    }
+
+    public static StorageDto of(UnloadingEvent unloadingEvent) {
+        final StorageDto storageDto = new StorageDto();
+
+        storageDto.setId(unloadingEvent.getId());
+        storageDto.setDateTimeEdit(unloadingEvent.getUnloadingDateTime());
+        storageDto.setStorageItems(
+                unloadingEvent.getUnloadingItems()
+                        .stream()
+                        .map(StorageItemDto::of)
+                        .collect(Collectors.toList())
         );
 
         return storageDto;
