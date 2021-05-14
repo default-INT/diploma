@@ -12,17 +12,37 @@ public class User {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
-    @Column
+    @Column(unique = true)
     private String email;
-    @Column(name = "employee_id", updatable = false, insertable = false)
+    @Column(name = "employee_id")
     private String employeeId;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private boolean confirmed;
     @Column(length = 30)
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
     @OneToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", updatable = false, insertable = false)
     private Employee employee;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
 
     public String getId() {
         return id;
