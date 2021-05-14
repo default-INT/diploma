@@ -48,7 +48,7 @@ public class ReportService {
     }
 
     public List<ReportDto> findAll() {
-        return reportRepository.findAll()
+        return reportRepository.findAllByOrderByDateDesc()
                 .stream()
                 .map(ReportDto::of)
                 .collect(Collectors.toList());
