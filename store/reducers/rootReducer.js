@@ -6,6 +6,7 @@ import {employeeReducer} from "./employeeReducer";
 import {positionReducer} from "./positionReducer";
 import {reportReducer} from "./reportReducer";
 import {statisticReducer} from "./statisticReducer";
+import {authReducer} from "./authReducer";
 
 const rootReducer = combineReducers({
     storage: storageReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     employees: employeeReducer,
     positions: positionReducer,
     reports: reportReducer,
-    statistics: statisticReducer
+    statistics: statisticReducer,
+    auth: authReducer
 })
 
 export default rootReducer
