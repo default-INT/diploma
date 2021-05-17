@@ -19,18 +19,23 @@ public class CompanyService {
     }
 
     public BigDecimal getAvgSalaryOnDay() {
-        final List<Employee> employees = employeeRepository.findAllByFiredAndLastNameStartingWithAndDeletedFalse(false, "")
-                .stream()
-                .filter(employee -> employee.getEmployeeItems().size() > 0)
-                .collect(Collectors.toList());
+        try {
+            final List<Employee> employees = employeeRepository.findAllByFiredAndLastNameStartingWithAndDeletedFalse(false, "")
+                    .stream()
+                    .filter(employee -> employee.getEmployeeItems().size() > 0)
+                    .collect(Collectors.toList());
 
-        final BigDecimal totalSalary = employees.stream()
-                .map(employee -> employee.getEmployeeItems().stream()
-                        .map(EmployeeItem::getTotalSalary)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add)
-                        .divide(BigDecimal.valueOf(employee.getEmployeeItems().size()), RoundingMode.HALF_UP)
-                )
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return totalSalary.divide(BigDecimal.valueOf(employees.size()), RoundingMode.HALF_UP);
+            final BigDecimal totalSalary = employees.stream()
+                    .map(employee -> employee.getEmployeeItems().stream()
+                            .map(EmployeeItem::getTotalSalary)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add)
+                            .divide(BigDecimal.valueOf(employee.getEmployeeItems().size()), RoundingMode.HALF_UP)
+                    )
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            return totalSalary.divide(BigDecimal.valueOf(employees.size()), RoundingMode.HALF_UP);
+        } catch (Exception e) {
+            return new BigDecimal(0);
+        }
+
     }
 }

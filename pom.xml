@@ -85,6 +85,12 @@
                 <spring.profiles.active>prod</spring.profiles.active>
             </properties>
         </profile>
+        <profile>
+            <id>demo</id>
+            <properties>
+                <spring.profiles.active>demo</spring.profiles.active>
+            </properties>
+        </profile>
     </profiles>
 
 </project>

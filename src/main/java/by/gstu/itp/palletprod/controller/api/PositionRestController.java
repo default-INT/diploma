@@ -18,7 +18,7 @@ public class PositionRestController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole(T(by.gstu.itp.palletprod.model.user.Role).ROLE_ADMIN)")
+//    @PreAuthorize("hasRole(T(by.gstu.itp.palletprod.model.user.Role).ROLE_ADMIN)")
     public List<PositionDto> findAll(@RequestParam(name = "deleted", defaultValue = "false") boolean deleted) {
         if (deleted) {
             return positionService.findAllDeleted();
