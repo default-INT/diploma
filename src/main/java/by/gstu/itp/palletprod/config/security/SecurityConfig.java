@@ -1,5 +1,7 @@
 package by.gstu.itp.palletprod.config.security;
 
+import by.gstu.itp.palletprod.model.Position;
+import by.gstu.itp.palletprod.model.user.Role;
 import by.gstu.itp.palletprod.provider.JwtTokenProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -34,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            .and()
                 .cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/auth/login").anonymous()
+                .antMatchers(HttpMethod.POST, "/api/auth/*").anonymous()
+                .antMatchers(HttpMethod.GET, "/positions").hasAnyRole(Role.EMPLOYEE.name(), Role.ADMIN.name())
+                .anyRequest().hasRole(Role.ADMIN.name())
             .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), tokenProvider))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), tokenProvider))

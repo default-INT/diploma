@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 @Component
 public class JwtTokenProvider {
@@ -77,7 +78,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String header = request.getHeader(headerName);
-        return header == null || !header.startsWith(prefix) ? null : header.substring(prefix.length() + 1);
+        return Objects.isNull(header) || !header.startsWith(prefix) ? null : header.substring(prefix.length() + 1);
     }
 
     public Map<String, String> refreshToken(String rawToken) {

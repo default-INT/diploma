@@ -22,7 +22,7 @@ public class AuthService {
         user.setEmail(authenticationDto.getEmail());
         user.setPassword(passwordEncoder.encode(authenticationDto.getPassword()));
         user.setEmployeeId(authenticationDto.getEmployeeId());
-        user.setRole(Role.ROLE_EMPLOYEE);
+        user.setRole(Role.EMPLOYEE);
         return userRepository.save(user);
     }
 }
