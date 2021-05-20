@@ -3,7 +3,8 @@ import {AUTH_TYPES} from "../../constants/types";
 const initialState = {
     authUser: null,
     accessToken: null,
-    refreshToken: null
+    refreshToken: null,
+    didTryAutoLogin: false
 }
 
 
@@ -19,6 +20,10 @@ const handlers = {
     [AUTH_TYPES.SET_REFRESH_TOKEN]: (state, {payload}) => ({
         ...state,
         refreshToken: payload
+    }),
+    [AUTH_TYPES.TRY_AUTO_LOGIN]: (state) => ({
+        ...state,
+        didTryAutoLogin: true
     }),
     DEFAULT: state => state
 }

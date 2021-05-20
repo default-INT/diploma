@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2
     },
     errorContainer: {
-        marginVertical: 5
+        position: 'absolute',
+        bottom: -20
     },
     errorText: {
         color: 'red',

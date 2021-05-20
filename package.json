@@ -26,6 +26,7 @@
     "react-native-paper": "^4.7.2",
     "react-native-reanimated": "~1.13.0",
     "react-native-screens": "~2.15.2",
+    "react-native-web": "^0.16.3",
     "react-navigation": "^4.4.4",
     "react-navigation-drawer": "^2.7.0",
     "react-navigation-header-buttons": "^6.0.0",

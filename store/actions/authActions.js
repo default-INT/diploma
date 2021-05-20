@@ -17,15 +17,37 @@ const saveTokens = async (accessToken, refreshToken) => {
     }
 }
 
+const getProfile = async (accessToken, refreshToken) => {
+    const response = await fetch(`${SERVER_URL}/api/auth/profile`, {
+        headers: {
+            'Authorization': accessToken
+        }
+    });
+    if (!response.ok) {
+        throw new Error('Не удалось получить пользователя. Status: ' + response.status);
+    }
+    const user = await response.json();
+    return User.of(user);
+}
+
 export const loadTokens = () => {
     return async dispatch => {
         try {
             const accessToken = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
             const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
+            if (!accessToken || !refreshToken) {
+                console.log('Tokens is null');
+                dispatch({type: AUTH_TYPES.TRY_AUTO_LOGIN});
+                return;
+            }
             dispatch({type: AUTH_TYPES.SET_ACCESS_TOKEN, payload: accessToken});
             dispatch({type: AUTH_TYPES.SET_REFRESH_TOKEN, payload: refreshToken});
+            dispatch({type: AUTH_TYPES.SET_USER, payload: await getProfile()});
+
+            dispatch({type: AUTH_TYPES.TRY_AUTO_LOGIN});
         } catch (err) {
             console.warn(err.message)
+            dispatch({type: AUTH_TYPES.TRY_AUTO_LOGIN});
             throw err;
         }
     }
@@ -33,22 +55,25 @@ export const loadTokens = () => {
 
 export const logInUser = (email, password) => {
     return async dispatch => {
-        const response = fetch(`${SERVER_URL}/api/auth/login`, {
+        const response = await fetch(`${SERVER_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            }
+            },
+            body: JSON.stringify({
+                email, password
+            })
         });
 
         if (!response.ok) {
             throw new Error('Не удалось авторизоваться. Status: ' + response.status);
         }
 
-        const {tokens, ...user} = await response.json();
+        const tokens = await response.json();
 
         saveTokens(tokens.access, tokens.refresh);
         dispatch({type: AUTH_TYPES.SET_ACCESS_TOKEN, payload: tokens.access});
         dispatch({type: AUTH_TYPES.SET_REFRESH_TOKEN, payload: tokens.refresh});
-        dispatch({type: AUTH_TYPES.SET_REFRESH_TOKEN, payload: User.of(user)});
+        dispatch({type: AUTH_TYPES.SET_REFRESH_TOKEN, payload: await getProfile()});
     }
 }

@@ -1,3 +1,4 @@
+export {AuthNavigator} from "./AuthNavigator";
 export {EmployeeNavigator} from "./EmployeeNavigator";
 export {LastReportNavigator} from "./ReportNavigator";
 export {MainNavigator} from "./MainNavigator";

@@ -29,6 +29,7 @@
     "android": {
       "package": "by.palletprod.rnapp",
       "versionCode": 1,
+      "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
