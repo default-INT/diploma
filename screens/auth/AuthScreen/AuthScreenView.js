@@ -62,6 +62,9 @@ const AuthScreenView = props => {
                                 onInputChange={inputChangeHandler}
                                 initialValue={formState.inputValues.email}
                                 initiallyValid={formState.inputValidities.email}
+                                autoCorrect={false}
+                                autoCompleteType='email'
+                                autoCapitalize='none'
                                 required
                             />
                         </View>
@@ -84,6 +87,8 @@ const AuthScreenView = props => {
                                 initialValue={formState.inputValues.password}
                                 initiallyValid={formState.inputValidities.password}
                                 secureTextEntry={true}
+                                autoCorrect={false}
+                                autoCapitalize='none'
                                 min={4}
                                 max={20}
                                 required
@@ -141,7 +146,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     label: {
-        fontSize: 20
+
     },
     field: {
         padding: 10,
@@ -163,7 +168,7 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     labelContainer: {
-        width: 80
+        width: 50
     },
     btnContainer: {
         flex:1,

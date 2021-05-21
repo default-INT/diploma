@@ -1,6 +1,7 @@
 import {POSITION_TYPES} from "../../constants/types";
-import {SERVER_URL} from "../../constants";
 import {Position} from "../../models";
+import axios from "axios";
+import {getResponseErrorText} from "../../utils";
 
 
 export const fetchPosition = () => {
@@ -8,16 +9,16 @@ export const fetchPosition = () => {
         dispatch({type: POSITION_TYPES.START_LOADING});
         dispatch({type: POSITION_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/positions`);
-            if (!response.ok) {
+            const response = await axios.get(`/positions`);
+            if (response.status !== 200) {
                 dispatch({
                     type: POSITION_TYPES.SET_ERROR,
-                    payload: 'Не удалось получить данные о должностях. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось получить данные о должностях')
                 });
                 dispatch({type: POSITION_TYPES.END_LOADING});
                 return;
             }
-            const positions = await response.json();
+            const positions = response.data;
             dispatch({
                 type: POSITION_TYPES.FETCH_ALL,
                 payload: positions.map(position => Position.of(position))
@@ -34,22 +35,16 @@ export const addPosition = position => {
         dispatch({type: POSITION_TYPES.START_LOADING});
         dispatch({type: POSITION_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/positions`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(position)
-            });
-            if (!response.ok) {
+            const response = await axios.post(`/positions`, position);
+            if (response.status !== 200) {
                 dispatch({
                     type: POSITION_TYPES.SET_ERROR,
-                    payload: 'Не удалось добавить новый тариф. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось добавить новый тариф')
                 });
                 dispatch({type: POSITION_TYPES.END_LOADING});
                 return;
             }
-            const newPosition = await response.json();
+            const newPosition = response.data;
             dispatch({
                 type: POSITION_TYPES.ADD_POSITION,
                 payload: Position.of(newPosition)
@@ -66,22 +61,16 @@ export const updatePosition = position => {
         dispatch({type: POSITION_TYPES.START_LOADING});
         dispatch({type: POSITION_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/positions`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(position)
-            });
-            if (!response.ok) {
+            const response = await axios.put(`/positions`, position);
+            if (response.status !== 200) {
                 dispatch({
                     type: POSITION_TYPES.SET_ERROR,
-                    payload: 'Не удалось обновить данные о тарифе. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось обновить данные о тарифе')
                 });
                 dispatch({type: POSITION_TYPES.END_LOADING});
                 return;
             }
-            const updatePosition = await response.json();
+            const updatePosition = response.data;
             dispatch({
                 type: POSITION_TYPES.UPDATE_POSITION,
                 payload: {
@@ -101,24 +90,16 @@ export const deletePosition = positionId => {
         dispatch({type: POSITION_TYPES.START_LOADING});
         dispatch({type: POSITION_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/positions`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: positionId
-                })
-            });
-            if (!response.ok) {
+            const response = await axios.delete(`/positions/` + positionId);
+            if (response.status !== 200) {
                 dispatch({
                     type: POSITION_TYPES.SET_ERROR,
-                    payload: 'Не удалось удалить тариф. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось удалить тариф')
                 });
                 dispatch({type: POSITION_TYPES.END_LOADING});
                 return;
             }
-            const answer = await response.json();
+            const answer = response.data;
             if (answer) {
                 dispatch({
                     type: POSITION_TYPES.DELETE_POSITION,

@@ -1,6 +1,7 @@
 import {Employee} from "../../models";
 import {EMPLOYEE_TYPES} from "../../constants/types";
-import {SERVER_URL} from "../../constants";
+import axios from "axios";
+import {getResponseErrorText} from "../../utils";
 
 
 export const fetchEmployees = () => {
@@ -8,16 +9,16 @@ export const fetchEmployees = () => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});
         dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/employees`);
-            if (!response.ok) {
+            const response = await axios.get(`/employees`);
+            if (response.status !== 200) {
                 dispatch({
                     type: EMPLOYEE_TYPES.SET_ERROR,
-                    payload: 'Не удалось получить данные о сотрудниках. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось получить данные о сотрудниках')
                 });
                 dispatch({type: EMPLOYEE_TYPES.END_LOADING});
                 return;
             }
-            const employees = await response.json();
+            const employees = response.data;
             dispatch({
                 type: EMPLOYEE_TYPES.FETCH_ALL,
                 payload: employees.map(employee => Employee.of(employee))
@@ -34,22 +35,16 @@ export const addEmployees = employee => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});
         dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/employees`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(Employee.of(employee))
-            });
-            if (!response.ok) {
+            const response = await axios.post(`/employees`, Employee.of(employee));
+            if (response.status !== 200) {
                 dispatch({
                     type: EMPLOYEE_TYPES.SET_ERROR,
-                    payload: 'Не удалось добавить сотрудника. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось добавить сотрудника')
                 });
                 dispatch({type: EMPLOYEE_TYPES.END_LOADING});
                 return;
             }
-            const newEmployee = await response.json();
+            const newEmployee = response.data;
             dispatch({
                 type: EMPLOYEE_TYPES.ADD_EMPLOYEE,
                 payload: Employee.of(newEmployee)
@@ -66,24 +61,16 @@ export const fireEmployee = employeeId => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});
         dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/employees/fire`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: employeeId
-                })
-            });
-            if (!response.ok) {
+            const response = await axios.delete(`/employees/fire/` + employeeId);
+            if (response.status !== 200) {
                 dispatch({
                     type: EMPLOYEE_TYPES.SET_ERROR,
-                    payload: 'Не удалось уволить сотрудника. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось уволить сотрудника')
                 });
                 dispatch({type: EMPLOYEE_TYPES.END_LOADING});
                 return;
             }
-            const answer = await response.json();
+            const answer = response.data;
             if (answer) {
                 dispatch({
                     type: EMPLOYEE_TYPES.FIRE_EMPLOYEE,
@@ -107,23 +94,17 @@ export const updateEmployee = employee => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});
         dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/employees`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(employee)
-            });
+            const response = await axios.put(`/employees`, employee);
 
-            if (!response.ok) {
+            if (response.status !== 200) {
                 dispatch({
                     type: EMPLOYEE_TYPES.SET_ERROR,
-                    payload: 'Не удалось обновить данные о сотруднике. Status: ' + response.status
+                    payload: getResponseErrorText(response, 'Не удалось обновить данные о сотруднике')
                 });
                 dispatch({type: EMPLOYEE_TYPES.END_LOADING});
                 return;
             }
-            const upEmployee = await response.json();
+            const upEmployee = response.data;
             dispatch({
                 type: EMPLOYEE_TYPES.UPDATE_EMPLOYEE,
                 payload: Employee.of(upEmployee)

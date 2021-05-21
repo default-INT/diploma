@@ -1,16 +1,17 @@
 import {STORAGE_TYPES} from "../../constants/types";
-import {SERVER_URL} from "../../constants";
 import {DataItem} from "../../models";
 import IconsUri from "../../constants/icons";
 import Colors from "../../constants/colors";
+import axios from "axios";
+import {getResponseErrorText} from "../../utils";
 
 export const fetchActualStorage = () => {
     return async dispatch => {
-        const response = await fetch(`${SERVER_URL}/storage/actual`);
-        if (!response.ok) {
-            throw new Error('Что то пошло не так. Status: ' + response.status);
+        const response = await axios.get(`/storage/actual`);
+        if (response.status !== 200) {
+            throw new Error(getResponseErrorText(response, 'Не удалось получить актуальную информацию о складе'));
         }
-        const {storageItems} = await response.json();
+        const {storageItems} = response.data;
         dispatch({
             type: STORAGE_TYPES.FETCH_ACTUAL_STORAGE,
             payload: storageItems.map(storageItem => new DataItem(
@@ -26,11 +27,11 @@ export const fetchActualStorage = () => {
 
 export const fetchUnloadingEvents = () => {
     return async dispatch => {
-        const response = await fetch(`${SERVER_URL}/storage/unloading-events`);
-        if (!response.ok) {
-            throw new Error('Что то пошло не так. Status: ' + response.status);
+        const response = await axios.get(`/storage/unloading-events`);
+        if (response.status !== 200) {
+            throw new Error(getResponseErrorText(response, 'Не удалось получить информации о выгрузках'));
         }
-        const unloadingEvents = await response.json();
+        const unloadingEvents = response.data;
         dispatch({
             type: STORAGE_TYPES.FETCH_UNLOADING_EVENTS,
             payload: unloadingEvents
@@ -49,17 +50,11 @@ export const addUnloadingEvent = unloadingEvent => {
                 }))
                 .filter(storageItem => storageItem.count > 0)
         }
-        const response = await fetch(`${SERVER_URL}/storage/delete-items`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(parseUnloadingEvent)
-        });
-        if (!response.ok) {
-            throw new Error('Что то пошло не так. Status: ' + response.status);
+        const response = await axios.post(`/storage/delete-items`, parseUnloadingEvent);
+        if (response.status !== 200) {
+            throw new Error(getResponseErrorText(response, 'Что то пошло не так'));
         }
-        const newUnloadingEvent = await response.json();
+        const newUnloadingEvent = response.data;
         dispatch({
             type: STORAGE_TYPES.ADD_UNLOADING_EVENT,
             payload: newUnloadingEvent
@@ -69,19 +64,15 @@ export const addUnloadingEvent = unloadingEvent => {
 
 export const deleteUnloadingEvent = unloadingId => {
     return async dispatch => {
-        const response = await fetch(`${SERVER_URL}/storage/unloading-event`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        const response = await axios.delete(`/storage/unloading-event`, {
+            data: {
                 id: unloadingId
-            })
+            }
         });
-        if (!response.ok) {
-            throw new Error('Что то пошло не так. Status: ' + response.status);
+        if (response.status !== 200) {
+            throw new Error(getResponseErrorText(response, 'Что то пошло не так'));
         }
-        const answer = await response.json();
+        const answer = response.data;
         if (answer) {
             dispatch({
                 type: STORAGE_TYPES.DELETE_UNLOADING_EVENT,

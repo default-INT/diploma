@@ -54,7 +54,7 @@ const AuthScreenContainer = props => {
             ]);
         }
         setLoading(false);
-    }, [dispatch, formState]);
+    }, [dispatch, formState, loading, setLoading]);
 
     return (
         <AuthScreenView
