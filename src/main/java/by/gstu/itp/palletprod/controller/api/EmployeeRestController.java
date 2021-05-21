@@ -64,8 +64,8 @@ public class EmployeeRestController {
         return employeeService.delete(employeeDto);
     }
 
-    @DeleteMapping("/fire")
-    public boolean fireEmployee(@RequestBody EmployeeDto employeeDto) {
-        return employeeService.fireEmployee(employeeDto);
+    @DeleteMapping("/fire/{employeeId}")
+    public boolean fireEmployee(@PathVariable String employeeId) {
+        return employeeService.fireEmployee(employeeId);
     }
 }

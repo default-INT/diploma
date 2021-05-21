@@ -81,6 +81,24 @@ public class JwtTokenProvider {
         return Objects.isNull(header) || !header.startsWith(prefix) ? null : header.substring(prefix.length() + 1);
     }
 
+    public Map<String, String> getActualToken(String email) {
+        try {
+            User user = userRepository.findByEmail(email).orElseThrow(() ->
+                    new JwtAuthenticationException("user doesn't exists"));
+            Token oldToken = tokenRepository.findByUser(user).orElseThrow(() ->
+                    new JwtAuthenticationException("Token not found"));
+            if (getExpiration(oldToken.getAccessJws()).before(new Date())) {
+                return createAndSaveTokens(email);
+            }
+            final Map<String, String> tokens = new HashMap<>();
+            tokens.put(ACCESS_TOKEN_KEY, oldToken.getAccessJws());
+            tokens.put(REFRESH_TOKEN_KEY, oldToken.getRefreshJws());
+            return tokens;
+        } catch (ExpiredJwtException e) {
+            return createAndSaveTokens(email);
+        }
+    }
+
     public Map<String, String> refreshToken(String rawToken) {
         String email = getEmail(rawToken);
         User user = userRepository.findByEmail(email).orElseThrow(() ->
@@ -131,6 +149,15 @@ public class JwtTokenProvider {
 
     private String getId(Claims body) {
         return body.get("id", String.class);
+    }
+
+    private Date getExpiration(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration();
     }
 
     private Claims getBody(String token) {

@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult) throws IOException {
         final String email = ((UserDetails)authResult.getPrincipal()).getUsername(); // is email
-        final Map<String, String> tokens = tokenProvider.createAndSaveTokens(email);
+        final Map<String, String> tokens = tokenProvider.getActualToken(email);
         response.getWriter().write(mapper.writeValueAsString(tokens));
         response.getWriter().flush();
     }

@@ -52,7 +52,11 @@ public class PositionService {
     }
 
     public boolean delete(final PositionDto positionDto) {
-        final Position position = positionRepository.findById(positionDto.getId())
+        return delete(positionDto.getId());
+    }
+
+    public boolean delete(final String positionId) {
+        final Position position = positionRepository.findById(positionId)
                 .orElseThrow(IllegalArgumentException::new);
 
         position.setDeleted(true);

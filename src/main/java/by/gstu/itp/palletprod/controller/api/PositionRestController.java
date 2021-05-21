@@ -34,8 +34,8 @@ public class PositionRestController {
         return positionService.update(positionDto);
     }
 
-    @DeleteMapping
-    public boolean delete(@RequestBody PositionDto positionDto) {
-        return positionService.delete(positionDto);
+    @DeleteMapping("{positionId}")
+    public boolean delete(@PathVariable String positionId) {
+        return positionService.delete(positionId);
     }
 }
