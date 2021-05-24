@@ -1,7 +1,8 @@
 import React, {useState, useReducer, useEffect, useCallback} from "react";
-import {View, Text, StyleSheet, CheckBox, KeyboardAvoidingView, ScrollView, Alert, ActivityIndicator } from "react-native";
+import {View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Alert, ActivityIndicator } from "react-native";
 import {useSelector, useDispatch} from "react-redux";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import { Input } from "../../components";
 import { MaterialHeaderButton } from "../../components/UI";
@@ -146,20 +147,22 @@ const EditPositionScreen = props => {
                             <Text>
                                 Поддоны
                             </Text>
-                            <CheckBox
-                                color={Colors.primary}
-                                value={isPallet}
-                                onValueChange={setIsPallet}
+                            <BouncyCheckbox
+                                fillColor={Colors.primary}
+                                iconStyle={{ borderColor: Colors.primary, marginLeft: 10 }}
+                                isChecked={isPallet}
+                                onPress={() => setIsPallet(prevState => !prevState)}
                             />
                         </View>
                         <View style={styles.checkboxContainer}>
                             <Text>
                                 Ввести учёт на складе
                             </Text>
-                            <CheckBox
-                                color={Colors.primary}
-                                value={isStorage}
-                                onValueChange={setIsStorage}
+                            <BouncyCheckbox
+                                fillColor={Colors.primary}
+                                iconStyle={{ borderColor: Colors.primary, marginLeft: 10 }}
+                                isChecked={isStorage}
+                                onPress={() => setIsStorage(prevState => !prevState)}
                             />
                         </View>
                     </View>

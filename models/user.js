@@ -1,5 +1,10 @@
 import {ROLES} from "../constants";
 
+const ROLE_NAMES = {
+    ['ADMIN']: 'Администратор',
+    ['EMPLOYEE']: 'Сотрудник'
+}
+
 export default class User {
     /**
      *
@@ -21,6 +26,10 @@ export default class User {
 
     isEmployee = () => {
         return this.role === ROLES.EMPLOYEE;
+    }
+
+    getRoleName = () => {
+        return ROLE_NAMES[this.role];
     }
 
     static of(options) {

@@ -59,6 +59,10 @@ export const CalendarReportNavigator = () => {
                 name="EditEmployeeReport"
                 component={EditEmployeeReportScreen}
             />
+            <ReportStackNavigator.Screen
+                name="EditWorkItemReport"
+                component={EditWorkItemReportScreen}
+            />
         </CalendarStackNavigator.Navigator>
     )
 }

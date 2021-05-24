@@ -1,5 +1,14 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform, ActivityIndicator} from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    TouchableNativeFeedback,
+    Platform,
+    ActivityIndicator,
+    Dimensions
+} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {Ionicons} from "@expo/vector-icons";
 
@@ -191,7 +200,7 @@ const styles = StyleSheet.create({
         padding: 5,
         borderColor: Colors.whitesmoke,
         borderLeftWidth: 1,
-        width: 50,
+        width: Dimensions.get("window").width / 8,
         height: 60,
         alignItems: 'flex-end',
         justifyContent: 'flex-start'

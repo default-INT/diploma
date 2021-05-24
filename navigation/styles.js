@@ -26,5 +26,13 @@ export const styles = StyleSheet.create({
     image: {
         width: 80,
         height: 80
+    },
+    profileInfo: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 10
+    },
+    profileField: {
+        padding: 5
     }
 })

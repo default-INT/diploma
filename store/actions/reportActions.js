@@ -2,6 +2,7 @@ import {POSITION_TYPES, REPORTS_TYPES} from "../../constants/types";
 import {REPORTS} from "../../data/dummy-data";
 import {SERVER_URL} from "../../constants";
 import {EmployeeItem, Report, WorkItem} from "../../models";
+import axios from "axios";
 
 export const fetchLastReports = page => {
     return async dispatch => {
@@ -18,8 +19,13 @@ export const fetchLastReports = page => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/reports?size=10&page=${page}`);
-            if (!response.ok) {
+            const response = await axios.get(`/reports`, {
+                params: {
+                    page,
+                    size: 10
+                }
+            });
+            if (response.status !== 200) {
                 dispatch({
                     type: REPORTS_TYPES.SET_ERROR,
                     payload: 'Не удалось получить данные об отчётах. Status: ' + response.status
@@ -27,7 +33,7 @@ export const fetchLastReports = page => {
                 dispatch({type: REPORTS_TYPES.END_LOADING});
                 return;
             }
-            const reports = await response.json();
+            const reports = response.data;
             dispatch({
                 type: REPORTS_TYPES.FETCH_LAST_REPORTS,
                 payload: reports.map(report => Report.of(report))
@@ -47,17 +53,11 @@ export const addReport = (date, report) => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/reports`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...report.toReq(),
-                    date: date
-                })
+            const response = await axios.post(`/reports`, {
+                ...report.toReq(),
+                date: date
             });
-            if (!response.ok) {
+            if (response.status !== 200) {
                 console.log('response error');
                 dispatch({
                     type: REPORTS_TYPES.SET_ERROR,
@@ -66,7 +66,7 @@ export const addReport = (date, report) => {
                 dispatch({type: REPORTS_TYPES.END_LOADING});
                 return;
             }
-            const newReport = await response.json();
+            const newReport = response.data;
 
             dispatch({
                 type: REPORTS_TYPES.ADD_REPORT,
@@ -88,18 +88,12 @@ export const updateReport = (date, report) => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/reports`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: report.id,
-                    ...Report.toHttpRequestFormat(report),
-                    date: date
-                })
+            const response = await axios.put(`/reports`, {
+                id: report.id,
+                ...Report.toHttpRequestFormat(report),
+                date: date
             });
-            if (!response.ok) {
+            if (response.status !== 200) {
                 dispatch({
                     type: REPORTS_TYPES.SET_ERROR,
                     payload: 'Не удалось обновить. данные об отчёте. Status: ' + response.status
@@ -107,7 +101,7 @@ export const updateReport = (date, report) => {
                 dispatch({type: REPORTS_TYPES.END_LOADING});
                 return;
             }
-            const updateReport = await response.json();
+            const updateReport = response.data;
             dispatch({
                 type: REPORTS_TYPES.UPDATE_REPORT,
                 payload: {
@@ -130,16 +124,8 @@ export const deleteReport = reportId => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/reports`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: reportId
-                })
-            });
-            if (!response.ok) {
+            const response = await axios.delete(`/reports/` + reportId);
+            if (response.status !== 200 ) {
                 dispatch({
                     type: REPORTS_TYPES.SET_ERROR,
                     payload: 'Не удалось получить удалить отчёт. Status: ' + response.status
@@ -147,7 +133,7 @@ export const deleteReport = reportId => {
                 dispatch({type: REPORTS_TYPES.END_LOADING});
                 return;
             }
-            const answer = await response.json();
+            const answer = response.data;
             if (answer) {
                 dispatch({
                     type: REPORTS_TYPES.DELETE_REPORT,
@@ -174,16 +160,19 @@ export const fetchMonthlyReports = (month, year) => {
         // dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await fetch(`${SERVER_URL}/reports?month=${month}&year=${year}`);
-            if (!response.ok) {
+            const response = await axios.get(`/reports`, {
+                params: {
+                    month, year
+                }
+            });
+            if (response.status !== 200) {
                 dispatch({
                     type: REPORTS_TYPES.SET_ERROR,
                     payload: 'Не удалось получить данные об отчётах. Status: ' + response.status
                 });
-                // dispatch({type: REPORTS_TYPES.END_LOADING});
                 return;
             }
-            const reports = await response.json();
+            const reports = response.data;
             dispatch({
                 type: REPORTS_TYPES.FETCH_MONTHLY_REPORTS,
                 payload: {
@@ -197,7 +186,6 @@ export const fetchMonthlyReports = (month, year) => {
                 payload: err.message
             });
         }
-        // dispatch({type: REPORTS_TYPES.END_LOADING});
     }
 };
 

@@ -1,17 +1,12 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 import {AUTH_TYPES} from "../../constants/types";
 import User from "../../models/user";
-import {getResponseErrorText, setTokenHeader} from "../../utils";
-
-const ACCESS_TOKEN_KEY = "@access_token";
-const REFRESH_TOKEN_KEY = "@refresh_token";
+import {getResponseErrorText, readTokens, setTokenHeader, writeTokens} from "../../utils";
 
 const saveTokens = async (accessToken, refreshToken) => {
     try {
-        await AsyncStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-        await AsyncStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+        await writeTokens(accessToken, refreshToken);
         setTokenHeader(accessToken);
     } catch (err) {
         console.warn(err.message);
@@ -31,8 +26,8 @@ const getProfile = async () => {
 export const loadTokens = () => {
     return async dispatch => {
         try {
-            const accessToken = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
-            const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
+            const {accessToken, refreshToken} = await readTokens();
+
             if (!accessToken || !refreshToken) {
                 console.log('Tokens is null');
                 dispatch({type: AUTH_TYPES.TRY_AUTO_LOGIN});

@@ -7,6 +7,7 @@ export const initAxios = () => {
 
 export const setTokenHeader = accessToken => {
     axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+    // TODO: use axios.interceptors.request or response for refresh tokens!
 }
 
 export const getResponseErrorText = (response, text) => {

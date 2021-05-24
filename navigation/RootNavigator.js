@@ -1,9 +1,11 @@
-import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
-import {Image, SafeAreaView, View} from "react-native";
-import Colors from "../constants/colors";
-import {Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 import React from "react";
+import {createDrawerNavigator, DrawerItemList} from "@react-navigation/drawer";
+import {Image, SafeAreaView, Text, View} from "react-native";
+import {Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
+import {useSelector} from "react-redux";
+
 import {styles} from "./styles";
+import Colors from "../constants/colors";
 import {
     EmployeeNavigator,
     MainNavigator,
@@ -16,6 +18,7 @@ import {
 const PalletProdDrawerNavigator = createDrawerNavigator();
 
 const PalletProdNavigator = () => {
+    const {authUser} = useSelector(state => state.auth);
     return (
         <PalletProdDrawerNavigator.Navigator
             drawerContent={props => {
@@ -26,6 +29,10 @@ const PalletProdNavigator = () => {
                                 <Image
                                     style={styles.image}
                                     source={require("../assets/icon.png")} />
+                            </View>
+                            <View style={styles.profileInfo}>
+                                <Text style={styles.profileField}>{authUser.email}</Text>
+                                <Text style={styles.profileField}>{authUser.getRoleName()}</Text>
                             </View>
                             <DrawerItemList {...props} />
                         </SafeAreaView>

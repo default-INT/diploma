@@ -1,17 +1,8 @@
 import React from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    SafeAreaView,
-    Button,
-    TouchableWithoutFeedback,
-    KeyboardAvoidingView, Platform, ScrollView
-} from "react-native";
+import {Button, Image, Platform, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View} from "react-native";
 
 import {DefaultStyles} from "../../../styles";
-import {LargeLoader, TouchableButton} from "../../../components/UI";
+import {LargeLoader} from "../../../components/UI";
 import {Input} from "../../../components";
 import {TitleText} from "../../../components/UI/texts";
 import Colors from "../../../constants/colors";
@@ -96,9 +87,9 @@ const AuthScreenView = props => {
                         </View>
                     </View>
                 </View>
-                <View style={styles.btnContainer}>
+                <SafeAreaView style={styles.btnContainer}>
                     <Button title='Войти' color={Colors.primary} onPress={logInClick} />
-                </View>
+                </SafeAreaView>
             </View>
             <View
                 style={styles.shortInfo}
@@ -130,8 +121,7 @@ const styles = StyleSheet.create({
     fromContainer: {
         flex: 1,
         padding: 10,
-        width: '90%',
-        // backgroundColor: Colors.red
+        width: '90%'
     },
     imageContainer: {
         width: '100%',
@@ -144,9 +134,6 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         alignItems: 'center'
-    },
-    label: {
-
     },
     field: {
         padding: 10,
@@ -172,7 +159,7 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         flex:1,
-        marginTop: 30,
+        marginTop: 20,
         paddingHorizontal: 80
     },
     shortInfo: {

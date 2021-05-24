@@ -8,7 +8,11 @@ import {DefaultStyles} from "../styles";
 const StartupScreen = props => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(authActions.loadTokens());
+        try {
+            dispatch(authActions.loadTokens());
+        } catch (e) {
+            console.log(e.message);
+        }
     }, []);
     return (
         <View style={{...DefaultStyles.centredScreen}}>
