@@ -58,6 +58,7 @@ public class EmployeeService {
         updateEmployee.setSecondName(employeeDto.getSecondName());
         updateEmployee.setLastName(employeeDto.getLastName());
         updateEmployee.setBirthdayYear(employeeDto.getBirthdayYear());
+        updateEmployee.setPhoneNumber(employeeDto.getPhoneNumber());
         updateEmployee.setFired(employeeDto.isFired());
 
         return EmployeeDto.of(employeeRepository.save(updateEmployee));

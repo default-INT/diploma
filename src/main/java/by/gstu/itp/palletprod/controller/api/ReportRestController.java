@@ -41,8 +41,8 @@ public class ReportRestController {
         return reportService.add(reportDto);
     }
 
-    @DeleteMapping
-    public boolean delete(@RequestBody ReportDto reportDto) {
-        return reportService.delete(reportDto);
+    @DeleteMapping("{reportId}")
+    public boolean delete(@PathVariable String reportId) {
+        return reportService.delete(reportId);
     }
 }

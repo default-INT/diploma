@@ -41,6 +41,7 @@ public class StorageService {
 
     public List<StorageItemDto> datStatMapToStorageItem(List<DayStat> dayStats) {
         return dayStats.stream()
+                .filter(dayStat -> dayStat.getPosition().isStorage())
                 .map(dayStat -> new StorageItemDto(dayStat.getTotalNum(), dayStat.getPositionId()))
                 .collect(Collectors.toList());
     }
