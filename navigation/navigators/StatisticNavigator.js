@@ -96,17 +96,17 @@ export const StatisticNavigator = () => {
                     tabBarLabel: 'По сотруднику'
                 }}
             />
-            <StatisticTabNavigator.Screen
-                name="StatisticStorageNavigator"
-                component={StatisticStorageNavigator}
-                options={{
-                    tabBarIcon: tabInfo => {
-                        return <Ionicons name="construct" size={tabInfo.focused ? 25 : 18}
-                                         color={Colors.white} style={{opacity: tabInfo.focused ? 1 : 0.5}} />;
-                    },
-                    tabBarLabel: 'По складу'
-                }}
-            />
+            {/*<StatisticTabNavigator.Screen*/}
+            {/*    name="StatisticStorageNavigator"*/}
+            {/*    component={StatisticStorageNavigator}*/}
+            {/*    options={{*/}
+            {/*        tabBarIcon: tabInfo => {*/}
+            {/*            return <Ionicons name="construct" size={tabInfo.focused ? 25 : 18}*/}
+            {/*                             color={Colors.white} style={{opacity: tabInfo.focused ? 1 : 0.5}} />;*/}
+            {/*        },*/}
+            {/*        tabBarLabel: 'По складу'*/}
+            {/*    }}*/}
+            {/*/>*/}
         </StatisticTabNavigator.Navigator>
     )
 }

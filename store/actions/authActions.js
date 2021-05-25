@@ -41,15 +41,16 @@ export const loadTokens = () => {
 
             dispatch({type: AUTH_TYPES.TRY_AUTO_LOGIN});
         } catch (err) {
-            console.warn(err.message)
+            console.log(err.message)
             dispatch({type: AUTH_TYPES.TRY_AUTO_LOGIN});
-            throw err;
+            // throw err;
         }
     }
 }
 
 export const logInUser = (email, password) => {
     return async dispatch => {
+        dispatch({type: AUTH_TYPES.START_LOADING});
         const response = await axios.post(`/api/auth/login`, {
             email, password
         });
@@ -63,5 +64,6 @@ export const logInUser = (email, password) => {
         dispatch({type: AUTH_TYPES.SET_ACCESS_TOKEN, payload: tokens.access});
         dispatch({type: AUTH_TYPES.SET_REFRESH_TOKEN, payload: tokens.refresh});
         dispatch({type: AUTH_TYPES.SET_USER, payload: await getProfile()});
+        dispatch({type: AUTH_TYPES.END_LOADING});
     }
 }

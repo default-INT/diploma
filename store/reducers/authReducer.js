@@ -4,14 +4,16 @@ const initialState = {
     authUser: null,
     accessToken: null,
     refreshToken: null,
-    didTryAutoLogin: false
+    didTryAutoLogin: false,
+    loading: false
 }
 
 
 const handlers = {
     [AUTH_TYPES.SET_USER]: (state, {payload}) => ({
         ...state,
-        authUser: payload
+        authUser: payload,
+        isAuth: true
     }),
     [AUTH_TYPES.SET_ACCESS_TOKEN]: (state, {payload}) => ({
         ...state,

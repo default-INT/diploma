@@ -7,7 +7,7 @@ import RootNavigator from "./RootNavigator";
 import StartupScreen from "../screens/StartupScreen";
 
 const AppNavigator = props => {
-    const isAuth = useSelector(state => !!state.auth.authUser);
+    const isAuth = useSelector(state => state.auth.isAuth);
     const didTryAutoLogin = useSelector(state => state.auth.didTryAutoLogin);
     return (
         <NavigationContainer>

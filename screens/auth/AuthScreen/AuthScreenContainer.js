@@ -9,7 +9,7 @@ import {authActions} from "../../../store/actions";
 
 
 const AuthScreenContainer = props => {
-    const [loading, setLoading] = useState(false);
+    const {loading} = useSelector(state => state.auth);
     const [formState, dispatchFormState] = useReducer(formReducer, {
         inputValues: {
             email: '',
@@ -45,7 +45,6 @@ const AuthScreenContainer = props => {
             ]);
             return;
         }
-        setLoading(true);
         try {
             await dispatch(authActions.logInUser(formState.inputValues.email, formState.inputValues.password))
         } catch (err) {
@@ -53,8 +52,7 @@ const AuthScreenContainer = props => {
                 { text: 'Ок' }
             ]);
         }
-        setLoading(false);
-    }, [dispatch, formState, loading, setLoading]);
+    }, [dispatch, formState, loading]);
 
     return (
         <AuthScreenView
