@@ -1,3 +1,9 @@
+/**
+ * В данном файле описаны "actions" для управления данными о предприятии.
+ *
+ * Асинхроность реализована с помощью библиотеки Redux Thunk.
+ * HTTP-запросы выполняются с помощью библиотеки Axios.
+ */
 import axios from "axios";
 
 import {DataItem} from "../../models";
@@ -5,6 +11,12 @@ import {COMPANY_TYPES, EMPLOYEE_TYPES} from "../../constants/types";
 import IconsUri from "../../constants/icons";
 import Colors from "../../constants/colors";
 
+
+/**
+ * Получение данных о бизнес-процессах предприятия.
+ *
+ * @returns {function(*): Promise<void>}
+ */
 export const fetchAllCompanyData = () => {
     return async dispatch => {
         dispatch({type: COMPANY_TYPES.START_LOADING});
@@ -14,6 +26,11 @@ export const fetchAllCompanyData = () => {
     }
 }
 
+/**
+ * Получение данных о средней заработной плате сотрудников за день.
+ *
+ * @returns {function(*): Promise<undefined>}
+ */
 export const fetchAvgSalaryOnDay = () => {
     return async dispatch => {
         dispatch({type: COMPANY_TYPES.START_LOADING}); //TODO: ???
@@ -40,6 +57,11 @@ export const fetchAvgSalaryOnDay = () => {
     }
 }
 
+/**
+ * Получение данных о количестве сотрудников работающих на предприятии.
+ *
+ * @returns {function(*): Promise<undefined>}
+ */
 export const fetchCountEmployees = () => {
     return async dispatch => {
         dispatch({type: COMPANY_TYPES.START_LOADING}); // ???

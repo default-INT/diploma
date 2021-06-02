@@ -1,4 +1,6 @@
-
+/**
+ * Описывает тариф работы сотрудника
+ */
 export default class Position {
     /**
      *

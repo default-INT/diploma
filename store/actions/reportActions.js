@@ -160,6 +160,7 @@ export const fetchMonthlyReports = (month, year) => {
         // dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
+            // TODO: check this api to server
             const response = await axios.get(`/reports`, {
                 params: {
                     month, year

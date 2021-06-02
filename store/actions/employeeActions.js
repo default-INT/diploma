@@ -1,9 +1,20 @@
+/**
+ * В данном файле описаны "actions" для управления данными сотрудников.
+ *
+ * Асинхроность реализована с помощью библиотеки Redux Thunk.
+ * HTTP-запросы выполняются с помощью библиотеки Axios.
+ */
+import axios from "axios";
+
 import {Employee} from "../../models";
 import {EMPLOYEE_TYPES} from "../../constants/types";
-import axios from "axios";
 import {getResponseErrorText} from "../../utils";
 
-
+/**
+ * Получение всех данных о сотрудников с HTTP-сервера.
+ *
+ * @returns {function(*): Promise<undefined>}
+ */
 export const fetchEmployees = () => {
     return async dispatch => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});
@@ -30,6 +41,12 @@ export const fetchEmployees = () => {
     }
 };
 
+/**
+ * Добавление данных о сотруднике на HTTP-сервер.
+ *
+ * @param employee {object}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const addEmployees = employee => {
     return async dispatch => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});
@@ -56,6 +73,13 @@ export const addEmployees = employee => {
     }
 };
 
+
+/**
+ * Увольнение сотрудника.
+ *
+ * @param employeeId {string}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const fireEmployee = employeeId => {
     return async dispatch => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});
@@ -89,6 +113,11 @@ export const fireEmployee = employeeId => {
     }
 };
 
+/**
+ * Обновление информации
+ * @param employee {object}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const updateEmployee = employee => {
     return async dispatch => {
         dispatch({type: EMPLOYEE_TYPES.START_LOADING});

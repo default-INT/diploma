@@ -1,5 +1,8 @@
 import Position from "./position";
 
+/**
+ * Класс хранящие данные о промежуточной статистики
+ */
 export default class DayStat {
     /**
      *

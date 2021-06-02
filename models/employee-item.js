@@ -1,6 +1,9 @@
 import Employee from "./employee";
 import WorkItem from "./work-item";
 
+/**
+ * Описывает количество выполненной работы сотрудником.
+ */
 export default class EmployeeItem {
     /**
      *

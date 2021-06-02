@@ -10,8 +10,8 @@ import {statisticActions} from "../../../store/actions";
 const StatisticMainScreenContainer = props => {
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() - 1);
-    const [fromDate, setFromDate] = useState(currentDate);
     const [error, setError] = useState(null);
+    const [fromDate, setFromDate] = useState(currentDate);
     const [toDate, setToDate] = useState(new Date(fromDate.getFullYear(), fromDate.getMonth() + 1,
         fromDate.getDate()));
     const [showDatePicker, setShowDatePicker] = useState('off');

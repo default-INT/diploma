@@ -1,3 +1,6 @@
+/**
+ * Класс описывающий сотрудника предприятия
+ */
 export default class Employee {
     /**
      *
@@ -23,8 +26,13 @@ export default class Employee {
         this.isDeleted = isDeleted;
     }
 
+    /**
+     * Возвращает ФИО сотрудника
+     *
+     * @returns {string}
+     */
     get fullName() {
-        return `${this.lastName} ${this.firstName.charAt(0)}. ${this.secondName.charAt(0)}.`
+        return `${this.lastName} ${this.firstName.charAt(0)}.${this.secondName.charAt(0)}.`
     }
 
     static of(employee) {

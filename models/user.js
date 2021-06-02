@@ -5,6 +5,9 @@ const ROLE_NAMES = {
     ['EMPLOYEE']: 'Сотрудник'
 }
 
+/**
+ * Класс описывает пользователя системы.
+ */
 export default class User {
     /**
      *
@@ -20,14 +23,29 @@ export default class User {
         this.employee = employee;
     }
 
+    /**
+     * Проверяет, является ли пользователь администратором.
+     *
+     * @returns {boolean}
+     */
     isAdmin = () => {
         return this.role === ROLES.ADMIN;
     }
 
+    /**
+     * Проверяет, является ли пользователь сотрудником.
+     *
+     * @returns {boolean}
+     */
     isEmployee = () => {
         return this.role === ROLES.EMPLOYEE;
     }
 
+    /**
+     * Возвращает роль пользователя.
+     *
+     * @returns {*}
+     */
     getRoleName = () => {
         return ROLE_NAMES[this.role];
     }

@@ -1,5 +1,8 @@
 import Position from "./position";
 
+/**
+ * Описывает единицу работы выполненной сотрудником.
+ */
 export default class WorkItem {
     /**
      *

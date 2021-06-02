@@ -1,6 +1,9 @@
 import EmployeeItem from "./employee-item";
 import DayStat from "./day-stat";
 
+/**
+ * Описывает отчёт за день.
+ */
 export default class Report {
 
     /**
@@ -19,6 +22,12 @@ export default class Report {
         this.totalSalary = totalSalary;
     }
 
+    /**
+     * Преобразование отчёта в формат запроса для сервера.
+     *
+     * @param report
+     * @returns {{date, employeeItems}}
+     */
     static toHttpRequestFormat(report) {
         return {
             date: report.date,
@@ -33,6 +42,11 @@ export default class Report {
         }
     }
 
+    /**
+     * Преобразование отчёта в формат запроса для сервера.
+     *
+     * @returns {{date: Date, employeeItems: {totalSalary: number, workItems: *, employeeId: string}[]}}
+     */
     toReq = () => {
         return {
             date: this.date,

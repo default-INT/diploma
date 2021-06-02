@@ -1,13 +1,18 @@
 import {REPORTS_TYPES, STAT_TYPES} from "../../constants/types";
 import {SERVER_URL} from "../../constants";
 import axios from "axios";
+import {toDateFormat} from "../../utils";
 
 const dateFormatter = date => date.toJSON().split('T')[0];
+const toDateStrFormatter = date => {
+    const [day, month, year] = toDateFormat(date).split('.')
+    return `${year}-${month}-${day}`
+};
 
 export const getEmployeeStatistic = (date1, date2) => {
     return async dispatch => {
-        const dateAfter = dateFormatter(date1);
-        const dateBefore = dateFormatter(date2);
+        const dateAfter = toDateStrFormatter(date1);
+        const dateBefore = toDateStrFormatter(date2);
 
         const response = await axios.get(`/stat/employees`, {
             params: {
@@ -28,12 +33,12 @@ export const getEmployeeStatistic = (date1, date2) => {
 
 export const getStatisticByEmployee = (date1, date2, employeeId) => {
     return async dispatch => {
-        const dateAfter = dateFormatter(date1);
-        const dateBefore = dateFormatter(date2);
+        const dateAfter = toDateStrFormatter(date1);
+        const dateBefore = toDateStrFormatter(date2);
 
         const response = await axios.get(`/stat/employees`, {
             params: {
-                dateAfter, dateBefore
+                dateAfter, dateBefore, employeeId
             }
         });
 

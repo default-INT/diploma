@@ -27,6 +27,14 @@ const handlers = {
         ...state,
         didTryAutoLogin: true
     }),
+    [AUTH_TYPES.START_LOADING]: state => ({
+        ...state,
+        loading: true
+    }),
+    [AUTH_TYPES.END_LOADING]: state => ({
+        ...state,
+        loading: false
+    }),
     DEFAULT: state => state
 }
 
