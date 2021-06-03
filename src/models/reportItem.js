@@ -1,3 +1,6 @@
+/**
+ * @deprecated 03.06.2021 - 17:50
+ */
 export default class ReportItem {
     /**
      *
