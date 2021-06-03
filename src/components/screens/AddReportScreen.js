@@ -4,83 +4,9 @@ import PropTypes from "prop-types";
 import {AddReportFragment, ContentTitle, FragmentList, MainContent, Widget, WidgetList} from "../index";
 import Colors  from '../../constants/colors'
 import {palletIcon} from "../../icons";
+import { fullReportItem, workResults} from "../../data/dummy-data"
 
-const testData = {
-    id: 'some-id',
-    items: [
-        {
-            employee: {
-                id: '1',
-                firstName: 'Евгений',
-                secondName: 'Владимирович',
-                lastName: 'Трофимов',
-                birthdayYear: 2020
-            },
-            works: [
-                {
-                    position: {
-                        id: '1',
-                        name: 'Поддоны "ХОЙНИКИ"',
-                        itemTariff: 0.6,
-                        itemName: 'р/шт',
-                        current: true
-                    },
-                    comment: '',
-                    itemCount: 60,
-                    sum: 36
-                },
-                {
-                    position: {
-                        id: '2',
-                        name: 'Поддоны "СОЛЬЗАВОД"',
-                        itemTariff: 0.6,
-                        itemName: 'р/шт',
-                        current: true
-                    },
-                    comment: '',
-                    itemCount: 60,
-                    sum: 36
-                }
-            ]
-        }
-    ]
-}
 
-const workResults = {
-    currentPositions: [
-        {
-            position: {
-                id: 'position1',
-                name: 'Поддоны "ХОЙНИКИ"'
-            },
-            result: 60
-        },
-        {
-            position: {
-                id: 'position2',
-                name: 'Поддоны "СОЛЬЗАВОД"'
-            },
-            result: 60
-        },
-        {
-            position: {
-                id: 'position3',
-                name: 'Поддоны "НПЗ"'
-            },
-            result: 0
-        },
-        {
-            position: {
-                id: 'position4',
-                name: 'Поддоны "БМЗ"'
-            },
-            result: 0
-        }
-    ],
-    fine: 0, // штраф
-    income: 72,
-    consumption: 0 // расход
-}
 
 const colors = [
     Colors.primary,
@@ -102,9 +28,13 @@ class AddReportScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            report: testData,
+            report: fullReportItem,
             workResults: workResults
         }
+    }
+
+    changeReportItems = newReport => {
+
     }
 
     render() {
@@ -119,7 +49,7 @@ class AddReportScreen extends React.Component {
                     ))}
                 </WidgetList>
                 <FragmentList>
-                    <AddReportFragment report={this.state.report}/>
+                    <AddReportFragment changeReportItems report={this.state.report}/>
                 </FragmentList>
             </MainContent>
         );

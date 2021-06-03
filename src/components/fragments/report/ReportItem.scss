@@ -1,0 +1,50 @@
+.report-item {
+  border: 2px solid whitesmoke;
+  border-radius: .7rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .05);
+  .employee-info {
+    display: flex;
+    .info {
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+      .info-content {
+        display: flex;
+        padding: 1rem;
+        .line {
+          text-align: left;
+        }
+      }
+      .emp-title {
+        display: flex;
+        margin: 1rem;
+        padding: .8rem;
+        text-align: left;
+        font-size: 1.3em;
+        border-bottom: 2px solid whitesmoke;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+    .img-container {
+      width: 8rem;
+      opacity: .7;
+      padding: 1rem;
+      img {
+        width: 100%;
+      }
+    }
+    border-bottom: 2px solid whitesmoke;
+  }
+  .work-items {
+    .wi-title {
+      display: flex;
+      justify-content: space-between;
+      padding: .5rem;
+      margin: .5rem;
+      text-align: left;
+      font-size: 1.4em;
+      border-bottom: 2px solid whitesmoke;
+    }
+  }
+}
