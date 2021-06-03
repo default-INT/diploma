@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useReducer} from "react";
+import React, {useCallback, useReducer} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import AuthScreenView from "./AuthScreenView";
@@ -8,6 +8,14 @@ import {FORM_INPUT_UPDATE} from "../../../constants/types";
 import {authActions} from "../../../store/actions";
 
 
+/**
+ * Контейнер для экрана авторизации, определяющий стандартную функциональность и
+ * реализующий соответствующую бизнес-логику для авторизации в системе.
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const AuthScreenContainer = props => {
     const {loading} = useSelector(state => state.auth);
     const [formState, dispatchFormState] = useReducer(formReducer, {

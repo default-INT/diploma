@@ -1,12 +1,22 @@
-import {EMPLOYEES} from "../../data/dummy-data"
+/**
+ * В данном файле описаны "reducer" для изменения состояния о сотрудниках в глобальном STATE.
+ */
 import {EMPLOYEE_TYPES} from "../../constants/types"
 
+/**
+ * Начальное состояние.
+ *
+ * @type {{employees: [], loading: boolean, error: null}}
+ */
 const initialState = {
     employees: [],
     loading: false,
     error: null
 }
 
+/**
+ * Объект, который по ключам (TYPES), возвращает определённые функции для изменения состояния.
+ */
 const handlers = {
     [EMPLOYEE_TYPES.FETCH_ALL]: (state, {payload}) => ({
         ...state,
@@ -44,6 +54,13 @@ const handlers = {
     DEFAULT: state => state
 }
 
+/**
+ * Функция редюсер.
+ *
+ * @param state {object}
+ * @param action {object}
+ * @returns {*}
+ */
 export const employeeReducer = (state = initialState, action) => {
 
     const handle = handlers[action.type] || handlers.DEFAULT

@@ -7,6 +7,13 @@ import {Input} from "../../../components";
 import {TitleText} from "../../../components/UI/texts";
 import Colors from "../../../constants/colors";
 
+/**
+ * JSX разметка с соответстующей стилизацией для отображения экрана авторизации.
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const AuthScreenView = props => {
     const {
         loading,

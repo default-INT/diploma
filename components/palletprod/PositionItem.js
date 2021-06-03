@@ -6,6 +6,7 @@ import Colors from "../../constants/colors"
 
 
 /**
+ * Компонент отображения тарифа на экране с определённой стилизации в соответствующем формате.
  *
  * @param position {Position}
  * @param props {object}

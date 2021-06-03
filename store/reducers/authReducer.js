@@ -1,5 +1,13 @@
+/**
+ * В данном файле описаны "reducer" для изменения состояния о авторизации в глобальном STATE.
+ */
 import {AUTH_TYPES} from "../../constants/types";
 
+/**
+ * Начальное состояние.
+ *
+ * @type {{didTryAutoLogin: boolean, authUser: null, accessToken: null, loading: boolean, refreshToken: null}}
+ */
 const initialState = {
     authUser: null,
     accessToken: null,
@@ -8,7 +16,9 @@ const initialState = {
     loading: false
 }
 
-
+/**
+ * Объект, который по ключам (TYPES), возвращает определённые функции для изменения состояния.
+ */
 const handlers = {
     [AUTH_TYPES.SET_USER]: (state, {payload}) => ({
         ...state,
@@ -23,7 +33,7 @@ const handlers = {
         ...state,
         refreshToken: payload
     }),
-    [AUTH_TYPES.TRY_AUTO_LOGIN]: (state) => ({
+    [AUTH_TYPES.TRY_AUTO_LOGIN]: state => ({
         ...state,
         didTryAutoLogin: true
     }),
@@ -38,6 +48,13 @@ const handlers = {
     DEFAULT: state => state
 }
 
+/**
+ * Функция редюсер.
+ *
+ * @param state {object}
+ * @param action {object}
+ * @returns {*}
+ */
 export const authReducer = (state = initialState, action) => {
     const handle = handlers[action.type] || handlers.DEFAULT
     return handle(state, action)

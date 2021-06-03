@@ -1,11 +1,22 @@
+/**
+ * В данном файле описан "reducer" для изменения состояния о складе в глобальном STATE.
+ */
 import {STORAGE_TYPES} from "../../constants/types";
 
 
+/**
+ * Начальное состояние.
+ *
+ * @type {{actualStorage: [], unloadingEvents: []}}
+ */
 const initialState = {
     actualStorage: [],
     unloadingEvents: []
-}
+};
 
+/**
+ * Объект, который по ключам (TYPES), возвращает определённые функции для изменения состояния.
+ */
 const handlers = {
     [STORAGE_TYPES.FETCH_ACTUAL_STORAGE]: (state, {payload}) => ({
         ...state,
@@ -24,9 +35,16 @@ const handlers = {
         unloadingEvents: state.unloadingEvents.filter(e => e.id !== payload)
     }),
     DEFAULT: state => state
-}
+};
 
+/**
+ * Функция редюсер.
+ *
+ * @param state {object}
+ * @param action {object}
+ * @returns {*}
+ */
 export const storageReducer = (state = initialState, action) => {
     const handle = handlers[action.type] || handlers.DEFAULT
     return handle(state, action)
-}
+};

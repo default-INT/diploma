@@ -1,14 +1,32 @@
-import {REPORTS_TYPES, STAT_TYPES} from "../../constants/types";
-import {SERVER_URL} from "../../constants";
+/**
+ * В данном файле описаны "actions" для управления данными о статистике производственной деятельности предприятия.
+ *
+ * Асинхроность реализована с помощью библиотеки Redux Thunk.
+ * HTTP-запросы выполняются с помощью библиотеки Axios.
+ */
 import axios from "axios";
+
+import {STAT_TYPES} from "../../constants/types";
 import {toDateFormat} from "../../utils";
 
-const dateFormatter = date => date.toJSON().split('T')[0];
+/**
+ * Функция форматирует дату для JSON-формата.
+ *
+ * @param date {Date}
+ * @returns {string}
+ */
 const toDateStrFormatter = date => {
     const [day, month, year] = toDateFormat(date).split('.')
     return `${year}-${month}-${day}`
 };
 
+/**
+ * Отправляет GET-запрос на HTTP-сервер для получения статистики в определённом временном промежутке.
+ *
+ * @param date1 {Date}
+ * @param date2 {Date}
+ * @returns {function(*): Promise<void>}
+ */
 export const getEmployeeStatistic = (date1, date2) => {
     return async dispatch => {
         const dateAfter = toDateStrFormatter(date1);
@@ -31,6 +49,15 @@ export const getEmployeeStatistic = (date1, date2) => {
     }
 };
 
+/**
+ * Отправляет GET-запрос на HTTP-сервер для получения статистики для определённого сотрудника
+ * в определённом временном промежутке.
+ *
+ * @param date1 {Date}
+ * @param date2 {Date}
+ * @param employeeId {string}
+ * @returns {function(*): Promise<void>}
+ */
 export const getStatisticByEmployee = (date1, date2, employeeId) => {
     return async dispatch => {
         const dateAfter = toDateStrFormatter(date1);

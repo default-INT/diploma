@@ -1,10 +1,22 @@
+/**
+ * В данном файле описаны "actions" для управления данными склада предприятия.
+ *
+ * Асинхроность реализована с помощью библиотеки Redux Thunk.
+ * HTTP-запросы выполняются с помощью библиотеки Axios.
+ */
+import axios from "axios";
+
 import {STORAGE_TYPES} from "../../constants/types";
 import {DataItem} from "../../models";
 import IconsUri from "../../constants/icons";
 import Colors from "../../constants/colors";
-import axios from "axios";
 import {getResponseErrorText} from "../../utils";
 
+/**
+ * Получение актуальной данных о складе.
+ *
+ * @returns {function(*): Promise<void>}
+ */
 export const fetchActualStorage = () => {
     return async dispatch => {
         const response = await axios.get(`/storage/actual`);
@@ -25,6 +37,11 @@ export const fetchActualStorage = () => {
     }
 }
 
+/**
+ * Получение данных о выгрузках со склада.
+ *
+ * @returns {function(*): Promise<void>}
+ */
 export const fetchUnloadingEvents = () => {
     return async dispatch => {
         const response = await axios.get(`/storage/unloading-events`);
@@ -39,6 +56,12 @@ export const fetchUnloadingEvents = () => {
     }
 }
 
+/**
+ * Добавление выгрузки на склад.
+ *
+ * @param unloadingEvent
+ * @returns {function(*): Promise<void>}
+ */
 export const addUnloadingEvent = unloadingEvent => {
     return async dispatch => {
         const parseUnloadingEvent = {
@@ -62,6 +85,12 @@ export const addUnloadingEvent = unloadingEvent => {
     }
 }
 
+/**
+ * Удаление данных о выгрузке.
+ *
+ * @param unloadingId
+ * @returns {function(*): Promise<undefined>}
+ */
 export const deleteUnloadingEvent = unloadingId => {
     return async dispatch => {
         const response = await axios.delete(`/storage/unloading-event`, {

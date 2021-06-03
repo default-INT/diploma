@@ -1,5 +1,12 @@
+/**
+ * В данном файле описан "reducer" для изменения состояния о отчётах в глобальном STATE.
+ */
 import {REPORTS_TYPES} from "../../constants/types";
 
+/**
+ *
+ * @type {{selectedReport: null, lastReports: [], loading: boolean, error: null, monthlyReports: {reports: [], month: number, year: number}, selectedEmployeeItem: null}}
+ */
 const initialState = {
     loading: false,
     error: null,
@@ -13,7 +20,9 @@ const initialState = {
     selectedEmployeeItem: null
 }
 
-
+/**
+ * Объект, который по ключам (TYPES), возвращает определённые функции для изменения состояния.
+ */
 const handlers = {
 
     [REPORTS_TYPES.SET_ERROR]: (state, {payload}) => ({
@@ -131,6 +140,13 @@ const handlers = {
     DEFAULT: state => state
 }
 
+/**
+ * Функция редюсер.
+ *
+ * @param state {object}
+ * @param action {object}
+ * @returns {*}
+ */
 export const reportReducer = (state = initialState, action) => {
     const handle = handlers[action.type] || handlers.DEFAULT;
     return handle(state, action)

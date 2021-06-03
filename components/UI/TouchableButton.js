@@ -2,6 +2,15 @@ import React from "react";
 import {Platform, TouchableNativeFeedback, TouchableOpacity, View, StyleSheet} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 
+/**
+ * Компонент привязываюшие определённую функциональность при нажатии на элемент в UI интерфейсе.
+ *
+ * @param onPress {function}
+ * @param iconName {function}
+ * @param props {object}
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const TouchableButton = ({onPress = () => '', iconName, ...props}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback
         : TouchableOpacity;

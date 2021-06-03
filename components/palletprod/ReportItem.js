@@ -6,6 +6,16 @@ import {nameDayOfWeek, toDateFormat} from "../../utils";
 import Colors from "../../constants/colors";
 
 
+/**
+ * JSX компонент отображения отчёта в соответсвующем формате.
+ *
+ * @param report {Report}
+ * @param onLongPress {function}
+ * @param onPress {function}
+ * @param props {object}
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const ReportItem = ({report, onLongPress, onPress, ...props}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
 

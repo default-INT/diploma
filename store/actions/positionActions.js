@@ -1,9 +1,21 @@
+/**
+ * В данном файле описаны "actions" для управления данными о тарифах.
+ *
+ * Асинхроность реализована с помощью библиотеки Redux Thunk.
+ * HTTP-запросы выполняются с помощью библиотеки Axios.
+ */
+import axios from "axios";
+
 import {POSITION_TYPES} from "../../constants/types";
 import {Position} from "../../models";
-import axios from "axios";
 import {getResponseErrorText} from "../../utils";
 
 
+/**
+ * Получает данные о всех тарифах с HTTP-сервера.
+ *
+ * @returns {function(*): Promise<undefined>}
+ */
 export const fetchPosition = () => {
     return async dispatch => {
         dispatch({type: POSITION_TYPES.START_LOADING});
@@ -30,6 +42,12 @@ export const fetchPosition = () => {
     }
 }
 
+/**
+ * Отправляет POST запрос на HTTP-сервер для добавление данных о новом тарифе.
+ *
+ * @param position {object}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const addPosition = position => {
     return async dispatch => {
         dispatch({type: POSITION_TYPES.START_LOADING});
@@ -56,6 +74,13 @@ export const addPosition = position => {
     }
 }
 
+/**
+ * Отправляет PUT-запрос на HTTP-сервер с обновлёнными данными о тарифе.
+ * В ответ получает обновлённый тариф.
+ *
+ * @param position
+ * @returns {function(*): Promise<undefined>}
+ */
 export const updatePosition = position => {
     return async dispatch => {
         dispatch({type: POSITION_TYPES.START_LOADING});
@@ -85,6 +110,12 @@ export const updatePosition = position => {
     }
 }
 
+/**
+ * Отправлеят DELETE-запрос на HTTP с ID тарифа в URI-адрессе для удаления данных о тарифе.
+ *
+ * @param positionId
+ * @returns {function(*): Promise<undefined>}
+ */
 export const deletePosition = positionId => {
     return async dispatch => {
         dispatch({type: POSITION_TYPES.START_LOADING});

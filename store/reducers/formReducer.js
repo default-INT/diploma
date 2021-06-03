@@ -1,5 +1,15 @@
+/**
+ * В данном файле описан "reducer" для изменения состояния формы в приложении.
+ */
 import {FORM_INPUT_UPDATE} from "../../constants/types";
 
+/**
+ * Функция редюсер.
+ *
+ * @param state {object}
+ * @param action {object}
+ * @returns {*}
+ */
 const formReducer = (state, action) => {
     if (action.type === 'FORM_INPUT_UPDATE') {
         const updatedValues = {

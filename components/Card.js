@@ -1,6 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
+/**
+ * Контейнер для JSX компонента, добавляющие стандартные стили в виде тени и границы.
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Card = props => {
     return <View style={{...styles.card, ...props.style}}>{props.children}</View>;
 };

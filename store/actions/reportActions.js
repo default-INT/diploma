@@ -1,9 +1,21 @@
-import {POSITION_TYPES, REPORTS_TYPES} from "../../constants/types";
-import {REPORTS} from "../../data/dummy-data";
-import {SERVER_URL} from "../../constants";
-import {EmployeeItem, Report, WorkItem} from "../../models";
+/**
+ * В данном файле описаны "actions" для управления данными о отчётах.
+ *
+ * Асинхроность реализована с помощью библиотеки Redux Thunk.
+ * HTTP-запросы выполняются с помощью библиотеки Axios.
+ */
 import axios from "axios";
 
+import {POSITION_TYPES, REPORTS_TYPES} from "../../constants/types";
+import {REPORTS} from "../../data/dummy-data";
+import {EmployeeItem, Report, WorkItem} from "../../models";
+
+/**
+ * Отправляет GET-запрос на HTTP-сервер, для получения данных о отчётах.
+ *
+ * @param page {number}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const fetchLastReports = page => {
     return async dispatch => {
         dispatch(dispatch({
@@ -48,6 +60,13 @@ export const fetchLastReports = page => {
     }
 }
 
+/**
+ * Отправляет POST-запрос на HTTP-сервер для создания ноговго отчёта.
+ *
+ * @param date {Date}
+ * @param report {object}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const addReport = (date, report) => {
     return async (dispatch) => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
@@ -83,6 +102,13 @@ export const addReport = (date, report) => {
     }
 };
 
+/**
+ * Отправляет PUT-запрос на сервер с отредактироваными данными о отчёте.
+ *
+ * @param date {Date}
+ * @param report {object}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const updateReport = (date, report) => {
     return async dispatch => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
@@ -119,6 +145,12 @@ export const updateReport = (date, report) => {
     }
 }
 
+/**
+ * Отправляет DELETE-запрос на HTTP-сервер с ID отчёта, для его последующего удаления из системы.
+ *
+ * @param reportId {string}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const deleteReport = reportId => {
     return async dispatch => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
@@ -155,9 +187,15 @@ export const deleteReport = reportId => {
     };
 };
 
+/**
+ * Отправляет GET-запрос на сервер для получения отчётов для текущего месяца и года.
+ *
+ * @param month {number}
+ * @param year {number}
+ * @returns {function(*): Promise<undefined>}
+ */
 export const fetchMonthlyReports = (month, year) => {
     return async dispatch => {
-        // dispatch({type: REPORTS_TYPES.START_LOADING});
         dispatch({type: REPORTS_TYPES.SET_ERROR, payload: null});
         try {
             // TODO: check this api to server
@@ -190,6 +228,13 @@ export const fetchMonthlyReports = (month, year) => {
     }
 };
 
+/**
+ * Производит поиск в "selectedReport" данных о производственной деятельности сотрудника
+ * с id === employeeItemId.
+ *
+ * @param employeeItemId {string}
+ * @returns {function(*, *): void}
+ */
 export const loadSelectedEmployeeItem = employeeItemId => {
     return (dispatch, getState) => {
         const {selectedReport} = getState().reports;
@@ -212,6 +257,13 @@ export const loadSelectedEmployeeItem = employeeItemId => {
     }
 }
 
+/**
+ * Производит редактирование в "selectedEmployeeItem.workItems", изменяя данные о единице выполненной
+ * сотрудником работы по определённому тарифу.
+ *
+ * @param workItem {object}
+ * @returns {{payload: WorkItem, type: string}}
+ */
 export const updateWorkItemReport = workItem => {
     return {
         type: REPORTS_TYPES.UPDATE_WORK_ITEM_REPORT,
@@ -224,6 +276,12 @@ export const updateWorkItemReport = workItem => {
     }
 }
 
+/**
+ * Удаляет единицу выполненной работы для определённого сотрудника по workItemId.
+ *
+ * @param workItemId {string}
+ * @returns {{payload, type: string}}
+ */
 export const deleteWorkItemReport = workItemId => {
     return {
         type: REPORTS_TYPES.DELETE_WORK_ITEM_REPORT,
@@ -231,6 +289,13 @@ export const deleteWorkItemReport = workItemId => {
     }
 }
 
+/**
+ * Добавляет единицу выполненной работы для определённого сотрудника по employeeItemId.
+ *
+ * @param workItem {object}
+ * @param employeeItemId {string}
+ * @returns {{payload, type: string}}
+ */
 export const addWorkItemToReport = (workItem, employeeItemId) => {
     return {
         type: REPORTS_TYPES.ADD_WORK_ITEM_REPORT,
@@ -244,6 +309,13 @@ export const addWorkItemToReport = (workItem, employeeItemId) => {
     }
 }
 
+/**
+ * Создаёт пустой отчёт в STATE/REPORTS
+ *
+ * @deprecated 02.06.2021 - 17:45 P.S. Придумать более оптимальный способ.
+ * @param date
+ * @returns {function(*): void}
+ */
 export const createEmptyReport = date => {
     return dispatch => {
         dispatch({type: REPORTS_TYPES.START_LOADING});
@@ -261,8 +333,12 @@ export const createEmptyReport = date => {
     }
 }
 
-// export const createEmptyEmployeeItemRep
-
+/**
+ * Обновляеет данные о производственной деятельности сотрудника в определённый день для соответствующегося отчёта.
+ *
+ * @param payload {object}
+ * @returns {{payload, type: string}}
+ */
 export const updateEmployeeItemReport = payload => {
     return {
         type: REPORTS_TYPES.UPDATE_EMPLOYEE_ITEM_REPORT,
@@ -270,6 +346,12 @@ export const updateEmployeeItemReport = payload => {
     }
 }
 
+/**
+ * Удаляет данные о производственной деятельности сотрудника в определённый день для соответствующегося отчёта.
+ *
+ * @param employeeItemId {string}
+ * @returns {{payload, type: string}}
+ */
 export const deleteEmployeeItemReport = employeeItemId => {
     return {
         type: REPORTS_TYPES.DELETE_EMPLOYEE_ITEM_REPORT,
@@ -277,6 +359,12 @@ export const deleteEmployeeItemReport = employeeItemId => {
     }
 }
 
+/**
+ * Добавляет данные о производственной деятельности сотрудника в определённый день для соответствующегося отчёта.
+ *
+ * @param payload {object}
+ * @returns {{payload, type: string}}
+ */
 export const addEmployeeItemReport = payload => {
     return {
         type: REPORTS_TYPES.ADD_EMPLOYEE_ITEM_REPORT,
@@ -284,6 +372,13 @@ export const addEmployeeItemReport = payload => {
     }
 }
 
+/**
+ * Добавляет выбраннный отчёт в STATE.
+ *
+ * @deprecated 02.06.2021 - 17:50 - Не самый рациональный метод.
+ * @param report {object}
+ * @returns {{payload, type: string}}
+ */
 export const selectReport = report => {
     return {
         type: REPORTS_TYPES.GET_REPORT,
@@ -291,6 +386,14 @@ export const selectReport = report => {
     }
 }
 
+/**
+ * Проверить где метод используется и удалить из этих мест.
+ * После тестирования кода желательно удалить.
+ *
+ * @deprecated 02.06.2021 - 17:30
+ * @param reportId
+ * @returns {{payload: {date: Date, employeeItems: Array<EmployeeItem>, totalSalary: number, toReq: function(): {date: Date, employeeItems: {totalSalary: number, workItems: *, employeeId: string}[]}, dayStats: Array<DayStat>, id: string}, type: string}}
+ */
 export const getReport = reportId => {
     return {
         type: REPORTS_TYPES.GET_REPORT,
