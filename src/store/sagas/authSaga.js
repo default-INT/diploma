@@ -1,8 +1,8 @@
-import {takeLatest, all, put, call, cancel} from "redux-saga/effects";
+import {call, cancel, put, takeLatest} from "redux-saga/effects";
 
 import {AUTH_TYPES} from "../../constants/types";
 import {authActions} from "../action-creators";
-import {loadTokens, saveTokens, getProfile, logIn} from "./api";
+import {getProfile, loadTokens, logIn, saveTokens} from "./api";
 import {getResponseErrorText, setTokenHeader} from "../../util/request-config";
 import {User} from "../../models";
 

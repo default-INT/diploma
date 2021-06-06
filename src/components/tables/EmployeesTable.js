@@ -96,7 +96,7 @@ class EmployeesTable extends React.Component {
 
     render() {
         const { loading, employees } = this.props;
-
+        console.log(employees);
         return (
             <Fragment>
                 {this.state.onModalState ? this.state.actualModal : null}

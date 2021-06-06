@@ -1,6 +1,6 @@
 import { showLoader, hideLoader, showAlert, hideAlert } from './appActions'
 import { fetchPositions, deletePosition, updatePosition, createPosition } from './positionActions'
-import { fetchAllNotFiredEmployees, fetchEmployees, updateEmployee, createEmployee, deleteEmployee, getCountEmployees } from './employeeActions'
+import { fetchEmployees as fetchAllNotFiredEmployees, fetchEmployees, updateEmployee, addEmployees as createEmployee, fireEmployee as deleteEmployee, getCountEmployees } from './employeeActions'
 
 export {
     showLoader, hideAlert, hideLoader, showAlert,

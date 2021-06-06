@@ -1,129 +1,144 @@
-import {
-    hideLoader,
-    showAlert,
-    showCreateError,
-    showDeleteError,
-    showFetchError,
-    showLoader,
-    showUpdateError
-} from "./appActions";
-import {api} from "../api";
-import {
-    COUNT_EMPLOYEES,
-    CREATE_EMPLOYEE,
-    DELETE_EMPLOYEE,
-    FETCH_EMPLOYEES,
-    SERVER_URL,
-    UPDATE_EMPLOYEE
-} from "../../types";
+import axios from "axios";
 
-export function fetchEmployees(page, size, lastName, fired) {
+import {EMPLOYEE_TYPES} from "../../constants/types";
+import {getResponseErrorText} from "../../util/request-config";
+import {Employee} from "../../models";
+
+/**
+ * Получение всех данных о сотрудников с HTTP-сервера.
+ *
+ * @returns {function(*): Promise<undefined>}
+ */
+export const fetchEmployees = () => {
     return async dispatch => {
+        dispatch({type: EMPLOYEE_TYPES.START_LOADING});
+        dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
         try {
-            dispatch(showLoader())
-
-            const url = new URL(SERVER_URL + `/employees/${page || 1}`)
-
-            size && url.searchParams.append('size', size)
-            lastName && url.searchParams.append('lastName', lastName)
-            fired && url.searchParams.append('fired', fired)
-
-            const response = await api.get(url.toString())
-            const employees = await response.json()
-
-            dispatch(getCountEmployees())
-            dispatch({ type: FETCH_EMPLOYEES, payload: employees})
-            dispatch(hideLoader())
-        } catch (e) {
-            console.error(e)
-            dispatch(showFetchError(e))
-        }
-    }
-}
-
-export function fetchAllNotFiredEmployees(lastName) {
-    return async dispatch => {
-        try {
-            dispatch(showLoader())
-
-            const url = new URL(SERVER_URL + '/employees')
-
-            lastName && url.searchParams.append('lastName', lastName)
-
-            const response = await api.get(url.toString())
-            const employees = await response.json()
-
-            dispatch(getCountEmployees())
-            dispatch({ type: FETCH_EMPLOYEES, payload: employees})
-            dispatch(hideLoader())
-        } catch (e) {
-            console.error(e)
-            dispatch(showFetchError(e))
-        }
-    }
-}
-
-export function createEmployee(employee) {
-    return async dispatch => {
-        try {
-            const response = await api.post(SERVER_URL + '/employees', {
-                body: JSON.stringify(employee)
-            })
-            const newEmployee = await response.json()
-            dispatch(getCountEmployees())
-            dispatch({ type: CREATE_EMPLOYEE, payload: newEmployee })
-        } catch (e) {
-            dispatch(showCreateError(e))
-        }
-    }
-}
-
-export function updateEmployee(employee) {
-    return async dispatch => {
-        try {
-            const response = await api.put(SERVER_URL + '/employees', {
-                body: JSON.stringify(employee)
-            })
-            if (!response.ok) {
-                throw new Error(response.statusText)
+            const response = await axios.get(`/employees`);
+            if (response.status !== 200) {
+                dispatch({
+                    type: EMPLOYEE_TYPES.SET_ERROR,
+                    payload: getResponseErrorText(response, 'Не удалось получить данные о сотрудниках')
+                });
+                dispatch({type: EMPLOYEE_TYPES.END_LOADING});
+                return;
             }
-            const updateEmployee = await response.json()
-            dispatch(getCountEmployees())
-            dispatch({ type: UPDATE_EMPLOYEE, payload: updateEmployee})
-        } catch (e) {
-            dispatch(showUpdateError(e))
+            const employees = response.data;
+            dispatch({
+                type: EMPLOYEE_TYPES.FETCH_ALL,
+                payload: employees.map(employee => Employee.of(employee))
+            });
+        } catch (err) {
+            dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: err.message});
         }
+        dispatch({type: EMPLOYEE_TYPES.END_LOADING});
     }
-}
+};
 
-export function deleteEmployee(employee) {
+/**
+ * Добавление данных о сотруднике на HTTP-сервер.
+ *
+ * @param employee {object}
+ * @returns {function(*): Promise<undefined>}
+ */
+export const addEmployees = employee => {
     return async dispatch => {
+        dispatch({type: EMPLOYEE_TYPES.START_LOADING});
+        dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
         try {
-            const response = await api.delete(SERVER_URL + '/employees', {
-                body: JSON.stringify(employee)
-            })
-            if (!response.ok) {
-                throw new Error(response.statusText)
+            const response = await axios.post(`/employees`, Employee.of(employee));
+            if (response.status !== 200) {
+                dispatch({
+                    type: EMPLOYEE_TYPES.SET_ERROR,
+                    payload: getResponseErrorText(response, 'Не удалось добавить сотрудника')
+                });
+                dispatch({type: EMPLOYEE_TYPES.END_LOADING});
+                return;
             }
-            dispatch(getCountEmployees())
-            dispatch({ type: DELETE_EMPLOYEE, payload: employee })
-        } catch (e) {
-            dispatch(showDeleteError(e))
+            const newEmployee = response.data;
+            dispatch({
+                type: EMPLOYEE_TYPES.ADD_EMPLOYEE,
+                payload: Employee.of(newEmployee)
+            });
+        } catch (err) {
+            dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: err.message});
         }
+        dispatch({type: EMPLOYEE_TYPES.END_LOADING});
     }
-}
+};
+
+
+/**
+ * Увольнение сотрудника.
+ *
+ * @param employeeId {string}
+ * @returns {function(*): Promise<undefined>}
+ */
+export const fireEmployee = employeeId => {
+    return async dispatch => {
+        dispatch({type: EMPLOYEE_TYPES.START_LOADING});
+        dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
+        try {
+            const response = await axios.delete(`/employees/fire/` + employeeId);
+            if (response.status !== 200) {
+                dispatch({
+                    type: EMPLOYEE_TYPES.SET_ERROR,
+                    payload: getResponseErrorText(response, 'Не удалось уволить сотрудника')
+                });
+                dispatch({type: EMPLOYEE_TYPES.END_LOADING});
+                return;
+            }
+            const answer = response.data;
+            if (answer) {
+                dispatch({
+                    type: EMPLOYEE_TYPES.FIRE_EMPLOYEE,
+                    payload: employeeId
+                });
+            } else {
+                dispatch({
+                    type: EMPLOYEE_TYPES.SET_ERROR,
+                    payload: 'Не удалось уволить сотрудника. Status: ' + response.status
+                });
+            }
+        } catch (err) {
+            dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: err.message});
+        }
+        dispatch({type: EMPLOYEE_TYPES.END_LOADING});
+    }
+};
+
+/**
+ * Обновление информации
+ * @param employee {object}
+ * @returns {function(*): Promise<undefined>}
+ */
+export const updateEmployee = employee => {
+    return async dispatch => {
+        dispatch({type: EMPLOYEE_TYPES.START_LOADING});
+        dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: null});
+        try {
+            const response = await axios.put(`/employees`, employee);
+
+            if (response.status !== 200) {
+                dispatch({
+                    type: EMPLOYEE_TYPES.SET_ERROR,
+                    payload: getResponseErrorText(response, 'Не удалось обновить данные о сотруднике')
+                });
+                dispatch({type: EMPLOYEE_TYPES.END_LOADING});
+                return;
+            }
+            const upEmployee = response.data;
+            dispatch({
+                type: EMPLOYEE_TYPES.UPDATE_EMPLOYEE,
+                payload: Employee.of(upEmployee)
+            });
+        } catch (err) {
+            dispatch({type: EMPLOYEE_TYPES.SET_ERROR, payload: err.message});
+        }
+        dispatch({type: EMPLOYEE_TYPES.END_LOADING});
+    }
+};
 
 export function getCountEmployees() {
-    return async dispatch => {
-        try {
-            const response = await api.get(SERVER_URL + '/employees/count')
-            if (!response.ok) {
-                throw new Error(response.statusText)
-            }
-            const count = await response.text()
-            dispatch({ type: COUNT_EMPLOYEES, payload: parseInt(count) })
-        } catch (e) {
-            dispatch(showAlert(e))
-        }
-    }
+    return 10;
 }
