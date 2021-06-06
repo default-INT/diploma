@@ -23,7 +23,7 @@ const handlers = {
         ...state,
         refreshToken: payload
     }),
-    [AUTH_TYPES.TRY_AUTO_LOGIN]: (state) => ({
+    [AUTH_TYPES.FINISH_AUTO_LOGIN]: (state) => ({
         ...state,
         didTryAutoLogin: true
     }),
@@ -35,10 +35,12 @@ const handlers = {
         ...state,
         loading: false
     }),
-    [AUTH_TYPES.SET_USER]: state => ({
-        ...state,
-        error: null
-    }),
+    [AUTH_TYPES.SET_ERROR]: (state, {payload}) => {
+        return ({
+            ...state,
+            error: payload
+        })
+    },
     DEFAULT: state => state
 };
 

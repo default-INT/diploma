@@ -5,7 +5,7 @@ export const setUser = user => ({
     payload: user
 });
 export const fetchUser = () => ({
-    type: AUTH_TYPES.SET_USER
+    type: AUTH_TYPES.FETCH_USER
 });
 
 export const startLoading = () => ({
@@ -18,6 +18,10 @@ export const endLoading = () => ({
 
 export const tryAutoLogin = () => ({
     type: AUTH_TYPES.TRY_AUTO_LOGIN
+});
+
+export const finishAutoLogin = () => ({
+    type: AUTH_TYPES.FINISH_AUTO_LOGIN
 });
 
 export const setAccessToken = accessToken => ({

@@ -2,7 +2,7 @@ import React from "react";
 import {useSelector} from "react-redux";
 import MainApp from "./MainApp";
 
-import {StartupScreen} from "../components/screens/StartupScreen";
+import {LogInScreen, StartupScreen} from "../components/screens";
 
 const AppRouter = (props) => {
     const isAuthUser = useSelector(state => !!state.auth.authUser);
@@ -11,6 +11,7 @@ const AppRouter = (props) => {
         <>
             {isAuthUser && <MainApp />}
             {!isAuthUser && !didTryAutoLogin && <StartupScreen/>}
+            {!isAuthUser && didTryAutoLogin && <LogInScreen/>}
         </>
     );
 };

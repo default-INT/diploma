@@ -14,7 +14,7 @@ function Header ({user}) {
             </div>
             <a href='' className="user">
                 <img src={user.avatarPath || palletMainIcon} width={30} alt="" className="avatar"/>
-                <span className="username">{user.username }</span>
+                <span className="username">{user.email}</span>
             </a>
         </div>
     </header>)

@@ -1,6 +1,9 @@
-import { CubeLoader } from "./CubeLoader";
-import { DefaultIconBtn } from "./DefaultIconBtn"
-import { ContentTitle } from "./ContentTitle"
-import { MainContent } from "./MainContent"
+import Input from "./Input";
+import DefaultButton from "./DefaultButton";
 
-export { CubeLoader, DefaultIconBtn, ContentTitle, MainContent }
+export { CubeLoader } from "./CubeLoader";
+export { DefaultIconBtn } from "./DefaultIconBtn";
+export { ContentTitle } from "./ContentTitle";
+export { MainContent } from "./MainContent";
+
+export { Input, DefaultButton};

@@ -7,7 +7,7 @@ const ConfirmModalWindow = (
         action = () => '',
         actionName='CONFIRM',
         children = '',
-        onModalState
+        onModalState = () => ''
     }) => {
 
     return (

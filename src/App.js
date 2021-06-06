@@ -1,11 +1,12 @@
 import React from "react";
 
-import avatar from './img/avatar.jpg';
 import './fonts/roboto.css'
 import './App.css';
 import {AppRouter} from "./router";
+import {initAxios} from "./util/request-config";
 
 function App() {
+    initAxios();
     return (
         <AppRouter/>
     );
