@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { bellIcon } from '../icons'
+import {bellIcon, palletMainIcon} from '../icons'
 import "../css/Header.css"
 
 function Header ({user}) {
@@ -13,8 +13,8 @@ function Header ({user}) {
                 </a>
             </div>
             <a href='' className="user">
-                <img src={user.avatarPath} width={30} alt="" className="avatar"/>
-                <span className="username">{user.username}</span>
+                <img src={user.avatarPath || palletMainIcon} width={30} alt="" className="avatar"/>
+                <span className="username">{user.username }</span>
             </a>
         </div>
     </header>)

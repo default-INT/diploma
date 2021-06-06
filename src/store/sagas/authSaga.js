@@ -1,33 +1,69 @@
-import axios from "axios";
-import {takeLatest, put, call} from "redux-saga/effects";
+import {takeLatest, all, put, call, cancel} from "redux-saga/effects";
 
 import {AUTH_TYPES} from "../../constants/types";
 import {authActions} from "../action-creators";
-import {getResponseErrorText} from "../../util/request-config";
+import {loadTokens, saveTokens, getProfile, logIn} from "./api";
+import {getResponseErrorText, setTokenHeader} from "../../util/request-config";
 import {User} from "../../models";
 
-function* fetchUserProfile() {
+function* fetchUserProfileWorker() {
     try {
         yield put(authActions.startLoading());
-        const response = yield call(() => axios.get('/api/auth/profile'));
+        const response = yield call(getProfile);
         if (response.status !== 200) {
             yield put(authActions.endLoading());
 
-            return put(authActions.setError(
-                getResponseErrorText(response, 'Не удалось получить пользователя')
-            ));
+            console.error(getResponseErrorText(response, 'Не удалось получить пользователя'));
+            yield cancel();
         }
         yield put(authActions.setUser(
             User.of(response.data))
         );
     } catch (err) {
-        yield put(authActions.setError(
-            err.message
-        ));
+        console.error(err.message);
     }
     yield put(authActions.endLoading());
 }
 
-function* watchFetchUserProfile() {
-    yield takeLatest(AUTH_TYPES.FETCH_USER, fetchUserProfile);
+/**
+ *
+ * @param payload {object}
+ * @returns {Generator<SimpleEffect<"PUT", PutEffectDescriptor<{type: string}>>, void, *>}
+ */
+export function* logInUserWorker({payload})  {
+    try {
+        yield put(authActions.startLoading());
+        const response = yield call(logIn);
+        if (response.status !== 200) {
+            yield put(authActions.endLoading());
+            console.error(getResponseErrorText(response, 'Не удалось получить пользователя'));
+            yield cancel();
+        }
+        const {accessToken, refreshToken} = response.data;
+        yield all([
+            call(saveTokens, accessToken, refreshToken),
+            put(authActions.fetchUser())
+        ]);
+    } catch (err) {
+        console.error(err.message);
+    }
+    yield put(authActions.endLoading());
+}
+
+export function* tryAutoLogin() {
+    try {
+        const tokens = loadTokens();
+        if (tokens) {
+            setTokenHeader(tokens.accessToken);
+            yield put(authActions.fetchUser())
+        }
+        yield put(authActions.tryAutoLogin());
+    } catch (err) {
+        console.error(err.message);
+    }
+}
+
+export default function* watchAuth() {
+    yield takeLatest(AUTH_TYPES.FETCH_USER, fetchUserProfileWorker);
+    yield takeLatest(AUTH_TYPES.LOG_IN, logInUserWorker);
 }

@@ -30,7 +30,12 @@ export const setRefreshToken = refreshToken => ({
     payload: refreshToken
 });
 
+export const logIn = (email, password) => ({
+    type: AUTH_TYPES.LOG_IN,
+    payload: {email, password}
+})
+
 export const setError = error => ({
     type: AUTH_TYPES.SET_ERROR,
     payload: error
-})
+});
