@@ -1,0 +1,1 @@
+export {statisticMainScreenOptions} from "./StatisticScreen";

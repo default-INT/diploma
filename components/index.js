@@ -6,6 +6,9 @@ import Card from "./Card";
 import Input from "./Input";
 import Calendar from "./Calendar";
 import EmployeePicker from "./EmployeePicker";
+
+import OverviewContainer from "./OverviewContainer";
+
 import PositionItem from "./palletprod/PositionItem";
 import ReportItem from "./palletprod/ReportItem";
 import EmployeeItemCmp from "./palletprod/EmployeeItemCmp";
@@ -19,5 +22,5 @@ import UnloadingEvent from "./palletprod/UnloadingEvent";
 export {
     Header, Widget, WidgetList, EmployeeItem, Card, Input, Calendar, CardForm, FormTitle, FormBody,
     PositionItem, ReportItem, EmployeeItemCmp, WorkItemCmp, StatisticEmployeeItem, EmployeePicker,
-    FromToDateSelector, UnloadingEvent
+    FromToDateSelector, UnloadingEvent, OverviewContainer
 }

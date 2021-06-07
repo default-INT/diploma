@@ -1,1 +1,1 @@
-export { mainScreenOptions } from "./main/MainScreen";
+export { mainScreenOptions } from "./admin/main/MainScreen";

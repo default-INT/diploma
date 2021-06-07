@@ -1,0 +1,1 @@
+export {MainScreen, mainScreenOptions} from "./MainScreen";

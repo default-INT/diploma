@@ -34,5 +34,12 @@ export const styles = StyleSheet.create({
     },
     profileField: {
         padding: 5
+    },
+    exitBtn: {
+        color: Colors.red
+    },
+    exitBtnContainer: {
+        alignItems: 'center',
+        padding: 20
     }
 })

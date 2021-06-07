@@ -1,4 +1,4 @@
-import {MainScreen} from "./main/MainScreen";
+import {MainScreen} from "./admin/main/MainScreen";
 
 
 export { MainScreen }
