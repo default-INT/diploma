@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
-import { Alert, KeyboardAvoidingView, ScrollView, StyleSheet, View, ActivityIndicator } from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useCallback, useEffect, useReducer} from "react";
+import {ActivityIndicator, Alert, KeyboardAvoidingView, ScrollView, StyleSheet, View} from "react-native";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import {useDispatch, useSelector} from 'react-redux';
 
-import { Input } from "../../../components";
-import { MaterialHeaderButton } from "../../../components/UI";
-import { employeeActions } from "../../../store/actions";
-import { formReducer } from "../../../store/reducers";
-import { FORM_INPUT_UPDATE } from "../../../constants/types";
+import {Input} from "../../../components";
+import {MaterialHeaderButton} from "../../../components/UI";
+import {employeeActions} from "../../../store/actions";
+import {formReducer} from "../../../store/reducers";
+import {FORM_INPUT_UPDATE} from "../../../constants/types";
 import Colors from "../../../constants/colors";
 
 const EditEmployeeScreen = props => {
