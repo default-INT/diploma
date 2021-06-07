@@ -85,11 +85,13 @@ const LastReportsScreen = ({navigation, ...props}) => {
     return (
         <FlatList
             data={lastReports}
-            renderItem={itemData => <ReportItem
-                report={itemData.item}
-                onPress={onSelectReport}
-                onLongPress={onDeleteHandler}
-            />}
+            renderItem={itemData =>
+                (<ReportItem
+                    report={itemData.item}
+                    onPress={onSelectReport}
+                    onLongPress={onDeleteHandler}
+                />)
+            }
             refreshing={loading}
             onRefresh={() => loadReports()}
         />
