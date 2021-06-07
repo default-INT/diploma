@@ -14,6 +14,7 @@ import java.util.List;
 public interface ReportRepository extends JpaRepository<Report, String> {
     List<Report> findAllByOrderByDateDesc();
     List<Report> findAllByDateAfterAndDateBeforeOrderByDateDesc(LocalDate dateAfter, LocalDate dateBefore);
+    List<Report> findAllByDateAfter(LocalDate dateAfter);
     boolean existsByDate(LocalDate date);
     void deleteById(String id);
 }
