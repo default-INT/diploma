@@ -1,26 +1,68 @@
-import {CREATE_POSITION, DELETE_POSITION, FETCH_POSITIONS, UPDATE_POSITION} from "../../types";
+/**
+ * В данном файле описан "reducer" для изменения состояния о тарифах.
+ */
+import {POSITION_TYPES} from "../../constants/types";
 
+/**
+ * Начальное состояние.
+ *
+ * @type {{availablePositions: [], loading: boolean, error: null}}
+ */
 const initialState = {
-    positions: []
+    availablePositions: [],
+    loading: false,
+    error: null
 }
 
+/**
+ * Объект, который по ключам (TYPES), возвращает определённые функции для изменения состояния.
+ */
 const handlers = {
-    [CREATE_POSITION]: (state, {payload}) => ({
+    [POSITION_TYPES.SET_ERROR]: (state, {payload}) => ({
         ...state,
-        positions: state.positions.concat([payload])
+        error: payload
     }),
-    [FETCH_POSITIONS]: (state, {payload}) => ({...state, positions: payload}),
-    [UPDATE_POSITION]: (state, {payload}) => ({
+    [POSITION_TYPES.FETCH_ALL]: (state, {payload}) => ({
         ...state,
-        positions: state.positions.filter(p => p.id !== payload.id).concat([payload])
+        availablePositions: payload
     }),
-    [DELETE_POSITION]: (state, {payload}) => ({
+    [POSITION_TYPES.START_LOADING]: (state) => ({
         ...state,
-        positions: state.positions.filter(p => p.id !== payload.id)
+        loading: true
+    }),
+    [POSITION_TYPES.END_LOADING]: (state) => ({
+        ...state,
+        loading: false
+    }),
+    [POSITION_TYPES.ADD_POSITION]: (state, {payload}) => ({
+        ...state,
+        availablePositions: state.availablePositions.concat(payload)
+            .sort((p1, p2) => p1.id > p2.id ? 1 : -1)
+    }),
+    [POSITION_TYPES.UPDATE_POSITION]: (state, {payload}) => {
+        const {position, oldId} = payload;
+        const updateIdx = state.availablePositions.findIndex(p => p.id === oldId);
+        const updatedPositions = [...state.availablePositions];
+        updatedPositions[updateIdx] = position;
+        return ({
+            ...state,
+            availablePositions: updatedPositions
+        })
+    },
+    [POSITION_TYPES.DELETE_POSITION]: (state, {payload}) => ({
+        ...state,
+        availablePositions: state.availablePositions.filter(p => p.id !== payload)
     }),
     DEFAULT: state => state
 }
 
+/**
+ * Функция редюсер.
+ *
+ * @param state {object}
+ * @param action {object}
+ * @returns {*}
+ */
 export const positionReducer = (state = initialState, action) => {
     const handle = handlers[action.type] || handlers.DEFAULT
     return handle(state, action)

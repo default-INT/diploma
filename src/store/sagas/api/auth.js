@@ -1,8 +1,8 @@
 import axios from "axios";
 import {setTokenHeader} from "../../../util/request-config";
 
-const ACCESS_TOKEN = "@access_token";
-const REFRESH_TOKEN = "@REFRESH_token";
+const ACCESS_TOKEN = "@ACCESS_TOKEN";
+const REFRESH_TOKEN = "@REFRESH_TOKEN";
 
 export const getProfile = () => axios.get(`/api/auth/profile`);
 

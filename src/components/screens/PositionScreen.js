@@ -15,7 +15,7 @@ import {
 
 //TODO: wrapped to class component
 const PositionScreen = ({positions, loading, createPosition, updatePosition,
-                            deletePosition, fetchPositions}) => {
+                            deletePosition, fetchPositions, ...props}) => {
 
     const [modalOpen, onModalOpen] = useState(false)
     useEffect(() => {
@@ -71,8 +71,13 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition,
             {modalOpen ? positionModal : null}
             <ContentTitle>Должности сотрудников</ContentTitle>
             <WidgetList>
-                <Widget title='КОЛИЧЕСТВО ПОЗИЦИЙ' value='5' color='#36b9cd' icon={navSuitcaseIcon} />
-                <Widget title='ПОПУЛЯРНАЯ ПОЗИЦИЯ' value='СБОЙЩИК "СОЛЬЗАВОД"' color='#f7c33c' icon={popularityIcon} />
+                <Widget title='КОЛИЧЕСТВО ПОЗИЦИЙ' value={positions ? positions.length : '...'} color='#36b9cd' icon={navSuitcaseIcon} />
+                <Widget
+                    title='ПОПУЛЯРНАЯ ПОЗИЦИЯ'
+                    value='ПОДДОНЫ "СОЛЬЗАВОД"'
+                    color='#f7c33c' icon={popularityIcon}
+                />
+
                 <Widget title='НАИБОЛЕЕ ПРИБЫЛЬНАЯ' value='СБОЙЩИК "ХОЙНИКИ"' color='#1cc98a' icon={dollarIcon} />
             </WidgetList>
             <FragmentList>
@@ -83,6 +88,7 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition,
                     {loading ? <CubeLoader/> : <EditableTable
                         header={header}
                         data={positions}
+                        dataParser={item => [item.name, item.itemTariff, item.itemName]}
                         onEditItem={position => openEditModal(position)}
                         onDeleteItem={position => openDeleteModal(position)}
                     />}
@@ -93,8 +99,8 @@ const PositionScreen = ({positions, loading, createPosition, updatePosition,
 }
 
 const mapStateToProps = state => ({
-    positions: state.positions.positions,
-    loading: state.app.loading
+    positions: state.positions.availablePositions,
+    loading: state.positions.loading
 })
 
 const mapDispatchToProps  = {

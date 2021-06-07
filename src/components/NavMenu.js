@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import '../css/NavMenu.css'
 import {
     navBuilderWhiteIcon,
-    navCalendarSolidWhiteIcon,
+    navCalendarSolidWhiteIcon, navChart, navExport, navStore,
     navSuitcaseWhiteIcon,
     palletWhiteIcon,
     questionWhiteIcon
@@ -30,13 +30,13 @@ const NavMenu = () => {
             </div>
             <div className="nav-group">
                 <NavItem name='Отчёты' path='/reports' icon={navCalendarSolidWhiteIcon} />
-                <NavItem name='Тарифы' path='/positions' icon={navSuitcaseWhiteIcon}/>
-                <NavItem name='Сотрудники' path='/employees' icon={navBuilderWhiteIcon}/>
+                <NavItem name='Склад' path='/other1' icon={navStore} />
+                <NavItem name='Выгрузки со склада' path='/other2' icon={navExport} />
             </div>
             <div className="nav-group">
-                <NavItem path='/other4' />
-                <NavItem path='/other5' />
-                <NavItem path='/other6' />
+                <NavItem name='Сотрудники' path='/employees' icon={navBuilderWhiteIcon}/>
+                <NavItem name='Тарифы' path='/positions' icon={navSuitcaseWhiteIcon}/>
+                <NavItem name='Статистика' path='/other3' icon={navChart} />
             </div>
         </nav>
     )

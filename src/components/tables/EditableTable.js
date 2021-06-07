@@ -10,7 +10,7 @@ const transformItemToArray = item => {
             array.push(item[prop])
         }
     }
-    return array
+    return array;
 }
 
 const EditableTable = ({data = [], header = [], onDeleteItem = (id) => id,
