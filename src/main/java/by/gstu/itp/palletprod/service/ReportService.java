@@ -8,8 +8,6 @@ import by.gstu.itp.palletprod.model.report.DayStat;
 import by.gstu.itp.palletprod.model.report.EmployeeItem;
 import by.gstu.itp.palletprod.model.report.Report;
 import by.gstu.itp.palletprod.model.report.WorkItem;
-import by.gstu.itp.palletprod.model.storage.Storage;
-import by.gstu.itp.palletprod.model.storage.StorageItem;
 import by.gstu.itp.palletprod.repository.EmployeeRepository;
 import by.gstu.itp.palletprod.repository.PositionRepository;
 import by.gstu.itp.palletprod.repository.report.ReportRepository;
@@ -18,11 +16,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Класс-сервис производящий взаимодействие с базой данных и управляет данными через репозиторий.
+ * @author Evgeniy Trofimov
+ */
 @Service
 public class ReportService {
     private final ReportRepository reportRepository;

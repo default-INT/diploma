@@ -8,6 +8,9 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Содержит стандартную конфигурацию веб-сервиса.
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override

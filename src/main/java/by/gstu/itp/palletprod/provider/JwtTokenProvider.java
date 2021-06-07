@@ -94,7 +94,7 @@ public class JwtTokenProvider {
             tokens.put(ACCESS_TOKEN_KEY, oldToken.getAccessJws());
             tokens.put(REFRESH_TOKEN_KEY, oldToken.getRefreshJws());
             return tokens;
-        } catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException | JwtAuthenticationException e) {
             return createAndSaveTokens(email);
         }
     }

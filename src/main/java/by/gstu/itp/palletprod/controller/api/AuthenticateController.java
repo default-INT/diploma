@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Map;
 
+/**
+ * Класс-контроллер отвечающий за авторизацию пользователя в системе.
+ *
+ * @author Evgeniy Trofimov
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticateController {
@@ -25,6 +30,11 @@ public class AuthenticateController {
         this.authService = authService;
     }
 
+    /**
+     * Обновляет Access-токен с помощью Refresh-токена.
+     * @param token {String}
+     * @return
+     */
     @PostMapping("refresh")
     public ResponseEntity<?> refresh(@RequestBody String token) { // NOSONAR
         try {
@@ -34,11 +44,21 @@ public class AuthenticateController {
         }
     }
 
+    /**
+     * Метод возвращающий профиль пользователя.
+     * @param authentication {Authentication}
+     * @return
+     */
     @GetMapping("profile")
     public UserDto getProfile(Authentication authentication) {
         return authService.getProfile(authentication);
     }
 
+    /**
+     * Метод создающий нового пользователя в системе.
+     * @param dto {AuthenticationDto}
+     * @return
+     */
     @PostMapping("registration")
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, String> registration(@RequestBody @Valid AuthenticationDto dto) {

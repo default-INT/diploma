@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Фильтр производящий авторизацию пользовотеля в системе получающий JWT-токен из HTTP-запроса.
+ *
+ * @author Evgeniy Trofimov
+ */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private final JwtTokenProvider tokenProvider;
 
@@ -22,7 +27,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         try {
             final String token = tokenProvider.resolveToken(request);
             if (token != null && tokenProvider.validateToken(token)) {

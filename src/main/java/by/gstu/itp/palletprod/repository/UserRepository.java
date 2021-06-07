@@ -6,6 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
+/**
+ * Интерфейс описывающий операции с БД по определённым критериям.
+ * Доступ к данным реализует SpringData.
+ * @author Evgeniy Trofimov
+ */
 public interface UserRepository extends JpaRepository<User, String> {
     @Query("select case when count(u.id) > 0 then true else (case when (select count(tu.id) from TempUser tu where tu.email=:email) > 0 then true else false end) end FROM User u where u.email=:email")
     boolean existsAnywhereByEmail(String email);

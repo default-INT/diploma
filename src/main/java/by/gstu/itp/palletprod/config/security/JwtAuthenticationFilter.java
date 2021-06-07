@@ -17,6 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Фильтр производящий аутентификацию пользователя по логину и паролю.
+ * Возвращает Access и Refresh токен.
+ */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final ObjectMapper mapper = new ObjectMapper();
     private final AuthenticationManager authenticationManager;
@@ -28,6 +32,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         setFilterProcessesUrl("/api/auth/login");
     }
 
+    /**
+     * Производит попытку аутентификации пользователя в системе.
+     * 
+     * @param request {HttpServletRequest}
+     * @param response {HttpServletResponse}
+     * @return Authentication
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException { // NOSONAR
         try {
@@ -41,6 +53,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    /**
+     * Возвращает пользователю токен при успешной аутентификации.
+     *
+     * @param request {HttpServletRequest}
+     * @param response {HttpServletResponse}
+     * @param chain {FilterChain}
+     * @param authResult {Authentication}
+     * @throws IOException
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult) throws IOException {

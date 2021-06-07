@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Класс-сервис производящий взаимодействие с базой данных и управляет данными через репозиторий.
+ * @author Evgeniy Trofimov
+ */
 @Service
 public class StatisticService {
     private final ReportRepository reportRepository;

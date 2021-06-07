@@ -1,6 +1,5 @@
 package by.gstu.itp.palletprod.config.security;
 
-import by.gstu.itp.palletprod.model.Position;
 import by.gstu.itp.palletprod.model.user.Role;
 import by.gstu.itp.palletprod.provider.JwtTokenProvider;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+
+/**
+ * Класс с описанием конфигурации Spring Security.
+ *
+ * @author Evgeniy Trofimov
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,13 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .exceptionHandling(config -> config
-//                        .authenticationEntryPoint(authenticationEntryPoint)
-//                )
-//                .requiresChannel()
-//                .anyRequest()
-//                .requiresSecure()
-//            .and()
                 .cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/auth/*").anonymous()
