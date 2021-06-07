@@ -3,6 +3,6 @@ export {eqDates} from "./date-utils";
 export {toDateFormat} from "./date-utils";
 export {nameDayOfWeek} from "./date-utils";
 
-export {writeTokens, readTokens} from "./fs-utils";
+export {writeTokens, readTokens, deleteTokens} from "./fs-utils";
 
-export {initAxios, setTokenHeader, getResponseErrorText} from "./request-config";
+export {initAxios, setTokenHeader, getResponseErrorText, clearTokenHeader} from "./request-config";

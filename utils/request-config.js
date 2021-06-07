@@ -13,6 +13,10 @@ export const setTokenHeader = accessToken => {
     // });
 }
 
+export const clearTokenHeader = () => {
+    axios.defaults.headers['Authorization'] = null;
+}
+
 export const getResponseErrorText = (response, text) => {
     return `${text}. Status: ${response.status} ${response.statusText}`;
 }

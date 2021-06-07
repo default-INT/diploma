@@ -20,6 +20,15 @@ export const writeTokens = async (accessToken, refreshToken) => {
 
 /**
  *
+ * @returns {Promise<void>}
+ */
+export const deleteTokens = async () => {
+    await SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
+    await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
+}
+
+/**
+ *
  * @returns {Promise<{accessToken: string, refreshToken: string}>}
  */
 export const readTokens = async () => {

@@ -13,7 +13,7 @@ export const StatisticNavigator = () => {
             <ReportStackNavigator.Screen
                 name="StatisticScreen"
                 component={StatisticScreen}
-                options={statisticMainScreenOptions()}
+                options={statisticMainScreenOptions}
             />
         </ReportStackNavigator.Navigator>
     );

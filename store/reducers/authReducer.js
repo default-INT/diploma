@@ -12,6 +12,7 @@ const initialState = {
     authUser: null,
     accessToken: null,
     refreshToken: null,
+    isAuth: false,
     didTryAutoLogin: false,
     loading: false
 }
@@ -44,6 +45,13 @@ const handlers = {
     [AUTH_TYPES.END_LOADING]: state => ({
         ...state,
         loading: false
+    }),
+    [AUTH_TYPES.LOG_OUT]: state => ({
+        ...state,
+        authUser: null,
+        accessToken: null,
+        refreshToken: null,
+        isAuth: false
     }),
     DEFAULT: state => state
 }

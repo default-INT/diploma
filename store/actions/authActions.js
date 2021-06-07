@@ -8,7 +8,7 @@ import axios from "axios";
 
 import {AUTH_TYPES} from "../../constants/types";
 import User from "../../models/user";
-import {getResponseErrorText, readTokens, setTokenHeader, writeTokens} from "../../utils";
+import {deleteTokens, getResponseErrorText, readTokens, setTokenHeader, writeTokens} from "../../utils";
 
 
 /**
@@ -102,5 +102,16 @@ export const logInUser = (email, password) => {
             throw e;
         }
 
+    }
+}
+
+export const logOut = () => {
+    return async dispatch => {
+        try {
+            await deleteTokens();
+            dispatch({type: AUTH_TYPES.LOG_OUT});
+        } catch (err) {
+            console.error(err.message);
+        }
     }
 }

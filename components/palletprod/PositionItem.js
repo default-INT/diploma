@@ -13,7 +13,7 @@ import Colors from "../../constants/colors"
  * @returns {JSX.Element}
  * @constructor
  */
-const PositionItem = ({position, ...props}) => {
+const PositionItem = ({position, isNotEdit, ...props}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
@@ -35,14 +35,16 @@ const PositionItem = ({position, ...props}) => {
                                         <Text>{position.itemTariff} {position.itemName}</Text>
                                     </View>
                                 </View>
-                                <View style={styles.btnContainer}>
-                                    <View style={styles.btn}>
-                                        <Button color={Colors.orange} title='Редактировать' onPress={props.onEdit} />
+                                {!isNotEdit && (
+                                    <View style={styles.btnContainer}>
+                                        <View style={styles.btn}>
+                                            <Button color={Colors.orange} title='Редактировать' onPress={props.onEdit} />
+                                        </View>
+                                        <View style={styles.btn}>
+                                            <Button color={Colors.red} title='Удалить'  onPress={props.onDelete} />
+                                        </View>
                                     </View>
-                                    <View style={styles.btn}>
-                                        <Button color={Colors.red} title='Удалить'  onPress={props.onDelete} />
-                                    </View>
-                                </View>
+                                )}
                             </View>) : null}
                         </View>
                     </View>
