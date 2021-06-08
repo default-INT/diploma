@@ -7,6 +7,7 @@ import {positionReducer} from "./positionReducer";
 import {reportReducer} from "./reportReducer";
 import {statisticReducer} from "./statisticReducer";
 import {authReducer} from "./authReducer";
+import {userReducer} from "./userReducer";
 
 /**
  * Основной редюсре, объединяющий все редюсеры приложения для создания глобального состояния.
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     positions: positionReducer,
     reports: reportReducer,
     statistics: statisticReducer,
-    auth: authReducer
+    auth: authReducer,
+    user: userReducer
 });
 
 export default rootReducer;
