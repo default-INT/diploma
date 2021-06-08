@@ -1,1 +1,3 @@
-export * as userActions from "./userActions";
+import * as userActions from "./userActions";
+
+export {userActions};

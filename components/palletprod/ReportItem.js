@@ -19,7 +19,7 @@ import Colors from "../../constants/colors";
 const ReportItem = ({report, onLongPress, onPress, ...props}) => {
     const TouchableComponent = Platform.OS === "android" && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
 
-    const dayStats = report.dayStats.filter(({position}) => position.isPallet);
+    const dayStats = report.dayStats.filter(({position}) => position.isStorage);
 
     return (
         <Card style={styles.card} >

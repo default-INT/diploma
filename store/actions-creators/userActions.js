@@ -11,6 +11,14 @@ export const fetchAvgMonthSalary = () => ({
 
 /**
  *
+ * @returns {{type: string}}
+ */
+export const fetchUserData = () => ({
+    type: USER_TYPES.FETCH_USER_DATA
+})
+
+/**
+ *
  * @param monthSalary {number}
  * @returns {{payload, type: string}}
  */

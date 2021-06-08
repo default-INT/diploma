@@ -1,13 +1,29 @@
-import React from "react";
+import React, {useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
 
 import MainScreenView from "./MainScreenView";
-import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import {userActions} from "../../../../store/actions-creators";
 import {MaterialHeaderButton} from "../../../../components/UI";
 
 
-const MainScreenContainer = props => {
+const MainScreenContainer = ({navigation, ...props}) => {
+    const {avgMonthSalary, totalMonthSalary, loading, error} = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        return  navigation.addListener('focus', () => {
+            dispatch(userActions.fetchUserData())
+        });
+    }, [navigation]);
+
     return (
-        <MainScreenView/>
+        <MainScreenView
+            avgMonthSalary={avgMonthSalary}
+            totalMonthSalary={totalMonthSalary}
+            loading={loading}
+            error={error}
+        />
     )
 };
 

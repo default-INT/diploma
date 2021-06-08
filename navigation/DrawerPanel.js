@@ -32,6 +32,7 @@ const DrawerPanel = ({authUser, ...props}) => {
                 <View style={styles.profileInfo}>
                     <Text style={styles.profileField}>{authUser.email}</Text>
                     <Text style={styles.profileField}>{authUser.getRoleName()}</Text>
+                    {authUser.isEmployee() && <Text style={styles.profileField}>{authUser.employee.fullName}</Text>}
                 </View>
                 <DrawerItemList {...props} />
                 <TouchableOpacity onPress={onLogOut}>

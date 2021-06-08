@@ -17,4 +17,18 @@ export default class DataItem {
         this.iconUri = iconUri
         this.color = color
     }
+
+    /**
+     *
+     * @param id {string}
+     * @param name {string}
+     * @param value {number|string}
+     * @param iconUri {string}
+     * @param color {string}
+     */
+    static of({id, name, value, iconUri, color}) {
+        return new DataItem(
+            id, name, value, iconUri, color
+        );
+    }
 }

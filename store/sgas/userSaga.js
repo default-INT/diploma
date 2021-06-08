@@ -36,9 +36,9 @@ function* fetchUserDataWorker() {
     } catch (err) {
         yield put(userActions.setError(err.message));
     }
-    yield put(userActions.startLoading());
+    yield put(userActions.endLoading());
 }
 
-function* userWatcher() {
-    takeLatest(USER_TYPES.FETCH_USER_DATA, fetchUserDataWorker);
+export default function* userWatcher() {
+    yield takeLatest(USER_TYPES.FETCH_USER_DATA, fetchUserDataWorker);
 }

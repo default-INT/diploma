@@ -1,7 +1,7 @@
 import React from "react";
 import {ActivityIndicator, Button, FlatList, StyleSheet, Text, View} from "react-native";
 
-import {OverviewContainer, PositionItem} from "../../../../components";
+import {OverviewCenteredContainer, PositionItem} from "../../../../components";
 import Colors from "../../../../constants/colors";
 import {positionActions} from "../../../../store/actions";
 

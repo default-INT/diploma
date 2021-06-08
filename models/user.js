@@ -1,4 +1,5 @@
 import {ROLES} from "../constants";
+import Employee from "./employee";
 
 const ROLE_NAMES = {
     ['ADMIN']: 'Администратор',
@@ -51,6 +52,6 @@ export default class User {
     }
 
     static of(options) {
-        return new User(options.email, options.role, options.employeeId, options.employee);
+        return new User(options.email, options.role, options.employeeId, options.employee && Employee.of(options.employee));
     }
 }

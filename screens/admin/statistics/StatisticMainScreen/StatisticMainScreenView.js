@@ -46,7 +46,7 @@ const StatisticMainScreenView = props => {
 
     const getTotalSalary = employeesStatistic => {
         return employeesStatistic.length !== 0 ? ' ' + employeesStatistic.map(item => item.totalSalary)
-            .reduce((a, b) => a + b) : ' ' + 0;
+            .reduce((a, b) => a + b).toFixed(2) : ' ' + 0;
     }
 
     return (

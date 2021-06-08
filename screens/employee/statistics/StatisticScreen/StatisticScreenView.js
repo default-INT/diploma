@@ -1,13 +1,13 @@
 import React from "react";
 import {Text} from "react-native";
 
-import {OverviewContainer} from "../../../../components";
+import {OverviewCenteredContainer} from "../../../../components";
 
 const StatisticScreenView = props => {
     return (
-        <OverviewContainer>
+        <OverviewCenteredContainer>
             <Text>Statistic screen!</Text>
-        </OverviewContainer>
+        </OverviewCenteredContainer>
     )
 };
 

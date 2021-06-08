@@ -1,12 +1,12 @@
 import React from "react";
-import {OverviewContainer} from "../../../../components";
+import {OverviewCenteredContainer} from "../../../../components";
 import {Text} from "react-native";
 
 const ReportsScreenView = props => {
     return (
-        <OverviewContainer>
+        <OverviewCenteredContainer>
             <Text>Report screen!</Text>
-        </OverviewContainer>
+        </OverviewCenteredContainer>
     );
 }
 
