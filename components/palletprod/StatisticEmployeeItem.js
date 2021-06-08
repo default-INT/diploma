@@ -1,13 +1,14 @@
 import React from "react";
 import {View, Text, StyleSheet} from "react-native";
 
-import Card from "../Card";
 import Colors from "../../constants/colors";
+import {DefaultCard} from "./components";
+
 
 const StatisticEmployeeItem = ({statistic, ...props}) => {
     const {statisticItems} = statistic;
     return (
-        <Card style={styles.card}>
+        <DefaultCard style={styles.card}>
             <View style={styles.title}>
                 <Text style={styles.titleText}>{statistic.employee}</Text>
             </View>
@@ -29,16 +30,13 @@ const StatisticEmployeeItem = ({statistic, ...props}) => {
             <View style={styles.totalSalary}>
                 <Text>Заработок: <Text style={styles.salaryText}>{statistic.totalSalary} р</Text> </Text>
             </View>
-        </Card>
+        </DefaultCard>
     )
 }
 
 const styles = StyleSheet.create({
     card: {
         margin: 10,
-        borderRadius: 10,
-        backgroundColor: Colors.white,
-        marginVertical: 10,
         padding: 10
     },
     totalSalary: {

@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import {Button, Platform, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View} from "react-native";
 
-import Card from "../Card"
 import Colors from "../../constants/colors"
+import {DefaultCard} from "./components";
 
 
 /**
  * Компонент отображения тарифа на экране с определённой стилизации в соответствующем формате.
  *
  * @param position {Position}
+ * @param isNotEdit {boolean}
  * @param props {object}
  * @returns {JSX.Element}
  * @constructor
@@ -20,7 +21,7 @@ const PositionItem = ({position, isNotEdit, ...props}) => {
 
 
     return (
-        <Card style={styles.card} >
+        <DefaultCard >
             <View style={styles.touchable}>
                 <TouchableComponent onPress={() => setIsOpen(prev => !prev)} useForeground>
                     <View style={styles.employeeContainer}>
@@ -50,7 +51,7 @@ const PositionItem = ({position, isNotEdit, ...props}) => {
                     </View>
                 </TouchableComponent>
             </View>
-        </Card>
+        </DefaultCard>
     )
 }
 
@@ -72,12 +73,6 @@ const styles = StyleSheet.create({
     touchable: {
         borderRadius: 10,
         overflow: 'hidden'
-    },
-    card: {
-        margin: 20,
-        borderRadius: 10,
-        backgroundColor: Colors.white,
-        marginVertical: 10
     },
     employeeContainer: {
         padding: 20

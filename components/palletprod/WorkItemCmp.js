@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from "react-native";
 
 import Colors from "../../constants/colors";
 import {TouchableButton} from "../UI";
+import {InnerContainer} from "./components";
 
 /**
  *
@@ -22,7 +23,7 @@ const WorkItemCmp = ({workItem, ...props}) => {
                     </View>
                 </View>
                 <View>
-                    <View style={styles.workItemContainer}>
+                    <InnerContainer style={styles.workItemContainer}>
                         <View style={styles.field}>
                             <Text>Тариф</Text>
                             <Text>{workItem.position.itemTariff} {workItem.position.itemName}</Text>
@@ -31,12 +32,11 @@ const WorkItemCmp = ({workItem, ...props}) => {
                             <Text>Количество</Text>
                             <Text>{workItem.itemNum} {workItem.position.itemName.split('/')[1]}</Text>
                         </View>
-                    </View>
-                    <View style={styles.totalSalary}>
+                    </InnerContainer>
+                    <InnerContainer>
                         <Text>Суммарный заработок: {workItem.salary} р</Text>
-                    </View>
+                    </InnerContainer>
                 </View>
-
             </View>
         </View>
     )
@@ -48,12 +48,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     workItemContainer: {
-        padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: Colors.whitesmoke
-    },
-    totalSalary: {
-        padding: 10
     },
     touchable: {
         padding: 10,

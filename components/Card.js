@@ -9,7 +9,7 @@ import { View, StyleSheet } from 'react-native';
  * @constructor
  */
 const Card = props => {
-    return <View style={{...styles.card, ...props.style}}>{props.children}</View>;
+    return <View {...props} style={{...styles.card, ...props.style}}>{props.children}</View>;
 };
 
 const styles = StyleSheet.create({

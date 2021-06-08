@@ -3,6 +3,7 @@ import {View, StyleSheet, Text, Platform, TouchableNativeFeedback, TouchableOpac
 
 import Colors from "../../constants/colors";
 import {TouchableButton} from "../UI";
+import {InnerContainer} from "./components";
 
 /**
  *
@@ -34,9 +35,9 @@ const EmployeeItemCmp = ({employeeItem, ...props}) => {
                                 </View>
                             ))}
                         </View>
-                        <View style={styles.totalSalary}>
+                        <InnerContainer>
                             <Text>Заработок: {employeeItem.totalSalary} р</Text>
-                        </View>
+                        </InnerContainer>
                     </View>
                     }
 
@@ -55,9 +56,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: Colors.whitesmoke
-    },
-    totalSalary: {
-        padding: 10
     },
     touchable: {
         padding: 10,
