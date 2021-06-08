@@ -1,9 +1,13 @@
 import axios from "axios";
 
 export const getAvgMonthSalary = () => (
-    axios.get('/palletprod/my-avg-salary')
+    axios.get('/user-employee/my-avg-salary')
 );
 
 export const getTotalMonthSalary = () => (
-    axios.get('/palletprod/my-month-total-salary')
+    axios.get('/user-employee/my-month-total-salary')
 );
+
+export const getUserReports = () => (
+    axios.get('/user-employee/reports')
+)

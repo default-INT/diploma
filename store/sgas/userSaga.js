@@ -1,9 +1,11 @@
 import {takeLatest, put, call, all, cancel} from "redux-saga/effects";
 
-import {getAvgMonthSalary, getTotalMonthSalary} from "./api";
+import {getAvgMonthSalary, getTotalMonthSalary, getUserReports} from "./api";
 import {userActions} from "../actions-creators";
 import {USER_TYPES} from "../../constants/types";
 import {getResponseErrorText} from "../../utils";
+import {UserReport} from "../../models";
+import {fetchUserReports} from "../actions-creators/userActions";
 
 function* responseCheckerAndSetError(response, message) {
     if (response.status !== 200) {
@@ -39,6 +41,28 @@ function* fetchUserDataWorker() {
     yield put(userActions.endLoading());
 }
 
+function* fetchUserReportsWorker() {
+    try {
+        yield put(userActions.setError(null));
+        yield put(userActions.startLoading());
+
+        const response = yield call(getUserReports);
+
+        yield responseCheckerAndSetError(response, 'Не удалось получить данные об отчётах сотрудников.');
+
+        const userReports = response.data.map(userReportDraft => UserReport.fromJson(userReportDraft));
+
+        yield put(userActions.setUserReports(
+            userReports
+        ));
+
+    } catch (err) {
+        yield put(userActions.setError(err.message));
+    }
+    yield put(userActions.endLoading());
+}
+
 export default function* userWatcher() {
     yield takeLatest(USER_TYPES.FETCH_USER_DATA, fetchUserDataWorker);
+    yield takeLatest(USER_TYPES.FETCH_USER_REPORTS, fetchUserReportsWorker);
 }

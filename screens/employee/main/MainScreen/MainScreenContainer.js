@@ -11,9 +11,13 @@ const MainScreenContainer = ({navigation, ...props}) => {
     const {avgMonthSalary, totalMonthSalary, loading, error} = useSelector(state => state.user);
     const dispatch = useDispatch();
 
+    const loadData = () => {
+        dispatch(userActions.fetchUserData());
+    };
+
     useEffect(() => {
         return  navigation.addListener('focus', () => {
-            dispatch(userActions.fetchUserData())
+            loadData();
         });
     }, [navigation]);
 
@@ -23,6 +27,7 @@ const MainScreenContainer = ({navigation, ...props}) => {
             totalMonthSalary={totalMonthSalary}
             loading={loading}
             error={error}
+            loadData={loadData}
         />
     )
 };

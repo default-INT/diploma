@@ -47,6 +47,24 @@ export const setTotalMonthSalary = totalMonthSalary => ({
 
 /**
  *
+ * @return {{type: string}}
+ */
+export const fetchUserReports = () => ({
+    type: USER_TYPES.FETCH_USER_REPORTS
+});
+
+/**
+ *
+ * @param reports {Array<UserReport>}
+ * @return {{payload, type: string}}
+ */
+export const setUserReports = reports => ({
+    type: USER_TYPES.SET_USER_REPORTS,
+    payload: reports
+})
+
+/**
+ *
  * @returns {{type: string}}
  */
 export const startLoading = () => ({

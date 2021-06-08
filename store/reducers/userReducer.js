@@ -4,13 +4,13 @@
 import {USER_TYPES} from "../../constants/types";
 
 /**
- * Начальное состояние.
  *
- * @type {{income: DataItem, avgSalary: DataItem, countEmployee: DataItem}}
+ * @type {{totalMonthSalary: number, userReports: [], avgMonthSalary: number}}
  */
 const initialState = {
     totalMonthSalary: 0,
-    avgMonthSalary: 0
+    avgMonthSalary: 0,
+    userReports: []
 }
 
 /**
@@ -36,6 +36,10 @@ const handlers = {
     [USER_TYPES.SET_TOTAL_MONTH_SALARY]: (state, {payload}) => ({
         ...state,
         totalMonthSalary: payload
+    }),
+    [USER_TYPES.SET_USER_REPORTS]: (state, {payload}) => ({
+        ...state,
+        userReports: payload
     }),
     DEFAULT: state => state
 }
