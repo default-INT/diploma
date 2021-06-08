@@ -37,6 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/auth/*").anonymous()
                 .antMatchers(HttpMethod.GET, "/positions").hasAnyRole(Role.EMPLOYEE.name(), Role.ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/api/auth/profile").hasAnyRole(Role.EMPLOYEE.name(), Role.ADMIN.name())
+                .antMatchers(HttpMethod.GET,
+                        "/palletprod/my-avg-salary",
+                        "/palletprod/my-month-total-salary"
+                    ).hasRole(Role.EMPLOYEE.name())
                 .anyRequest().hasRole(Role.ADMIN.name())
             .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), tokenProvider))

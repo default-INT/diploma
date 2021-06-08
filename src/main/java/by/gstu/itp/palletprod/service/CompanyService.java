@@ -56,7 +56,7 @@ public class CompanyService {
         return getTotalSalaryOnMonth(user.getEmployee());
     }
 
-    public BigDecimal getAvgSalaryOnMonthForEmployee(final Authentication authentication) {
+    public BigDecimal getAvgSalaryForEmployee(final Authentication authentication) {
         final User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(NotFoundException::new);
         return getAvgSalaryOnMonthForEmployee(user.getEmployee());
@@ -77,10 +77,7 @@ public class CompanyService {
 
     private BigDecimal getAvgSalaryOnMonthForEmployee(final Employee employee) {
         try {
-            final List<Report> reports = getReportsForDateAfter();
-            final Stream<EmployeeItem> employeeItemStream = reports.stream()
-                    .flatMap(report -> report.getEmployeeItems().stream())
-                    .filter(employeeItem -> employeeItem.getEmployeeId().equals(employee.getId()));
+            final Stream<EmployeeItem> employeeItemStream = employee.getEmployeeItems().stream();
 
             final BigDecimal totalSalaryOnMonth = getTotalSalaryOnMonth(employee);
 

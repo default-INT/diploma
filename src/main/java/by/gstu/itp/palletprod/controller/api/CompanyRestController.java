@@ -22,9 +22,9 @@ public class CompanyRestController {
         return companyService.getAvgSalaryOnDay();
     }
 
-    @GetMapping("/my-month-avg-salary")
-    public BigDecimal getMonthAvgSalary(final Authentication authentication) {
-        return companyService.getAvgSalaryOnMonthForEmployee(authentication);
+    @GetMapping("/my-avg-salary")
+    public BigDecimal getAvgSalary(final Authentication authentication) {
+        return companyService.getAvgSalaryForEmployee(authentication);
     }
 
     @GetMapping("/my-month-total-salary")
