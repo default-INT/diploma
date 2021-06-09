@@ -1,6 +1,7 @@
 package by.gstu.itp.palletprod.controller.api;
 
 import by.gstu.itp.palletprod.dto.report.UserReportDto;
+import by.gstu.itp.palletprod.dto.statistic.EmployeeStatisticDto;
 import by.gstu.itp.palletprod.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +33,10 @@ public class UserRestController {
     @GetMapping("/reports")
     public List<UserReportDto> getEmployeeReports(final Authentication authentication) {
         return userService.getUserReports(authentication);
+    }
+
+    @GetMapping("/statistics")
+    public EmployeeStatisticDto getEmployeeStatistics(final Authentication authentication) {
+        return userService.getUserStatistics(authentication);
     }
 }

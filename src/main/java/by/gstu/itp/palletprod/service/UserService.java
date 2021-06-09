@@ -1,6 +1,7 @@
 package by.gstu.itp.palletprod.service;
 
 import by.gstu.itp.palletprod.dto.report.UserReportDto;
+import by.gstu.itp.palletprod.dto.statistic.EmployeeStatisticDto;
 import by.gstu.itp.palletprod.exception.NotFoundException;
 import by.gstu.itp.palletprod.model.Employee;
 import by.gstu.itp.palletprod.model.report.EmployeeItem;
@@ -23,10 +24,12 @@ public class UserService {
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
+    private final StatisticService statisticService;
 
-    public UserService(ReportRepository reportRepository, UserRepository userRepository) {
+    public UserService(ReportRepository reportRepository, UserRepository userRepository, StatisticService statisticService) {
         this.reportRepository = reportRepository;
         this.userRepository = userRepository;
+        this.statisticService = statisticService;
     }
 
     public BigDecimal getTotalSalaryOnMonth(final Authentication authentication) {
@@ -45,6 +48,12 @@ public class UserService {
         return getStreamEmployeeItemsByEmployeeFromReports(user.getEmployee(), reports)
                 .map(UserReportDto::of)
                 .collect(Collectors.toList());
+    }
+
+    public EmployeeStatisticDto getUserStatistics(final Authentication authentication) {
+        return statisticService.getAllEmployeeStatistic(
+                getUser(authentication).getEmployeeId()
+        );
     }
 
     private User getUser(final Authentication authentication) {

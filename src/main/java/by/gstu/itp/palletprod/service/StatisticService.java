@@ -27,16 +27,15 @@ public class StatisticService {
         this.reportRepository = reportRepository;
     }
 
-    private Map<Employee, List<EmployeeItem>> getStatisticOnDates(final LocalDate dateAfter, final LocalDate dateBefore) {
-        final List<Report> reports = reportRepository.findAllByDateAfterAndDateBeforeOrderByDateDesc(dateAfter, dateBefore);
-        final Map<Employee, List<EmployeeItem>> employeeItemsMap = new HashMap<>();
-        reports.stream()
-                .flatMap(report -> report.getEmployeeItems().stream())
-                .forEach(employeeItem -> {
-                    employeeItemsMap.computeIfAbsent(employeeItem.getEmployee(), k -> new ArrayList<>())
-                            .add(employeeItem);
-                });
-        return employeeItemsMap;
+    public EmployeeStatisticDto getAllEmployeeStatistic(final String employeeId) {
+        final List<Report> reports = reportRepository.findAll();
+        final Map<Employee, List<EmployeeItem>> employeeItemsMap = getStatisticFromReports(reports);
+        return employeeItemsMap.entrySet()
+                .stream()
+                .filter(employeeListEntry -> employeeListEntry.getKey().getId().equals(employeeId))
+                .map(EmployeeStatisticDto::of)
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
     }
 
     public List<EmployeeStatisticDto> getEmployeeStatistic(final LocalDate dateAfter, final LocalDate dateBefore) {
@@ -54,5 +53,21 @@ public class StatisticService {
                 .filter(employeeListEntry -> employeeListEntry.getKey().getId().equals(employeeId))
                 .map(EmployeeStatisticDto::of)
                 .collect(Collectors.toList());
+    }
+
+    private Map<Employee, List<EmployeeItem>> getStatisticOnDates(final LocalDate dateAfter, final LocalDate dateBefore) {
+        final List<Report> reports = reportRepository.findAllByDateAfterAndDateBeforeOrderByDateDesc(dateAfter, dateBefore);
+        return getStatisticFromReports(reports);
+    }
+
+    private Map<Employee, List<EmployeeItem>> getStatisticFromReports(final List<Report> reports) {
+        final Map<Employee, List<EmployeeItem>> employeeItemsMap = new HashMap<>();
+        reports.stream()
+                .flatMap(report -> report.getEmployeeItems().stream())
+                .forEach(employeeItem -> {
+                    employeeItemsMap.computeIfAbsent(employeeItem.getEmployee(), k -> new ArrayList<>())
+                            .add(employeeItem);
+                });
+        return employeeItemsMap;
     }
 }
