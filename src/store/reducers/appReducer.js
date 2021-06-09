@@ -13,6 +13,12 @@ const handlers = {
     DEFAULT: state => state
 }
 
+/**
+ * @deprecated
+ * @param state
+ * @param action
+ * @returns {*&{alert}}
+ */
 export const appReducer = (state = initialState, action) => {
     const handle = handlers[action.type] || handlers.DEFAULT
     return handle(state, action)

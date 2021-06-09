@@ -1,10 +1,10 @@
 import React from 'react'
 
-import {SimpleFragment, Widget, FragmentList, WidgetList, MainContent, ContentTitle} from "../index";
-import {salaryIcon, employeeIcon, palletIcon, dollarIcon} from "../../icons";
-import '../../css/MainContent.css'
+import {ContentTitle, MainContent, Widget, WidgetList} from "../../index";
+import {dollarIcon, employeeIcon, palletIcon, salaryIcon} from "../../../icons";
+import '../../../css/MainContent.css'
 
-const MainScreen = () => {
+const MainScreenView = () => {
     return (
         <MainContent>
             <ContentTitle>Главное</ContentTitle>
@@ -21,4 +21,4 @@ const MainScreen = () => {
     )
 }
 
-export default MainScreen
+export default MainScreenView

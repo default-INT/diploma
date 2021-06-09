@@ -38,7 +38,7 @@ function* fetchUserProfileWorker() {
     yield put(authActions.endLoading());
 }
 
-export function* logInUserWorker({payload})  {
+function* logInUserWorker({payload})  {
     if (payload.email.trim().length === 0 || payload.password.trim().length === 0) {
         yield put(authActions.setError('Все поля должны быть заполнены'));
         yield cancel();
@@ -60,7 +60,7 @@ export function* logInUserWorker({payload})  {
     yield put(authActions.endLoading());
 }
 
-export function* tryAutoLoginWorker() {
+function* tryAutoLoginWorker() {
     try {
         const tokens = loadTokens();
         console.log(tokens)
