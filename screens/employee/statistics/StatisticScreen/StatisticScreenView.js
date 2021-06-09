@@ -1,13 +1,26 @@
 import React from "react";
-import {Text} from "react-native";
+import {ActivityIndicator, Text, View} from "react-native";
 
-import {OverviewCenteredContainer} from "../../../../components";
+import {CardForm, StatisticEmployeeItem, TryAgainButton} from "../../../../components";
+import styles from "../../../admin/statistics/StatisticMainScreen/styles";
+import Colors from "../../../../constants/colors";
 
 const StatisticScreenView = props => {
+    const {userStatistic, loading, error, loadData} = props;
+
     return (
-        <OverviewCenteredContainer>
-            <Text>Statistic screen!</Text>
-        </OverviewCenteredContainer>
+        <>
+            {error && (<CardForm style={styles.centredCard}>
+                <Text>{error}</Text>
+                <TryAgainButton onPress={loadData} />
+            </CardForm>)}
+            {loading && <View style={styles.centredScreen}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>}
+            {!error && !loading && userStatistic && (
+                <StatisticEmployeeItem statistic={userStatistic}/>
+            )}
+        </>
     )
 };
 

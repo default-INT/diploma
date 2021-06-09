@@ -61,7 +61,16 @@ export const fetchUserReports = () => ({
 export const setUserReports = reports => ({
     type: USER_TYPES.SET_USER_REPORTS,
     payload: reports
-})
+});
+
+export const setUserStatistics = statistics => ({
+    type: USER_TYPES.SET_USER_STATISTICS,
+    payload: statistics
+});
+
+export const fetchUserStatistics = () => ({
+    type: USER_TYPES.FETCH_USER_STATISTICS
+});
 
 /**
  *

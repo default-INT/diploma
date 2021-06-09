@@ -1,11 +1,10 @@
 import {takeLatest, put, call, all, cancel} from "redux-saga/effects";
 
-import {getAvgMonthSalary, getTotalMonthSalary, getUserReports} from "./api";
+import {getAvgMonthSalary, getTotalMonthSalary, getUserReports, getUserStatistics} from "./api";
 import {userActions} from "../actions-creators";
 import {USER_TYPES} from "../../constants/types";
 import {getResponseErrorText} from "../../utils";
 import {UserReport} from "../../models";
-import {fetchUserReports} from "../actions-creators/userActions";
 
 function* responseCheckerAndSetError(response, message) {
     if (response.status !== 200) {
@@ -62,7 +61,29 @@ function* fetchUserReportsWorker() {
     yield put(userActions.endLoading());
 }
 
+function* fetchUserStatisticsWorker() {
+    try {
+        yield put(userActions.setError(null));
+        yield put(userActions.startLoading());
+
+        const response = yield call(getUserStatistics);
+
+        yield responseCheckerAndSetError(response, 'Не удалось получить данные о статистики сотрудника.');
+
+        const userStatistic = response.data;
+
+        yield put(userActions.setUserStatistics(
+            userStatistic
+        ));
+
+    } catch (err) {
+        yield put(userActions.setError(err.message));
+    }
+    yield put(userActions.endLoading());
+}
+
 export default function* userWatcher() {
     yield takeLatest(USER_TYPES.FETCH_USER_DATA, fetchUserDataWorker);
     yield takeLatest(USER_TYPES.FETCH_USER_REPORTS, fetchUserReportsWorker);
+    yield takeLatest(USER_TYPES.FETCH_USER_STATISTICS, fetchUserStatisticsWorker);
 }

@@ -1,7 +1,7 @@
 import React from "react";
-import {Button, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ScrollView, Text} from "react-native";
 
-import {OverviewCenteredContainer, ScreenContainer, Widget, WidgetList} from "../../../../components";
+import {OverviewCenteredContainer, ScreenContainer, TryAgainButton, Widget, WidgetList} from "../../../../components";
 import Colors from "../../../../constants/colors";
 import IconsUri from "../../../../constants/icons";
 import {DataItem} from "../../../../models";
@@ -10,16 +10,11 @@ import {LargeLoader} from "../../../../components/UI";
 const MainScreenView = props => {
     const {avgMonthSalary, totalMonthSalary, loading, error, loadData} = props;
 
-
     if (error) {
         return (
             <OverviewCenteredContainer>
                 <Text>{error}</Text>
-                <View style={styles.btnStyle}>
-                    <Button title='Попробовать снова'
-                            color={Colors.primary}
-                            onPress={() => loadData()}/>
-                </View>
+                <TryAgainButton onPress={loadData} />
             </OverviewCenteredContainer>
         )
     }
@@ -53,12 +48,5 @@ const MainScreenView = props => {
         </ScrollView>
     )
 };
-
-const styles = StyleSheet.create({
-    btnStyle: {
-        marginTop: 20
-    },
-});
-
 
 export default MainScreenView;

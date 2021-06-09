@@ -11,3 +11,7 @@ export const getTotalMonthSalary = () => (
 export const getUserReports = () => (
     axios.get('/user-employee/reports')
 )
+
+export const getUserStatistics = () => (
+    axios.get('/user-employee/statistics')
+)

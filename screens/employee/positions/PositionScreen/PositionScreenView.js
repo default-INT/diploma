@@ -1,9 +1,8 @@
 import React from "react";
 import {ActivityIndicator, Button, FlatList, StyleSheet, Text, View} from "react-native";
 
-import {OverviewCenteredContainer, PositionItem} from "../../../../components";
+import {PositionItem} from "../../../../components";
 import Colors from "../../../../constants/colors";
-import {positionActions} from "../../../../store/actions";
 
 
 const PositionScreenView = props => {
@@ -12,7 +11,8 @@ const PositionScreenView = props => {
         isLoading,
         positions,
         error,
-        onRefresh
+        onRefresh,
+        loadPositions
     } = props;
 
     if (isLoading) {

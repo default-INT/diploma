@@ -1,11 +1,32 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import StatisticScreenView from "./StatisticScreenView";
 import {HeaderToggleButton} from "../../../default-options";
+import {useDispatch, useSelector} from "react-redux";
+import {userActions} from "../../../../store/actions-creators";
 
-const StatisticScreenContainer = props => {
+const StatisticScreenContainer = ({navigation, ...props}) => {
+    const {userStatistic, loading, error} = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
+    const loadData = () => {
+        dispatch(userActions.fetchUserStatistics())
+    }
+
+    useEffect(() => {
+        return navigation.addListener('focus', () => {
+            loadData();
+        });
+    }, [navigation]);
+
     return (
-        <StatisticScreenView />
+        <StatisticScreenView
+            loadData={loadData}
+
+            userStatistic={userStatistic}
+            loading={loading}
+            error={error}
+        />
     )
 };
 

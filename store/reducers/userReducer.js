@@ -10,7 +10,8 @@ import {USER_TYPES} from "../../constants/types";
 const initialState = {
     totalMonthSalary: 0,
     avgMonthSalary: 0,
-    userReports: []
+    userReports: [],
+    userStatistic: null
 }
 
 /**
@@ -40,6 +41,10 @@ const handlers = {
     [USER_TYPES.SET_USER_REPORTS]: (state, {payload}) => ({
         ...state,
         userReports: payload
+    }),
+    [USER_TYPES.SET_USER_STATISTICS]: (state, {payload}) => ({
+        ...state,
+        userStatistic: payload
     }),
     DEFAULT: state => state
 }

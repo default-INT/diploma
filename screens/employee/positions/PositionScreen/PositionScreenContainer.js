@@ -29,6 +29,7 @@ const PositionScreenContainer = ({navigation, ...props}) => {
 
     return (
         <PositionScreenView
+            loadPositions={loadPositions}
             isLoading={isLoading}
             positions={positions}
             error={error}
