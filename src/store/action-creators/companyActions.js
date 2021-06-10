@@ -21,6 +21,10 @@ export const fetchCountEmployees = () => ({
     type: COMPANY_TYPES.FETCH_COUNT_EMPLOYEES
 });
 
+export const fetchCompanyData = () => ({
+    type: COMPANY_TYPES.FETCH_COMPANY_DATA
+});
+
 export const setAvgSalaryOnDay = avgSalary => ({
     type: COMPANY_TYPES.SET_AVG_SALARY_ON_DAY,
     payload: avgSalary

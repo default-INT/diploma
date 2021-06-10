@@ -1,23 +1,30 @@
 import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 import MainScreenView from "./MainScreenView";
 import {companyActions} from "../../../store/action-creators";
-import {useDispatch, useSelector} from "react-redux";
+import {storageActions} from "../../../store/actions";
 
 const MainScreenContainer = props => {
-    const {loading, error, countEmployee, avgSalary} = useSelector(state => state.company);
+    const {isLoaded:isLoadedCompanyData, error, countEmployee, avgSalary} = useSelector(state => state.company);
+    const {actualStorage, isLoadedStorage} = useSelector(state => state.storage);
     const dispatch = useDispatch();
-    console.log(props)
+
     useEffect(() => {
-        dispatch(companyActions)
-    }, []);
+        dispatch(companyActions.fetchCompanyData());
+        dispatch(storageActions.fetchActualStorage());
+
+    }, [dispatch]);
 
     return (
         <MainScreenView
             countEmployee={countEmployee}
             avgSalary={avgSalary}
-            loading={loading}
+            isLoadedCompanyData={isLoadedCompanyData}
             error={error}
+
+            actualStorage={actualStorage}
+            isLoadedStorage={isLoadedStorage}
         />
     )
 };

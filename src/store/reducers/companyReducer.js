@@ -9,10 +9,12 @@ import {COMPANY_TYPES} from "../../constants/types";
  * @type {{income: DataItem, avgSalary: DataItem, countEmployee: DataItem}}
  */
 const initialState = {
-    countEmployee: 0,
-    avgSalary: 0,
-    income: 0
-}
+    countEmployee: null,
+    avgSalary: null,
+    income: null,
+    isLoaded: false,
+    error: null
+};
 
 /**
  * Объект, который по ключам (TYPES), возвращает определённые функции для изменения состояния.
@@ -22,13 +24,13 @@ const handlers = {
         ...state,
         error: payload
     }),
-    [COMPANY_TYPES.START_LOADING]: (state) => ({
-        ...state,
-        loading: true
-    }),
     [COMPANY_TYPES.END_LOADING]: (state) => ({
         ...state,
-        loading: false
+        isLoaded: true
+    }),
+    [COMPANY_TYPES.START_LOADING]: (state) => ({
+        ...state,
+        isLoaded: false
     }),
     [COMPANY_TYPES.SET_AVG_SALARY_ON_DAY]: (state, {payload}) => ({
         ...state,

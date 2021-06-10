@@ -1,18 +1,50 @@
 import React from 'react'
 
-import {ContentTitle, MainContent, Widget, WidgetList} from "../../index";
+import {ContentTitle, CubeLoader, MainContent, Widget, WidgetList} from "../../index";
 import {dollarIcon, employeeIcon, palletIcon, salaryIcon} from "../../../icons";
 import '../../../css/MainContent.css'
+import {DataWidget} from "../../widgets";
 
-const MainScreenView = () => {
+const MainScreenView = props => {
+    const {
+        avgSalary,
+        isLoadedCompanyData,
+        countEmployee,
+        error,
+
+        actualStorage,
+        isLoadedStorage
+    } = props;
+
+    if (error) {
+        return (
+            <MainContent>
+                <CubeLoader />
+            </MainContent>
+        )
+    }
+
     return (
         <MainContent>
             <ContentTitle>Главное</ContentTitle>
             <WidgetList>
-                <Widget title='КОЛИЧЕСТВО ВЫГРУЗОК ЗА МЕСЯЦ' value='8' color='#1cc98a' icon={dollarIcon} />
-                <Widget title='КОЛИЧЕСТВО СОТРУДНИКОВ' value='13' color='#36b9cd' icon={employeeIcon} />
-                <Widget title='ПОДДОНЫ "ОСИПОВИЧИ"' value='2520' color='#f7c33c' icon={palletIcon} />
-                <Widget title='СРЕДНЯЯ ЗАРПЛАТА ЗА ДЕНЬ' value='24.7р' color='#5072e0' icon={salaryIcon} />
+                {isLoadedCompanyData ? (
+                    <>
+                        <DataWidget dataItem={avgSalary}/>
+                        <DataWidget dataItem={countEmployee}/>
+                    </>
+                ) : <CubeLoader/>}
+
+            </WidgetList>
+            <ContentTitle>Склад</ContentTitle>
+            <WidgetList>
+                {isLoadedStorage ? (
+                    actualStorage.map(storage => (
+                        <DataWidget dataItem={storage} key={storage.id} />
+                    ))
+                ) : (
+                    <CubeLoader/>
+                )}
             </WidgetList>
             {/*<FragmentList>*/}
             {/*    <SimpleFragment title="Fragment">Content</SimpleFragment>*/}

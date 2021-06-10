@@ -1,11 +1,11 @@
-import {takeLatest, put, call, all, cancel} from "redux-saga/effects";
+import {all, call, cancel, put, takeLatest} from "redux-saga/effects";
 
 import {companyActions} from "../action-creators";
 import {COMPANY_TYPES} from "../../constants/types";
 import {getResponseErrorText} from "../../util/request-config";
 import {getAvgSalary, getCountEmployees} from "./api";
 import {DataItem} from "../../models";
-import {dollarIcon, employeeIcon} from "../../icons";
+import {employeeIcon, salaryIcon} from "../../icons";
 import Colors from "../../constants/colors";
 
 function* responseCheckerAndSetError(response, message) {
@@ -22,8 +22,6 @@ function* responseCheckerAndSetError(response, message) {
 
 function* fetchCompanyDataWorker() {
     try {
-        yield put(companyActions.startLoading());
-
         const [responseAvg, responseCount] = yield all([
             call(getAvgSalary),
             call(getCountEmployees)
@@ -38,8 +36,8 @@ function* fetchCompanyDataWorker() {
         yield put(companyActions.setCountEmployees(new DataItem("countEmployee", "Количество сотрудников",
             countEmployee, employeeIcon, Colors.orange)));
 
-        yield put(companyActions.setCountEmployees(new DataItem("avgSalaryOnDay", "Средняя зарплата за день",
-            `${avgSalaryOnDay}р`, dollarIcon, Colors.turquoise)));
+        yield put(companyActions.setAvgSalaryOnDay(new DataItem("avgSalaryOnDay", "Средняя зарплата за день",
+            `${avgSalaryOnDay}р`, salaryIcon, Colors.primary)));
 
     } catch (err) {
         yield put(companyActions.setError(err.message));
@@ -47,6 +45,6 @@ function* fetchCompanyDataWorker() {
     yield put(companyActions.endLoading());
 }
 
-export default function* watchAuth() {
+export default function* watchCompany() {
     yield takeLatest(COMPANY_TYPES.FETCH_COMPANY_DATA, fetchCompanyDataWorker);
 }

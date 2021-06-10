@@ -63,10 +63,8 @@ function* logInUserWorker({payload})  {
 function* tryAutoLoginWorker() {
     try {
         const tokens = loadTokens();
-        console.log(tokens)
         if (tokens) {
             setTokenHeader(tokens.accessToken);
-            // or yield fetchUserProfileWorker()
             yield call(fetchUserProfileWorker);
         }
         yield put(authActions.finishAutoLogin());
