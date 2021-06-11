@@ -33,3 +33,4 @@ yarn-error.log*
 .idea/**
 .expo/**
 .vscode/**
+.eslintcache
