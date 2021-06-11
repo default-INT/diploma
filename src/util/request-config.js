@@ -5,6 +5,15 @@ import {SERVER_URL} from "../constants";
 
 export const initAxios = () => {
     axios.defaults.baseURL = SERVER_URL;
+    axios.interceptors.response.use(response => {
+        if (response.status !== 200) {
+            const message =`STATUS TEXT: ${response.statusText}; STATUS ${response.status}; DATA: ${response.data}`;
+            console.error(message);
+            alert(message);
+            // throw ??
+        }
+        return response;
+    });
 }
 
 export const setTokenHeader = accessToken => {

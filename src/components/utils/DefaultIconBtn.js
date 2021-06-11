@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { questionIcon } from "../../icons"
 
-const DefaultIconBtn = ({onClick = () => '', icon = questionIcon, width = 30}) => {
+const DefaultIconBtn = ({onClick = () => '', icon = questionIcon, width = 30, ...props}) => {
     return (
-        <a className='default-icon-btn' onClick={onClick}>
+        <a className='default-icon-btn' onClick={onClick} {...props}>
             <img src={icon} width={width} alt=""/>
         </a>
     )

@@ -7,6 +7,7 @@ import { employeeReducer } from "./employeeReducer";
 import { authReducer } from "./authReducer";
 import {companyReducer} from "./companyReducer";
 import {storageReducer} from "./storageReducer";
+import {reportReducer} from "./reportReducer";
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     company: companyReducer,
     storage: storageReducer,
+    reports: reportReducer,
     form: formReducer
 })
 
