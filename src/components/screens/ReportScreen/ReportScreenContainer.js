@@ -8,12 +8,17 @@ const ReportScreenContainer = props => {
     const {isLoaded, error, monthlyReports} = useSelector(state => state.reports);
     const dispatch = useDispatch();
 
+    const loadMonthlyReports = async (month, year) => {
+        await dispatch(reportActions.fetchMonthlyReports(month, year));
+    }
+
     useEffect(() => {
         dispatch(reportActions.fetchMonthlyReports(5, 2021))
     }, []);
     return (
         <ReportScreenView
             monthlyReports={monthlyReports}
+            loadMonthlyReports={loadMonthlyReports}
             isLoaded={isLoaded}
             error={error}
         />

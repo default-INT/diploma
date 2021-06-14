@@ -6,7 +6,7 @@ import OldReportCalendar from "../../calendar/ReportCalendar";
 import {ReportCalendar} from "./components";
 
 const ReportScreenView = props => {
-    const {monthlyReports, isLoaded, error} = props;
+    const {monthlyReports, isLoaded, error, loadMonthlyReports} = props;
     return (
         <MainContent>
             <ContentTitle>Отчёты</ContentTitle>
@@ -18,7 +18,11 @@ const ReportScreenView = props => {
             <ContentTitle>Отчёты</ContentTitle>
             <FragmentList>
                 <SimpleFragment title='Календарь'>
-                    <ReportCalendar/>
+                    <ReportCalendar
+                        monthlyReports={monthlyReports}
+                        isLoaded={isLoaded}
+                        loadMonthlyReports={loadMonthlyReports}
+                    />
                 </SimpleFragment>
             </FragmentList>
         </MainContent>
