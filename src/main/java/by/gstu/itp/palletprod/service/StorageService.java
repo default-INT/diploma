@@ -76,7 +76,7 @@ public class StorageService {
                             .filter(stItem -> stItem.getPositionId().equals(storageItemDto.getPositionId()))
                             .findFirst();
                     StorageItem newStorageItem;
-                    if (storageItem.isEmpty()) {
+                    if (!storageItem.isPresent()) {
                         newStorageItem = new StorageItem();
 
                         newStorageItem.setPosition(positionRepository.findById(storageItemDto.getPositionId())
